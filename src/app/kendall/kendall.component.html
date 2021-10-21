@@ -41,7 +41,7 @@
                     <button class="btn btn-danger" (click)="removeCandidate(item)">Remove</button>
                 </div>
                 <div>
-                    <input type="text" [(ngModel)]="newCandidate">
+                    <input type="text" [(ngModel)]="newCandidate" (keyup.enter)="addCandidate()">
                     <button class="btn btn-primary" (click)="addCandidate()">Add</button>
                 </div>
             </div>
