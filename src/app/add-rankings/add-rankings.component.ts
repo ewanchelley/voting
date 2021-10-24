@@ -13,21 +13,24 @@ export class AddRankingsComponent implements OnInit {
   newCandidate = "";
 
   candidates = ["A", "B", "C", "D"];
-  rankings = [["A","B","C","D"]]
+  //rankings = [["A","B","C","D"],
   //            ["B", "A", "C", "D"],
   //            ["A", "B", "C", "D"],
   //            ["D", "B", "C", "A"],
   //            ["A", "B", "C", "D"]];
-  
+  rankings = [[1, 2, 3, 0],
+    [1, 2, 3, 0],
+    [0, 1, 2, 3],
+    [2, 1, 3, 0],
+    [1, 0, 3, 2],];
 
-  ranking_strings: string[] = []
+  rankingStrings: string[] = []
 
   ngOnInit(): void {
     for (let r of this.rankings){
-      this.ranking_strings.push(r.toString())
+      this.rankingStrings.push(this.convertToString(r))
     }
   }
-
 
   trackByIndex(index: number, obj: any): any {
     return index;
@@ -37,34 +40,33 @@ export class AddRankingsComponent implements OnInit {
     let ranking = this.convertToArray(this.newRanking);
     console.log(ranking)
     if (this.isValidRanking(ranking)) {
-      this.rankings.push(ranking);
-      this.ranking_strings.push(ranking.toString());
+      let indexRanking = this.convertToIndexArray(ranking);
+      this.rankings.push(indexRanking);
+      this.rankingStrings.push(this.convertToString(indexRanking));
       this.newRanking = "";
     }
     console.log(this.rankings)
-    console.log(this.ranking_strings)
+    console.log(this.rankingStrings)
   }
 
   checkEditedRanking(index: number) {
-    let ranking = this.convertToArray(this.ranking_strings[index]);
+    let ranking = this.convertToArray(this.rankingStrings[index]);
     if (this.isValidRanking(ranking)){
-      this.rankings[index] = ranking;
+      let indexRanking = this.convertToIndexArray(ranking);
+      this.rankings[index] = indexRanking;
     }
-    this.ranking_strings[index] = this.rankings[index].toString();
+    this.rankingStrings[index] = this.convertToString(this.rankings[index]);
   }
 
   removeRanking(index: number){
     this.rankings.splice(index, 1);
-    this.ranking_strings.splice(index, 1);
+    this.rankingStrings.splice(index, 1);
   }
 
   isValidRanking(ranking: string[]): boolean {
     const sortedCandidates = this.sortStringArray(this.candidates.slice());
     const sortedRanking = this.sortStringArray(ranking.slice());
     let matchesCandidates = this.arrayEquals(sortedCandidates, sortedRanking);
-
-    console.log("matches candidates: " + matchesCandidates)
-
     return matchesCandidates;
   }
 
@@ -72,6 +74,8 @@ export class AddRankingsComponent implements OnInit {
     if (this.isValidCandidate(this.newCandidate)){
       this.candidates.push(this.newCandidate);
       this.newCandidate = "";
+      this.rankings.map(r => (r.push(this.candidates.length - 1)));
+      this.updateRankingStrings();
     }
   }
 
@@ -81,14 +85,37 @@ export class AddRankingsComponent implements OnInit {
     return !(empty || alreadyExists)
   }
 
-  removeCandidate(index: number){
-    this.candidates.splice(index, 1);
+  updateRankingStrings(){
+    for (let i in this.rankings) {
+      this.rankingStrings[i] = this.convertToString(this.rankings[i]);
+    }
   }
 
+  removeCandidate(index: number){
+    console.log(this.rankings)
+    this.candidates.splice(index, 1);
+    // remove candidate of given index from each ranking
 
+    let newRanking = this.rankings.map(r => (r.splice(r.indexOf(index), 1)));
+    console.log(this.rankings)
+    // decrement indexes bigger than index in each ranking
+    newRanking = newRanking.map(r => (r.map(i => (i < index ? i: i-1))));
+    this.updateRankingStrings();
+    console.log(this.rankings)
+    this.rankings = newRanking;
+  }
+
+  convertToString(r: number[]): string {
+    let stringArray = r.map(x => (this.candidates[x]));
+    return stringArray.join(",");
+  }
 
   convertToArray(s: string): string[]{
     return s.replace(/\s/g, "").split(",");
+  }
+
+  convertToIndexArray(s: string[]): number[] {
+    return s.map(x => (this.candidates.indexOf(x)));
   }
 
   sortStringArray(a: string[]): string[] {

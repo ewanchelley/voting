@@ -27,7 +27,7 @@
                     <label class="ranking-input-label">{{ index + 1 }}</label>
                 </div>
                 <div class="col-10">
-                    <input class="ranking-input" [(ngModel)]="ranking_strings[index]" placeholder="Enter ranking" (blur)="checkEditedRanking(index)">
+                    <input class="ranking-input" [(ngModel)]="rankingStrings[index]" placeholder="Enter ranking" (blur)="checkEditedRanking(index)">
                 </div>
                 <div class="col-1">
                     <button type="button" class="btn-close remove-ranking-btn"  aria-label="Close" (click)="removeRanking(index)"></button>
