@@ -1,0 +1,43 @@
+.ranking-input, .candidate-input {
+    padding: 10px;
+    background-color: #E7E7E7;
+    border: none;
+    font-size: 20px;
+    width: 100%;
+}
+
+.ranking-input:focus, .candidate-input:focus {
+    background-color: white;
+}
+
+.new-ranking-input, .new-candidate-input {
+    padding: 10px;
+    font-size: 20px;
+    width: 100%;
+}
+
+.new-ranking-btn, .new-candidate-btn {
+    padding: 10px;
+    background-color: #C4C4C4;
+}
+
+.remove-ranking-btn {
+    margin: 10px
+}
+
+.ranking-input-label {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.ranking-input-list {
+    background-color: #E7E7E7;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.edit-candidates {
+    background-color: #E7E7E7;
+    padding: 30px;
+}

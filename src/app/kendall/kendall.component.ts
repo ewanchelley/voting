@@ -38,7 +38,7 @@ export class KendallComponent implements OnInit {
   }
 
   addCandidate(){
-    if (this.newCandidate != null && this.ranking1.indexOf(this.newCandidate) == -1){
+    if (this.newCandidate != "" && this.ranking1.indexOf(this.newCandidate) == -1){
       this.ranking1.push(this.newCandidate);
       this.ranking2.push(this.newCandidate);
       this.newCandidate = "";

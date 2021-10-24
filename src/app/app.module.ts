@@ -5,20 +5,27 @@ import { RouterModule } from '@angular/router';
 import { SortablejsModule } from 'ngx-sortablejs';
 
 import { AppComponent } from './app.component';
+import { BordaComponent } from './borda/borda.component';
 import { KendallComponent } from './kendall/kendall.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { RankingOffcanvasComponent } from './ranking-offcanvas/ranking-offcanvas.component';
+import { AddRankingsComponent } from './add-rankings/add-rankings.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     KendallComponent,
-    NavbarComponent
+    NavbarComponent,
+    RankingOffcanvasComponent,
+    BordaComponent,
+    AddRankingsComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
-      {path: 'kendall', component: KendallComponent}
+      { path: 'kendall', component: KendallComponent},
+      { path: 'borda', component: BordaComponent }
     ]),
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule
