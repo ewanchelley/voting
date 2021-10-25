@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RankingsService } from '../rankings.service';
 
 @Component({
   selector: 'app-borda',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BordaComponent implements OnInit {
 
-  constructor() { }
+  svc: RankingsService;
 
-  ngOnInit(): void {
+  rankings: string[][] = []
+
+  constructor(svc: RankingsService) {
+    this.svc = svc;
   }
 
+  ngOnInit(): void {
+    this.svc.changesMade.subscribe(() => {
+      this.rankings = this.svc.getRankings();
+      console.log(this.rankings);
+    });
+  }
 }
