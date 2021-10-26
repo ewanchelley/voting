@@ -3,7 +3,8 @@
         <div class="col-3">
             <div class="row rankings-upload-file">
                 <label for="formFile" class="form-label">Upload Rankings Data</label>
-                <input class="form-control" type="file" id="formFile">
+                <input class="form-control" type="file" id="formFile" accept=".txt" (change)="handleFileInput()">
+                <button *ngIf="validFile" class="btn apply-file-btn" (click)="constructRankings()">Use rankings from file</button>
             </div>
             <br>
             <div class="edit-candidates">

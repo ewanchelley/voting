@@ -91,6 +91,30 @@ export class RankingsService {
     return matchesCandidates;
   }
 
+  // For file upload
+
+  validRankingSet(rankings: string[][]): boolean {
+    if (rankings.length < 1) {
+      return false;
+    }
+    let candidates = this.sortStringArray(rankings[0]);
+    for (let ranking of rankings){
+      if (!this.arrayEquals(this.sortStringArray(ranking), candidates)){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  constructRankings(rankings: string[][]) {
+    this.candidates = this.sortStringArray(rankings[0]);
+    this.rankings = this.deepCopy(rankings);
+    this.changesMade.next();
+  }
+
+
+  // Helper methods
+
   sortStringArray(a: string[]): string[] {
     return a.slice().sort((n1, n2) => {
       if (n1 > n2) {
@@ -107,6 +131,10 @@ export class RankingsService {
 
   arrayEquals(a: string[], b: string[]) {
     return (a.length === b.length) && (a.every((val, index) => val === b[index]));
+  }
+
+  deepCopy(arr: string[][]) {
+    return JSON.parse(JSON.stringify(arr))
   }
 
 }

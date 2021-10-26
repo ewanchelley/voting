@@ -21,6 +21,10 @@ export class AddRankingsComponent implements OnInit {
   candidates: string[] = []
   rankings: string[][] = []
 
+  fileToUpload: File | null = null;
+  validFile = false;
+  rankingsFromFile: string[][] = [];
+
   constructor(svc: RankingsService) {
     this.svc = svc;
   }
@@ -98,7 +102,7 @@ export class AddRankingsComponent implements OnInit {
   }
 
   quickAdd(candidate: string){
-    let clean = this.newRanking.replace(/\s/g, "")
+    let clean = this.removeWhitespace(this.newRanking);
     if (clean === "" || clean.substr(clean.length - 1) === ","){
       this.newRanking += candidate;
     } else {
@@ -106,12 +110,64 @@ export class AddRankingsComponent implements OnInit {
     }
   }
 
+
+  handleFileInput() {
+    this.validFile = false;
+    let files = (<HTMLInputElement>document.getElementById("formFile")).files;
+    if (files === null){
+      return;
+    }
+    this.fileToUpload = files[0];
+
+    if (this.fileToUpload === (null || undefined) || this.getFileType(this.fileToUpload.name) !== "txt") {
+      return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = () => { 
+      this.rankingsFromFile = [];
+      let txtFile = reader.result;
+      if (typeof(txtFile) === 'string'){
+        this.processFile(txtFile);
+      }
+    };
+    reader.readAsText(this.fileToUpload);
+  }
+
+  processFile(txtFile: string){
+    let lines: string[] = txtFile.split("\n");
+    let rankings: string[][] = lines.map(l => (this.removeWhitespace(l).split(",")));
+    if (this.svc.validRankingSet(rankings)){
+      this.validFile = true;
+      this.rankingsFromFile = rankings;
+    } else {
+      console.log("Invalid ranking set");
+    }
+  }
+
+  constructRankings(){
+    this.svc.constructRankings(this.rankingsFromFile);
+    this.candidateStrings = this.candidates.slice();
+    this.updateRankingStrings();
+  }
+
+  // Helper methods
+
+  getFileType(fileName: string){
+    return fileName.split('.').pop();
+  } 
+
   convertToString(r: string[]): string {
     return r.join(", ");
   }
 
   convertToArray(s: string): string[]{
-    return s.replace(/\s/g, "").split(",");
+    return this.removeWhitespace(s).split(",");
+  }
+
+  removeWhitespace(s: string){
+    return s.replace(/\s/g, "")
   }
 
 }

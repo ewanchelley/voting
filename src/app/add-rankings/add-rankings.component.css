@@ -29,6 +29,12 @@
     background-color: #C4C4C4;
 }
 
+.apply-file-btn {
+    padding: 5px;
+    margin: 10px 0px;
+    background-color: #C4C4C4;
+}
+
 .remove-ranking-btn {
     margin: 10px
 }
