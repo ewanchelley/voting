@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-3 edit-candidates">
+            <h2>Candidates</h2>
+            <div class="candidate-input-list row" *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
+                <div class="col-8">
+                    <input class="candidate-input" [(ngModel)]="candidates[index]" placeholder="Enter candidate">
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn-close remove-ranking-btn" aria-label="Close"
+                        (click)="removeCandidate(index)"></button>
+                </div>
+            </div>
+            <div class="candidate-input-list row">
+                <div class="col-9">
+                    <input class="new-candidate-input" [(ngModel)]="newCandidate" placeholder="Enter candidate" (keyup.enter)="addCandidate()">
+                </div>
+                <div class="col-3">
+                    <button class="btn new-candidate-btn" (click)="addCandidate()">ADD</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <h2>Rankings</h2>
+            <div class="ranking-input-list row" *ngFor="let ranking of rankings;let index = index;trackBy:trackByIndex;">
+                <div class="col-1">
+                    <label class="ranking-input-label">{{ index + 1 }}</label>
+                </div>
+                <div class="col-10">
+                    <input class="ranking-input" [(ngModel)]="rankingStrings[index]" placeholder="Enter ranking" (blur)="checkEditedRanking(index)">
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn-close remove-ranking-btn"  aria-label="Close" (click)="removeRanking(index)"></button>
+                </div>
+            </div>
+            <div class="ranking-input-list row">
+                <div class="col-1">
+                    <label class="ranking-input-label">{{ rankings.length + 1 }}</label>
+                </div>
+                <div class="col-10">
+                    <input class="new-ranking-input" [(ngModel)]="newRanking" placeholder="Enter ranking" (keyup.enter)="addRanking()">
+                </div>
+                <div class="col-1">
+                    <button class="btn new-ranking-btn" (click)="addRanking()">ADD</button>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
