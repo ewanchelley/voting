@@ -35,7 +35,6 @@ export class AddRankingsComponent implements OnInit {
     this.svc.changesMade.subscribe(() => {
       this.candidates = this.svc.getCandidates();
       this.rankings = this.svc.getRankings();
-      console.log("changes");
     });
 
     this.candidateStrings = this.candidates.slice();

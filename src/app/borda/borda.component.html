@@ -1,8 +1,11 @@
 <app-ranking-offcanvas></app-ranking-offcanvas>
 
+<br>
+<h2>Borda Count</h2>
+<button class="btn btn-secondary" (click)="borda()">Calculate Borda Count</button>
 
-<div *ngFor="let ranking of rankings">
-    {{ranking}}
+<div *ngFor="let candidate of candidates">
+     {{ candidate }}: {{bordaCount[candidate]}}
 </div>
 
 
