@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { RankingsService } from '../rankings.service';
 
 @Component({
   selector: 'app-add-rankings',
@@ -7,29 +9,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddRankingsComponent implements OnInit {
 
-  constructor() { }
-
-  newRanking = "";
   newCandidate = "";
-
-  candidates = ["A", "B", "C", "D"];
-  //rankings = [["A","B","C","D"],
-  //            ["B", "A", "C", "D"],
-  //            ["A", "B", "C", "D"],
-  //            ["D", "B", "C", "A"],
-  //            ["A", "B", "C", "D"]];
-  rankings = [[1, 2, 3, 0],
-    [1, 2, 3, 0],
-    [0, 1, 2, 3],
-    [2, 1, 3, 0],
-    [1, 0, 3, 2],];
-
+  newRanking = "";
+  
+  // these are binded to the input boxes
+  candidateStrings: string[] = []
   rankingStrings: string[] = []
+  
+  svc: RankingsService;
+
+  candidates: string[] = []
+  rankings: string[][] = []
+
+  fileToUpload: File | null = null;
+  validFile = false;
+  rankingsFromFile: string[][] = [];
+
+  constructor(svc: RankingsService) {
+    this.svc = svc;
+  }
 
   ngOnInit(): void {
-    for (let r of this.rankings){
-      this.rankingStrings.push(this.convertToString(r))
-    }
+    this.candidates = this.svc.getCandidates();
+    this.rankings = this.svc.getRankings();
+    this.svc.changesMade.subscribe(() => {
+      this.candidates = this.svc.getCandidates();
+      this.rankings = this.svc.getRankings();
+    });
+
+    this.candidateStrings = this.candidates.slice();
+    this.rankings.forEach(r => (this.rankingStrings.push(this.convertToString(r))));
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -39,102 +48,123 @@ export class AddRankingsComponent implements OnInit {
   addRanking() {
     let ranking = this.convertToArray(this.newRanking);
     console.log(ranking)
-    if (this.isValidRanking(ranking)) {
-      let indexRanking = this.convertToIndexArray(ranking);
-      this.rankings.push(indexRanking);
-      this.rankingStrings.push(this.convertToString(indexRanking));
+    if (this.svc.isValidRanking(ranking)) {
+      this.svc.pushRanking(ranking);
+      this.rankingStrings.push(this.convertToString(ranking));
       this.newRanking = "";
     }
-    console.log(this.rankings)
-    console.log(this.rankingStrings)
   }
 
   checkEditedRanking(index: number) {
     let ranking = this.convertToArray(this.rankingStrings[index]);
-    if (this.isValidRanking(ranking)){
-      let indexRanking = this.convertToIndexArray(ranking);
-      this.rankings[index] = indexRanking;
+    if (this.svc.isValidRanking(ranking)){
+      this.svc.editRanking(index, ranking);
     }
     this.rankingStrings[index] = this.convertToString(this.rankings[index]);
   }
 
   removeRanking(index: number){
-    this.rankings.splice(index, 1);
+    this.svc.deleteRanking(index);
     this.rankingStrings.splice(index, 1);
   }
 
-  isValidRanking(ranking: string[]): boolean {
-    const sortedCandidates = this.sortStringArray(this.candidates.slice());
-    const sortedRanking = this.sortStringArray(ranking.slice());
-    let matchesCandidates = this.arrayEquals(sortedCandidates, sortedRanking);
-    return matchesCandidates;
-  }
-
   addCandidate(){
-    if (this.isValidCandidate(this.newCandidate)){
-      this.candidates.push(this.newCandidate);
+    if (this.svc.isValidCandidate(this.newCandidate)){
+      this.svc.pushCandidate(this.newCandidate);
+      this.candidateStrings.push(this.newCandidate);
+      this.svc.addCandidateToAllRankings(this.newCandidate);
       this.newCandidate = "";
-      this.rankings.map(r => (r.push(this.candidates.length - 1)));
       this.updateRankingStrings();
     }
   }
 
-  isValidCandidate(candidate: string){
-    let empty = candidate == "";
-    let alreadyExists = this.candidates.includes(candidate);
-    return !(empty || alreadyExists)
+  checkEditedCandidate(index: number) {
+    let candidate = this.candidateStrings[index];
+    if (this.svc.isValidCandidate(candidate)) {
+      this.svc.updateCandidateName(index, candidate);
+    }
+    this.candidateStrings[index] = this.candidates[index];
+    this.updateRankingStrings();
   }
 
-  updateRankingStrings(){
+  updateRankingStrings() {
     for (let i in this.rankings) {
       this.rankingStrings[i] = this.convertToString(this.rankings[i]);
     }
   }
 
   removeCandidate(index: number){
-    console.log(this.rankings)
-    this.candidates.splice(index, 1);
-    // remove candidate of given index from each ranking
-
-    let newRanking = this.rankings.map(r => (r.splice(r.indexOf(index), 1)));
-    console.log(this.rankings)
-    // decrement indexes bigger than index in each ranking
-    newRanking = newRanking.map(r => (r.map(i => (i < index ? i: i-1))));
+    this.svc.deleteCandidate(index);
+    this.candidateStrings.splice(index, 1);
     this.updateRankingStrings();
-    console.log(this.rankings)
-    this.rankings = newRanking;
   }
 
-  convertToString(r: number[]): string {
-    let stringArray = r.map(x => (this.candidates[x]));
-    return stringArray.join(",");
+  quickAdd(candidate: string){
+    let clean = this.removeWhitespace(this.newRanking);
+    if (clean === "" || clean.substr(clean.length - 1) === ","){
+      this.newRanking += candidate;
+    } else {
+      this.newRanking += ", " + candidate;
+    }
+  }
+
+  handleFileInput() {
+    this.validFile = false;
+    let files = (<HTMLInputElement>document.getElementById("formFile")).files;
+    if (files === null){
+      return;
+    }
+    this.fileToUpload = files[0];
+
+    if (this.fileToUpload === (null || undefined) || this.getFileType(this.fileToUpload.name) !== "txt") {
+      return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = () => { 
+      this.rankingsFromFile = [];
+      let txtFile = reader.result;
+      if (typeof(txtFile) === 'string'){
+        this.processFile(txtFile);
+      }
+    };
+    reader.readAsText(this.fileToUpload);
+  }
+
+  processFile(txtFile: string){
+    let lines: string[] = txtFile.split("\n");
+    let rankings: string[][] = lines.map(l => (this.removeWhitespace(l).split(",")));
+    if (this.svc.validRankingSet(rankings)){
+      this.validFile = true;
+      this.rankingsFromFile = rankings;
+    } else {
+      console.log("Invalid ranking set");
+    }
+  }
+
+  constructRankings(){
+    this.svc.constructRankings(this.rankingsFromFile);
+    this.candidateStrings = this.candidates.slice();
+    this.updateRankingStrings();
+  }
+
+  // Helper methods
+
+  getFileType(fileName: string){
+    return fileName.split('.').pop();
+  } 
+
+  convertToString(r: string[]): string {
+    return r.join(", ");
   }
 
   convertToArray(s: string): string[]{
-    return s.replace(/\s/g, "").split(",");
+    return this.removeWhitespace(s).split(",");
   }
 
-  convertToIndexArray(s: string[]): number[] {
-    return s.map(x => (this.candidates.indexOf(x)));
+  removeWhitespace(s: string){
+    return s.replace(/\s/g, "")
   }
-
-  sortStringArray(a: string[]): string[] {
-    return a.slice().sort((n1, n2) => {
-      if (n1 > n2) {
-        return 1;
-      }
-
-      if (n1 < n2) {
-        return -1;
-      }
-
-      return 0;
-    });
-  }
-
-  arrayEquals(a: string[], b: string[]) {
-    return (a.length === b.length) && (a.every((val, index) => val === b[index]));
-  }
-
 
 }
