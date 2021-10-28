@@ -10,6 +10,7 @@ import { KendallComponent } from './kendall/kendall.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RankingOffcanvasComponent } from './ranking-offcanvas/ranking-offcanvas.component';
 import { AddRankingsComponent } from './add-rankings/add-rankings.component';
+import { RankingsService } from './rankings.service';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { AddRankingsComponent } from './add-rankings/add-rankings.component';
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule
   ],
-  providers: [],
+  providers: [ RankingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
