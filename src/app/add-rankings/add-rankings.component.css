@@ -27,20 +27,17 @@
 .new-ranking-btn, .new-candidate-btn {
     padding: 8px;
     margin: 5px;
-    background-color: #C4C4C4;
 }
 
 .new-random-btn {
     float: right;
     padding: 8px;
     margin: 5px;
-    background-color: #C4C4C4;
 }
 
 .apply-file-btn {
     padding: 5px;
     margin: 10px 0px;
-    background-color: #C4C4C4;
 }
 
 .remove-ranking-btn {
@@ -55,7 +52,7 @@
 .ranking-input-list {
     background-color: #E7E7E7;
     padding: 3px 10px;
-    margin: 10px;
+    margin: 4px;
     border-radius: 6px;
 }
 
@@ -68,5 +65,9 @@
 .quick-add-btn {
     padding: 0px 10px;
     margin: 15px 10px 5px;
-    background-color: #C4C4C4;
+}
+
+.input-scroll {
+    overflow: auto;
+    max-height: 75vh;
 }

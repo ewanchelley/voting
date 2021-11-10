@@ -47,7 +47,8 @@ export class RankingsService {
   isValidCandidate(candidate: string) {
     let empty = candidate === "";
     let alreadyExists = this.candidates.includes(candidate);
-    return !(empty || alreadyExists)
+    let containsComma = candidate.includes(",")
+    return !(empty || alreadyExists || containsComma)
   }
 
   updateCandidateName(index: number, newName: string){

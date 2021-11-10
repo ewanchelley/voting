@@ -4,7 +4,7 @@
             <div class="row rankings-upload-file">
                 <label for="formFile" class="form-label">Upload Rankings Data</label>
                 <input class="form-control" type="file" id="formFile" accept=".txt" (change)="handleFileInput()">
-                <button *ngIf="validFile" class="btn apply-file-btn" (click)="constructRankings()">Use rankings from file</button>
+                <button *ngIf="validFile" class="btn btn-secondary apply-file-btn" (click)="constructRankings()">Use rankings from file</button>
             </div>
             <br>
             <div class="edit-candidates">
@@ -25,24 +25,29 @@
                             (keyup.enter)="addCandidate()">
                     </div>
                     <div class="col-3">
-                        <button class="btn new-candidate-btn" (click)="addCandidate()">ADD</button>
+                        <button class="btn btn-secondary new-candidate-btn" (click)="addCandidate()">ADD</button>
                     </div>
                 </div>
             </div> 
         </div>
         <div class="col-9">
             <h2>Rankings</h2>
-            <div class="ranking-input-list row" *ngFor="let ranking of rankings;let index = index;trackBy:trackByIndex;">
-                <div class="col-1">
-                    <label class="ranking-input-label">{{ index + 1 }}</label>
-                </div>
-                <div class="col-10">
-                    <input class="ranking-input" [(ngModel)]="rankingStrings[index]" placeholder="Enter ranking" (blur)="checkEditedRanking(index)">
-                </div>
-                <div class="col-1">
-                    <button type="button" class="btn-close remove-ranking-btn"  aria-label="Close" (click)="removeRanking(index)"></button>
+            <div class="input-scroll" id="inputScroll">
+                <div class="ranking-input-list row" *ngFor="let ranking of rankings;let index = index;trackBy:trackByIndex;">
+                    <div class="col-1">
+                        <label class="ranking-input-label">{{ index + 1 }}</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="ranking-input" [(ngModel)]="rankingStrings[index]" placeholder="Enter ranking"
+                            (blur)="checkEditedRanking(index)">
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn-close remove-ranking-btn" aria-label="Close"
+                            (click)="removeRanking(index)"></button>
+                    </div>
                 </div>
             </div>
+                
             <div class="ranking-input-list">
                 <div class="row">
                     <div class="col-1">
@@ -52,7 +57,7 @@
                         <input class="new-ranking-input" [(ngModel)]="newRanking" placeholder="Enter ranking" (keyup.enter)="addRanking()">
                     </div>
                     <div class="col-1">
-                        <button class="btn new-ranking-btn" (click)="addRanking()">ADD</button>
+                        <button class="btn btn-secondary new-ranking-btn" (click)="addRanking()">ADD</button>
                     </div>
                 </div>
                 <div class="row">
@@ -60,12 +65,12 @@
                     <div class="col-9">
                         <div class="horizontal">
                             <ng-container *ngFor="let candidate of candidates">
-                                <button class="btn quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
+                                <button class="btn btn-secondary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
                             </ng-container>
                         </div>
                     </div>
                     <div class="col-2">
-                        <button class="btn new-random-btn" (click)="addRandomRanking()">ADD random</button>
+                        <button class="btn btn-secondary new-random-btn" (click)="addRandomRanking()">ADD random</button>
                     </div>
                 </div>
             </div>

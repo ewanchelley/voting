@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RankingsService } from '../rankings.service';
 
@@ -57,6 +57,8 @@ export class AddRankingsComponent implements OnInit {
     this.svc.pushRanking(ranking);
     this.rankingStrings.push(this.convertToString(ranking));
     this.newRanking = "";
+    setTimeout(this.scrollToBottom, 100)
+    
   }
 
   checkEditedRanking(index: number) {
@@ -104,7 +106,7 @@ export class AddRankingsComponent implements OnInit {
   }
 
   quickAdd(candidate: string){
-    let clean = this.removeWhitespace(this.newRanking);
+    let clean = this.newRanking.trim();
     if (clean === "" || clean.substr(clean.length - 1) === ","){
       this.newRanking += candidate;
     } else {
@@ -156,7 +158,7 @@ export class AddRankingsComponent implements OnInit {
 
   processFile(txtFile: string){
     let lines: string[] = txtFile.split("\n");
-    let rankings: string[][] = lines.map(l => (this.removeWhitespace(l).split(",")));
+    let rankings: string[][] = lines.map(l => (this.convertToArray(l)));
     if (this.svc.validRankingSet(rankings)){
       this.validFile = true;
       this.rankingsFromFile = rankings;
@@ -171,6 +173,13 @@ export class AddRankingsComponent implements OnInit {
     this.updateRankingStrings();
   }
 
+  scrollToBottom(){
+    var element = document.getElementById("inputScroll");
+    if (element){
+      element.scrollTop = element.scrollHeight;
+    }
+  }
+
   // Helper methods
 
   getFileType(fileName: string){
@@ -182,11 +191,8 @@ export class AddRankingsComponent implements OnInit {
   }
 
   convertToArray(s: string): string[]{
-    return this.removeWhitespace(s).split(",");
+    let arr = s.split(",");
+    arr = arr.map(x => x.trim())
+    return arr;
   }
-
-  removeWhitespace(s: string){
-    return s.replace(/\s/g, "")
-  }
-
 }
