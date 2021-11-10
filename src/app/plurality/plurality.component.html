@@ -1,0 +1,30 @@
+<app-alg title="Plurality (First Past The Post)">
+    <h2>Results</h2>
+    <div class="col-4">
+        <table class="results-table table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Candidate</th>
+                    <th scope="col">Votes</th>
+                    <th scope="col">Percentage of votes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let result of totals;let index = index;trackBy:trackByIndex;">
+                    <th scope="row">
+                        <div *ngIf="isUniqueRank(index); else showEqual">
+                            {{this.svc.suffixIncluded(index + 1)}}
+                        </div>
+                        <ng-template #showEqual>
+                            =
+                        </ng-template>
+                    </th>
+                    <td>{{result[0]}}</td>
+                    <th>{{result[1]}}</th>
+                    <th>{{round(1000 * (result[1] / rankings.length))/10}}%</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</app-alg>

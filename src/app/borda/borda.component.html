@@ -5,7 +5,7 @@
                     <tr>
                          <th></th>
                          <th scope="col" *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
-                              {{suffixIncluded(index+1)}} choice</th>
+                              {{this.svc.suffixIncluded(index+1)}} choice</th>
                          <th>Total</th>
                     </tr>
                </thead>
@@ -35,7 +35,7 @@
                     <tr *ngFor="let result of bordaTotals;let index = index;trackBy:trackByIndex;">
                          <th scope="row">
                               <div *ngIf="isUniqueRank(index); else showEqual">
-                                   {{suffixIncluded(index + 1)}}
+                                   {{this.svc.suffixIncluded(index + 1)}}
                               </div>
                               <ng-template #showEqual>
                                    =

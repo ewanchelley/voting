@@ -13,6 +13,7 @@ import { AddRankingsComponent } from './add-rankings/add-rankings.component';
 import { RankingsService } from './rankings.service';
 import { TopologicalComponent } from './topological/topological.component';
 import { AlgComponent } from './alg/alg.component';
+import { PluralityComponent } from './plurality/plurality.component';
 
 
 @NgModule({
@@ -24,14 +25,16 @@ import { AlgComponent } from './alg/alg.component';
     BordaComponent,
     AddRankingsComponent,
     TopologicalComponent,
-    AlgComponent
+    AlgComponent,
+    PluralityComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
       { path: 'kendall', component: KendallComponent},
       { path: 'borda', component: BordaComponent },
-      { path: 'topological', component: TopologicalComponent }
+      { path: 'topological', component: TopologicalComponent },
+      { path: 'plurality', component: PluralityComponent }
     ]),
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule
