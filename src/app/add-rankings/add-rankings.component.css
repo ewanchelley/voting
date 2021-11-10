@@ -25,7 +25,15 @@
 }
 
 .new-ranking-btn, .new-candidate-btn {
-    padding: 10px;
+    padding: 8px;
+    margin: 5px;
+    background-color: #C4C4C4;
+}
+
+.new-random-btn {
+    float: right;
+    padding: 8px;
+    margin: 5px;
     background-color: #C4C4C4;
 }
 

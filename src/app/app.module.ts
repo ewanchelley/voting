@@ -11,6 +11,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RankingOffcanvasComponent } from './ranking-offcanvas/ranking-offcanvas.component';
 import { AddRankingsComponent } from './add-rankings/add-rankings.component';
 import { RankingsService } from './rankings.service';
+import { TopologicalComponent } from './topological/topological.component';
+import { AlgComponent } from './alg/alg.component';
 
 
 @NgModule({
@@ -20,13 +22,16 @@ import { RankingsService } from './rankings.service';
     NavbarComponent,
     RankingOffcanvasComponent,
     BordaComponent,
-    AddRankingsComponent
+    AddRankingsComponent,
+    TopologicalComponent,
+    AlgComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
       { path: 'kendall', component: KendallComponent},
-      { path: 'borda', component: BordaComponent }
+      { path: 'borda', component: BordaComponent },
+      { path: 'topological', component: TopologicalComponent }
     ]),
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule

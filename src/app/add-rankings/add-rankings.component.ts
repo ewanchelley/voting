@@ -49,10 +49,14 @@ export class AddRankingsComponent implements OnInit {
     let ranking = this.convertToArray(this.newRanking);
     console.log(ranking)
     if (this.svc.isValidRanking(ranking)) {
-      this.svc.pushRanking(ranking);
-      this.rankingStrings.push(this.convertToString(ranking));
-      this.newRanking = "";
+      this.addValidRanking(ranking);
     }
+  }
+
+  addValidRanking(ranking: string[]){
+    this.svc.pushRanking(ranking);
+    this.rankingStrings.push(this.convertToString(ranking));
+    this.newRanking = "";
   }
 
   checkEditedRanking(index: number) {
@@ -106,6 +110,24 @@ export class AddRankingsComponent implements OnInit {
     } else {
       this.newRanking += ", " + candidate;
     }
+  }
+
+  addRandomRanking(){
+    let candidatesToShuffle = this.candidates.slice();
+    let randomRanking = this.shuffle(candidatesToShuffle);
+    this.addValidRanking(randomRanking);
+  }
+
+  shuffle(ranking: string[]) {
+    let currentIndex = ranking.length;
+    let randomIndex;
+
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [ranking[currentIndex], ranking[randomIndex]] = [ranking[randomIndex], ranking[currentIndex]];
+    }
+    return ranking;
   }
 
   handleFileInput() {

@@ -26,7 +26,6 @@ export class RankingsService {
 
   pushCandidate(candidate: string) {
     this.candidates.push(candidate);
-    this.changesMade.next();
   }
 
   addCandidateToAllRankings(candidate: string) {

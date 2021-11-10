@@ -1,13 +1,53 @@
-<app-ranking-offcanvas></app-ranking-offcanvas>
+<app-alg title="Borda Count">
+     <div class="borda-table">
+          <table class="table table-striped">
+               <thead>
+                    <tr>
+                         <th></th>
+                         <th scope="col" *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
+                              {{suffixIncluded(index+1)}} choice</th>
+                         <th>Total</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
+                         <th scope="row">{{candidate}}</th>
+                         <td *ngFor="let rank of candidates;let index = index;trackBy:trackByIndex;">
+                              {{bordaCount[candidate][index]}} ({{getPoints(candidate, index)}} points)
+                         </td>
+                         <th>{{getTotal(candidate)}}</th>
+                    </tr>
+               </tbody>
+          </table>
+     </div>
 
-<br>
-<h2>Borda Count</h2>
-<button class="btn btn-secondary" (click)="borda()">Calculate Borda Count</button>
-
-<div *ngFor="let candidate of candidates">
-     {{ candidate }}: {{bordaCount[candidate]}}
-</div>
-
+     <h2>Results</h2>
+     <div class="col-3">
+          <table class="results-table table table-striped">
+               <thead>
+                    <tr>
+                         <th scope="col">Rank</th>
+                         <th scope="col">Candidate</th>
+                         <th scope="col">Points</th>
+                    </tr>
+               </thead>
+               <tbody>
+                    <tr *ngFor="let result of bordaTotals;let index = index;trackBy:trackByIndex;">
+                         <th scope="row">
+                              <div *ngIf="isUniqueRank(index); else showEqual">
+                                   {{suffixIncluded(index + 1)}}
+                              </div>
+                              <ng-template #showEqual>
+                                   =
+                              </ng-template>
+                         </th>
+                         <td>{{result[0]}}</td>
+                         <th>{{result[1]}}</th>
+                    </tr>
+               </tbody>
+          </table>
+     </div>
+</app-alg>
 
 
 

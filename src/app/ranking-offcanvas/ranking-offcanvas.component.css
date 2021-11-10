@@ -1,4 +1,4 @@
 .offcanvas-button {
-    justify-content: end;
-    justify-items: end;
+    float: right;
+    margin: 0px 0px 20px 0px;
 }

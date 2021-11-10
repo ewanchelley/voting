@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RankingsService } from '../rankings.service';
 
 @Component({
   selector: 'app-ranking-offcanvas',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RankingOffcanvasComponent implements OnInit {
 
-  constructor() { }
+  svc: RankingsService;
+
+  candidates: string[] = [];
+  rankings: string[][] = [];
+
+  constructor(svc: RankingsService) {
+    this.svc = svc;
+  }
 
   ngOnInit(): void {
+    this.rankings = this.svc.getRankings();
+    this.candidates = this.svc.getCandidates();
+    this.svc.changesMade.subscribe(() => {
+      this.rankings = this.svc.getRankings();
+      this.candidates = this.svc.getCandidates();
+    });
   }
 
 }
