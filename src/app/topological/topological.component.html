@@ -1,6 +1,12 @@
 <app-alg title="Topological Ordering">
     <div class="graph-canvas">
         <div class="majority-graph" #majority></div>
+        <div class="legend">
+            <div *ngFor="let line of legend">
+                <b>{{line}}</b>
+            </div>
+            
+        </div>
     </div>
 </app-alg>
 

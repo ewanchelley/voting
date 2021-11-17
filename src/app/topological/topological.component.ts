@@ -16,19 +16,28 @@ export class TopologicalComponent implements OnInit {
   candidates: string[] = [];
   rankings: string[][] = [];
 
+  nodes!: DataSet<any>;
+  edges!: DataSet<any>;
+
+  legend = ["Scroll to zoom",
+            "Drag to move canvas",
+            "Drag to move nodes"]
+
   majorityGraphOptions = {
     layout: {
       improvedLayout: true,
       hierarchical: { enabled: false, nodeSpacing: 300 }
     },
-    interaction: { hover: true },
-    manipulation: { enabled: true },
-    physics: { stabilization: { fit: true } },
     edges: {
       arrows: {
-        middle: true
-      }
-    }
+        to: true
+      },
+      smooth: { enabled: true, type: 'continuous', roundness: 0}
+    },
+    interaction: { hover: true, dragView: true, zoomView: true },
+    manipulation: { enabled: false },
+    physics: false,
+    
   };
 
   constructor(svc: RankingsService) {
@@ -52,7 +61,7 @@ export class TopologicalComponent implements OnInit {
     });
   }
 
-  // naive majority construction?
+  
   constructMajority(){
     let i,j = 0;
     const length = this.candidates.length;
@@ -70,7 +79,7 @@ export class TopologicalComponent implements OnInit {
       numRankings.push(numRanking);
     }
 
-    // loop through permutations of candidates for each ranking
+    // loop through permutations of candidates for each ranking O(C^2R)
     for (let ranking of numRankings){
       for (i = 0; i < length; i++) {
         for (j = i + 1; j < length; j++) {
@@ -81,6 +90,7 @@ export class TopologicalComponent implements OnInit {
       }
     }
 
+    // create edge from a to b wherever a is preferred over b by majority
     let edges: [number, number][] = [];
     for (i = 0; i < length; i++) {
       for (j = i + 1; j < length; j++) {
@@ -98,17 +108,29 @@ export class TopologicalComponent implements OnInit {
   }
 
   constructMajorityGraph(eList: [number, number][]){
-    const container = this.el.nativeElement;
-
     let nodesData = this.candidates.map(c => ({id: this.candidates.indexOf(c), label: c}));
-    const nodes = new DataSet<any>(nodesData);
+    this.nodes = new DataSet<any>(nodesData);
 
     let edgesData = eList.map(e =>  ({from: e[0], to: e[1]}));
-    const edges = new DataSet<any>(edgesData);
+    this.edges = new DataSet<any>(edgesData);
 
-    const data = { nodes, edges };
-
-    this.networkInstance = new Network(container, data, this.majorityGraphOptions);
+    this.drawGraph(this.nodes, this.edges);
   }
 
+  drawGraph(nodes: DataSet<any>, edges: DataSet<any>){
+    const container = this.el.nativeElement;
+    const data = { nodes, edges };
+    this.networkInstance = new Network(container, data, this.majorityGraphOptions);
+    this.networkInstance.on("click", this.onClickCanvas);
+  }
+
+  onClickCanvas(params: any) {
+    if (params.nodes.length <= 0){
+      // node was node selected
+      return;
+    }
+    let selectedNode: number = params.nodes[0];
+    console.log(selectedNode)
+    console.log(params.edges)
+  }
 }
