@@ -14,6 +14,7 @@ import { RankingsService } from './rankings.service';
 import { TopologicalComponent } from './topological/topological.component';
 import { AlgComponent } from './alg/alg.component';
 import { PluralityComponent } from './plurality/plurality.component';
+import { KemenyComponent } from './kemeny/kemeny.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PluralityComponent } from './plurality/plurality.component';
     AddRankingsComponent,
     TopologicalComponent,
     AlgComponent,
-    PluralityComponent
+    PluralityComponent,
+    KemenyComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { PluralityComponent } from './plurality/plurality.component';
       { path: 'kendall', component: KendallComponent},
       { path: 'borda', component: BordaComponent },
       { path: 'topological', component: TopologicalComponent },
-      { path: 'plurality', component: PluralityComponent }
+      { path: 'plurality', component: PluralityComponent },
+      { path: 'kemeny', component: KemenyComponent },
     ]),
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule
