@@ -13,6 +13,9 @@ export class KemenyComponent implements OnInit {
   candidates: string[] = [];
   rankings: string[][] = [];
 
+  kemenyConsensus: string[] = [];
+  kemenyScore: number = 0;
+
   constructor(svc: RankingsService) {
     this.svc = svc;
   }
@@ -24,87 +27,88 @@ export class KemenyComponent implements OnInit {
     });
   }
 
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
   reCalculate() {
     this.rankings = this.svc.getRankings();
     this.candidates = this.svc.getCandidates();
     this.kemeny();
   }
 
-  solvePlanes(){
-    var solver = require("javascript-lp-solver"),
-      results,
-      model = {
-        "optimize": "capacity",
-        "opType": "max",
-        "constraints": {
-          "plane": { "max": 44 },
-          "person": { "max": 512 },
-          "cost": { "max": 300000 },
-          "random_thing": { "max": 15, "min": 15 },
-        },
-        "variables": {
-          "brit": {
-            "capacity": 20000,
-            "plane": 1,
-            "person": 8,
-            "cost": 5000
-          },
-          "yank": {
-            "capacity": 30000,
-            "plane": 1,
-            "person": 16,
-            "cost": 9000,
-            "random_thing": 1,
-          }
-        },
-      };
-
-    results = solver.Solve(model);
-    console.log(results);
-
-    let distances = [[1, 2], [3, 4]]
-    let i = 0;
-    let j = 1;
-    console.log(` ${distances[i][j]} x${i}x${j}`);
-  }
-
   kemeny(){
     let Q: number[][] = this.constructQ();
     let solver = require("javascript-lp-solver");
     let results;
-    let model: any = {
-      "optimize": "distance",
-      "opType": "min"
-    };
+    let model: string[] = [];
 
     let length = this.candidates.length;
-    if(length < 3){
-      //need to deal with these cases
-      return;
-    }
 
-    let constraints: { [key: string]: {[maxmin: string]: number}} = {};
-    let variables: { [key: string]: { [attribute: string]: number }} = {}
-    for (let i = 0; i < length; i++){
-      for (let j=i+1; j < length; j++){
-        let ij = `${i}&${j}`;
-        constraints[ij] = {"max": 1, "min": 1};
-        let var1: {[attribute: string]: number} = {"distance": Q[i][j]}
-        var1[ij] = 1;
-        variables[`Q${i},${j}`] = var1;
-        let var2: { [attribute: string]: number } = { "distance": Q[j][i] }
-        var2[ij] = 1;
-        variables[`Q${j},${i}`] = var2;
+    // Set the objective function
+    let objective = "min:";
+    for (let a = 0; a < length; a++) {
+      for (let b = 0; b < length; b++) {
+        if (a != b) {
+          objective += ` +${Q[a][b]} x${b}_${a}`;
+        }
       }
     }
-    model.constraints = constraints;
-    model.variables = variables;
+    model.push(objective);
 
-    console.log(model);
+    // Add constraint 0 <= x{a,b} <=1
+    for (let a = 0; a < length; a++) {
+      for (let b = 0; b < length; b++) {
+        if (a != b){
+          model.push(`0 <= x${a}_${b} <= 1`);
+        }
+      }
+    }
 
+    // Add constraint x{a,b} + x{b,a} =1
+    for (let a = 0; a < length; a++) {
+      for (let b = a + 1; b < length; b++) {
+        model.push(`x${a}_${b} + x${b}_${a} = 1`);
+      }
+    }
+
+    // Add constraint x{a,b} + x{b,c} + x{c,a} >= 1
+    for (let a = 0; a < length; a++) {
+      for (let b = 0; b < length; b++) {
+        for (let c = 0; c < length; c++) {
+          if (a != b && a != c && b!= c){
+            model.push(`x${a}_${b} + x${b}_${c} + x${c}_${a} >= 1`);
+          }
+        }
+      }
+    }
+
+    // Enforce integer values
+    for (let a = 0; a < length; a++) {
+      for (let b = 0; b < length; b++) {
+        if (a != b) {
+          model.push(`int x${a}_${b}`);
+        }
+      }
+    }
+
+    //console.log(model);
+    model = solver.ReformatLP(model);
     results = solver.Solve(model);
     console.log(results);
-    
+
+    // Construct rankings by counting number of times each candidate
+    // is preferred over some another and then sorting totals
+    let timesPref = new Array(length).fill(0);
+    for (let result of Object.keys(results)){
+      if (result[0] === "x"){
+        let ids = result.slice(1).split("_");
+        timesPref[+ids[0]] += 1;
+      }
+    }
+    this.kemenyConsensus = this.candidates.slice();
+    this.kemenyConsensus = this.kemenyConsensus.sort((a,b) => timesPref[this.candidates.indexOf(b)] - timesPref[this.candidates.indexOf(a)])
+    this.kemenyScore = results.result;
   }
 
   constructQ(): number[][] {
@@ -138,4 +142,7 @@ export class KemenyComponent implements OnInit {
     return Q;
   }
 
+  round(i: number) {
+    return Math.round(i);
+  }
 }
