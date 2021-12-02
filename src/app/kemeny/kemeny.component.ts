@@ -65,7 +65,7 @@ export class KemenyComponent implements OnInit {
       }
     }
 
-    // Add constraint x{a,b} + x{b,a} =1
+    // Add constraint x{a,b} + x{b,a} = 1
     for (let a = 0; a < length; a++) {
       for (let b = a + 1; b < length; b++) {
         model.push(`x${a}_${b} + x${b}_${a} = 1`);
@@ -92,7 +92,7 @@ export class KemenyComponent implements OnInit {
       }
     }
 
-    //console.log(model);
+    console.log(model);
     model = solver.ReformatLP(model);
     results = solver.Solve(model);
     console.log(results);

@@ -15,6 +15,7 @@ import { TopologicalComponent } from './topological/topological.component';
 import { AlgComponent } from './alg/alg.component';
 import { PluralityComponent } from './plurality/plurality.component';
 import { KemenyComponent } from './kemeny/kemeny.component';
+import { PopularComponent } from './popular/popular.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { KemenyComponent } from './kemeny/kemeny.component';
     TopologicalComponent,
     AlgComponent,
     PluralityComponent,
-    KemenyComponent
+    KemenyComponent,
+    PopularComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,7 @@ import { KemenyComponent } from './kemeny/kemeny.component';
       { path: 'topological', component: TopologicalComponent },
       { path: 'plurality', component: PluralityComponent },
       { path: 'kemeny', component: KemenyComponent },
+      { path: 'popular', component: PopularComponent },
     ]),
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule
