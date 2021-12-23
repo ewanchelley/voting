@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Console } from 'console';
 import { RankingsService } from '../rankings.service';
 
 @Component({
@@ -22,6 +23,8 @@ export class KemenyComponent implements OnInit {
 
   ngOnInit(): void {
     this.reCalculate();
+    //this.testAgainstBruteForce(7, 100, 20, true);
+    this.testAgainstBruteForce(4, 10000, 50, true);
     this.svc.changesMade.subscribe(() => {
       this.reCalculate();
     });
@@ -34,16 +37,16 @@ export class KemenyComponent implements OnInit {
   reCalculate() {
     this.rankings = this.svc.getRankings();
     this.candidates = this.svc.getCandidates();
-    this.kemeny();
+    [this.kemenyConsensus, this.kemenyScore] = this.kemeny(this.candidates, this.rankings);
   }
 
-  kemeny(){
-    let Q: number[][] = this.constructQ();
+  kemeny(candidates: string[], rankings: string[][]): [string[], number]{
+    let Q: number[][] = this.constructQ(candidates, rankings);
     let solver = require("javascript-lp-solver");
     let results;
     let model: string[] = [];
 
-    let length = this.candidates.length;
+    let length = candidates.length;
 
     // Set the objective function
     let objective = "min:";
@@ -92,10 +95,10 @@ export class KemenyComponent implements OnInit {
       }
     }
 
-    console.log(model);
+    //console.log(model);
     model = solver.ReformatLP(model);
     results = solver.Solve(model);
-    console.log(results);
+    //console.log(results);
 
     // Construct rankings by counting number of times each candidate
     // is preferred over some another and then sorting totals
@@ -106,14 +109,15 @@ export class KemenyComponent implements OnInit {
         timesPref[+ids[0]] += 1;
       }
     }
-    this.kemenyConsensus = this.candidates.slice();
-    this.kemenyConsensus = this.kemenyConsensus.sort((a,b) => timesPref[this.candidates.indexOf(b)] - timesPref[this.candidates.indexOf(a)])
-    this.kemenyScore = results.result;
+    let consensus = candidates.slice();
+    consensus = consensus.sort((a,b) => timesPref[candidates.indexOf(b)] - timesPref[candidates.indexOf(a)])
+    let score = results.result;
+    return [consensus, score];
   }
 
-  constructQ(): number[][] {
+  constructQ(candidates: string[], rankings: string[][]): number[][] {
     let i, j = 0;
-    const length = this.candidates.length;
+    const length = candidates.length;
     let numRankings: number[][] = []
     let Q: number[][] = []
 
@@ -123,8 +127,8 @@ export class KemenyComponent implements OnInit {
     }
 
     // convert rankings to numeric rankings
-    for (let ranking of this.rankings) {
-      let numRanking = ranking.map(candidate => this.candidates.indexOf(candidate))
+    for (let ranking of rankings) {
+      let numRanking = ranking.map(candidate => candidates.indexOf(candidate))
       numRankings.push(numRanking);
     }
 
@@ -140,6 +144,126 @@ export class KemenyComponent implements OnInit {
     }
 
     return Q;
+  }
+
+  kemenyBruteForce(candidates: string[], rankings: string[][]): [string[], number] {
+    let permutations = this.getPermutations(candidates);
+    let min = Infinity;
+    let best: string[] = [];
+    for (let p of permutations){
+      let distance = 0;
+      for (let ranking of rankings){
+        distance += this.kendall(p, ranking);
+      }
+      if (distance < min){
+        min = distance;
+        best = p;
+      }
+    }
+    return [best, min];
+  }
+
+  getPermutations(ranking: string[]) {
+    let permArr: string[][] = [];
+    let usedChars: string[] = [];
+
+    function permute(input: string[]) {
+      var i, ch;
+      for (i = 0; i < input.length; i++) {
+        ch = input.splice(i, 1)[0];
+        usedChars.push(ch);
+        if (input.length == 0) {
+          permArr.push(usedChars.slice());
+        }
+        permute(input);
+        input.splice(i, 0, ch);
+        usedChars.pop();
+      }
+      return permArr
+    };
+    permute(ranking);
+    return permArr;
+  }
+
+  kendall(r1: string[], r2: string[]): number {
+    length = r1.length;
+    let i, j, v = 0;
+    let a: boolean, b: boolean;
+
+    for (i = 0; i < length; i++) {
+      for (j = i + 1; j < length; j++) {
+        let n1 = r1[i];
+        let n2 = r1[j];
+        a = r1.indexOf(n1) < r1.indexOf(n2) && r2.indexOf(n1) > r2.indexOf(n2);
+        b = r1.indexOf(n1) > r1.indexOf(n2) && r2.indexOf(n1) < r2.indexOf(n2);
+
+        if (a || b) {
+          v++;
+        }
+      }
+    }
+    return v;
+  }
+
+  // randomly generates candidates and rankings then compares brute force solution to integer programming 
+  testAgainstBruteForce(numCandidates: number, numRankings: number, iterations: number, verbose: boolean = false){
+    let candidates = [];
+    if (verbose) {
+      console.log(`Generating ${numCandidates} candidates.`)
+    }
+    for (let c = 0; c < numCandidates; c++) {
+      candidates.push(`C_${c}`);
+    }
+
+    // store number of times that a different consensus is reached
+    let diffConsensus = 0;
+    for (let i = 0; i < iterations; i++){
+      if (verbose){
+        console.log(`Iteration: ${i + 1}/${iterations}`)
+      }
+      // randomly generate rankings
+      let rankings = [];
+      for (let r = 0; r < numRankings; r++){
+        rankings.push(this.shuffle(candidates.slice()));
+      }
+
+      // apply IP and BF then compare results
+      let IPResult, IPScore, BFResult, BFScore;
+      [IPResult, IPScore] = this.kemeny(candidates, rankings);
+      [BFResult, BFScore] = this.kemenyBruteForce(candidates, rankings);
+
+      if (!this.svc.arrayEquals(IPResult, BFResult)){
+        diffConsensus += 1;
+      }
+      if (IPScore !== BFScore){
+        console.log("MISMATCH found");
+        console.log("Rankings:");
+        console.log(rankings);
+        console.log("IPScore: ");
+        console.log(IPScore);
+        console.log("IPResult");
+        console.log(IPResult);
+        console.log("BFScore: ");
+        console.log(BFScore);
+        console.log("BFResult");
+        console.log(BFResult);
+        break;
+      }
+    }
+    console.log(`Agreement in all ${iterations} iterations.`)
+    console.log(`The same ranking was returned ${iterations - diffConsensus}/${iterations} times.`)
+  }
+
+  shuffle(ranking: string[]) {
+    let currentIndex = ranking.length;
+    let randomIndex;
+
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [ranking[currentIndex], ranking[randomIndex]] = [ranking[randomIndex], ranking[currentIndex]];
+    }
+    return ranking;
   }
 
   round(i: number) {
