@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Console } from 'console';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { RankingsService } from '../rankings.service';
 
 @Component({
@@ -23,8 +24,8 @@ export class KemenyComponent implements OnInit {
 
   ngOnInit(): void {
     this.reCalculate();
-    //this.testAgainstBruteForce(7, 100, 20, true);
-    this.testAgainstBruteForce(4, 10000, 50, true);
+    this.testAgainstBruteForce(7, 100, 20, true);
+    //this.testAgainstBruteForce(4, 10000, 50, true);
     this.svc.changesMade.subscribe(() => {
       this.reCalculate();
     });
@@ -100,17 +101,7 @@ export class KemenyComponent implements OnInit {
     results = solver.Solve(model);
     //console.log(results);
 
-    // Construct rankings by counting number of times each candidate
-    // is preferred over some another and then sorting totals
-    let timesPref = new Array(length).fill(0);
-    for (let result of Object.keys(results)){
-      if (result[0] === "x"){
-        let ids = result.slice(1).split("_");
-        timesPref[+ids[0]] += 1;
-      }
-    }
-    let consensus = candidates.slice();
-    consensus = consensus.sort((a,b) => timesPref[candidates.indexOf(b)] - timesPref[candidates.indexOf(a)])
+    let consensus = this.svc.getRankingFromIP(results, candidates);
     let score = results.result;
     return [consensus, score];
   }
@@ -147,7 +138,7 @@ export class KemenyComponent implements OnInit {
   }
 
   kemenyBruteForce(candidates: string[], rankings: string[][]): [string[], number] {
-    let permutations = this.getPermutations(candidates);
+    let permutations = this.svc.getPermutations(candidates);
     let min = Infinity;
     let best: string[] = [];
     for (let p of permutations){
@@ -163,27 +154,7 @@ export class KemenyComponent implements OnInit {
     return [best, min];
   }
 
-  getPermutations(ranking: string[]) {
-    let permArr: string[][] = [];
-    let usedChars: string[] = [];
-
-    function permute(input: string[]) {
-      var i, ch;
-      for (i = 0; i < input.length; i++) {
-        ch = input.splice(i, 1)[0];
-        usedChars.push(ch);
-        if (input.length == 0) {
-          permArr.push(usedChars.slice());
-        }
-        permute(input);
-        input.splice(i, 0, ch);
-        usedChars.pop();
-      }
-      return permArr
-    };
-    permute(ranking);
-    return permArr;
-  }
+  
 
   kendall(r1: string[], r2: string[]): number {
     length = r1.length;
@@ -217,6 +188,9 @@ export class KemenyComponent implements OnInit {
 
     // store number of times that a different consensus is reached
     let diffConsensus = 0;
+    let IPTimes = [];
+    let BFTimes = [];
+
     for (let i = 0; i < iterations; i++){
       if (verbose){
         console.log(`Iteration: ${i + 1}/${iterations}`)
@@ -224,47 +198,34 @@ export class KemenyComponent implements OnInit {
       // randomly generate rankings
       let rankings = [];
       for (let r = 0; r < numRankings; r++){
-        rankings.push(this.shuffle(candidates.slice()));
+        rankings.push(this.svc.shuffle(candidates.slice()));
       }
 
       // apply IP and BF then compare results
       let IPResult, IPScore, BFResult, BFScore;
+
+      let t = performance.now();
       [IPResult, IPScore] = this.kemeny(candidates, rankings);
+      IPTimes.push(performance.now() - t);
+      t = performance.now();
       [BFResult, BFScore] = this.kemenyBruteForce(candidates, rankings);
+      BFTimes.push(performance.now() - t);
 
       if (!this.svc.arrayEquals(IPResult, BFResult)){
         diffConsensus += 1;
       }
       if (IPScore !== BFScore){
-        console.log("MISMATCH found");
-        console.log("Rankings:");
-        console.log(rankings);
-        console.log("IPScore: ");
-        console.log(IPScore);
-        console.log("IPResult");
-        console.log(IPResult);
-        console.log("BFScore: ");
-        console.log(BFScore);
-        console.log("BFResult");
-        console.log(BFResult);
+        this.svc.printBFmismatch("kemeny consensus", rankings, IPScore, IPResult, BFScore, BFResult);
         break;
       }
     }
     console.log(`Agreement in all ${iterations} iterations.`)
     console.log(`The same ranking was returned ${iterations - diffConsensus}/${iterations} times.`)
+    this.svc.printSummaryOfTimes(IPTimes, 3, "IP model");
+    this.svc.printSummaryOfTimes(BFTimes, 3, "Brute Force");
   }
 
-  shuffle(ranking: string[]) {
-    let currentIndex = ranking.length;
-    let randomIndex;
-
-    while (currentIndex != 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      [ranking[currentIndex], ranking[randomIndex]] = [ranking[randomIndex], ranking[currentIndex]];
-    }
-    return ranking;
-  }
+  
 
   round(i: number) {
     return Math.round(i);

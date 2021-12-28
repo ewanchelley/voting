@@ -38,7 +38,7 @@ export class AddRankingsComponent implements OnInit {
     });
 
     this.candidateStrings = this.candidates.slice();
-    this.rankings.forEach(r => (this.rankingStrings.push(this.convertToString(r))));
+    this.rankings.forEach(r => (this.rankingStrings.push(this.svc.convertToString(r))));
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -46,7 +46,7 @@ export class AddRankingsComponent implements OnInit {
   }
 
   addRanking() {
-    let ranking = this.convertToArray(this.newRanking);
+    let ranking = this.svc.convertToArray(this.newRanking);
     console.log(ranking)
     if (this.svc.isValidRanking(ranking)) {
       this.addValidRanking(ranking);
@@ -55,18 +55,18 @@ export class AddRankingsComponent implements OnInit {
 
   addValidRanking(ranking: string[]){
     this.svc.pushRanking(ranking);
-    this.rankingStrings.push(this.convertToString(ranking));
+    this.rankingStrings.push(this.svc.convertToString(ranking));
     this.newRanking = "";
     setTimeout(this.scrollToBottom, 100)
     
   }
 
   checkEditedRanking(index: number) {
-    let ranking = this.convertToArray(this.rankingStrings[index]);
+    let ranking = this.svc.convertToArray(this.rankingStrings[index]);
     if (this.svc.isValidRanking(ranking)){
       this.svc.editRanking(index, ranking);
     }
-    this.rankingStrings[index] = this.convertToString(this.rankings[index]);
+    this.rankingStrings[index] = this.svc.convertToString(this.rankings[index]);
   }
 
   removeRanking(index: number){
@@ -95,7 +95,7 @@ export class AddRankingsComponent implements OnInit {
 
   updateRankingStrings() {
     for (let i in this.rankings) {
-      this.rankingStrings[i] = this.convertToString(this.rankings[i]);
+      this.rankingStrings[i] = this.svc.convertToString(this.rankings[i]);
     }
   }
 
@@ -116,20 +116,8 @@ export class AddRankingsComponent implements OnInit {
 
   addRandomRanking(){
     let candidatesToShuffle = this.candidates.slice();
-    let randomRanking = this.shuffle(candidatesToShuffle);
+    let randomRanking = this.svc.shuffle(candidatesToShuffle);
     this.addValidRanking(randomRanking);
-  }
-
-  shuffle(ranking: string[]) {
-    let currentIndex = ranking.length;
-    let randomIndex;
-
-    while (currentIndex != 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      [ranking[currentIndex], ranking[randomIndex]] = [ranking[randomIndex], ranking[currentIndex]];
-    }
-    return ranking;
   }
 
   handleFileInput() {
@@ -158,7 +146,7 @@ export class AddRankingsComponent implements OnInit {
 
   processFile(txtFile: string){
     let lines: string[] = txtFile.split("\n");
-    let rankings: string[][] = lines.map(l => (this.convertToArray(l)));
+    let rankings: string[][] = lines.map(l => (this.svc.convertToArray(l)));
     if (this.svc.validRankingSet(rankings)){
       this.validFile = true;
       this.rankingsFromFile = rankings;
@@ -185,14 +173,4 @@ export class AddRankingsComponent implements OnInit {
   getFileType(fileName: string){
     return fileName.split('.').pop();
   } 
-
-  convertToString(r: string[]): string {
-    return r.join(", ");
-  }
-
-  convertToArray(s: string): string[]{
-    let arr = s.split(",");
-    arr = arr.map(x => x.trim())
-    return arr;
-  }
 }

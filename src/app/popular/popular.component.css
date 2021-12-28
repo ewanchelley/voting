@@ -1,0 +1,39 @@
+.ranking-input-list {
+    background-color: #E7E7E7;
+    padding: 3px 10px;
+    margin: 4px;
+    border-radius: 6px;
+}
+
+.new-ranking-input{
+    padding: 10px;
+    font-size: 20px;
+    width: 100%;
+}
+
+.new-ranking-btn {
+    padding: 8px;
+    margin: 5px;
+}
+
+.weakly-popular, .strongly-popular {
+    margin: 40px 10px;
+    background-color:white;
+    box-shadow: 0px 0px 20px 0px #000000;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.positive {
+    background-color: #7bed9a;
+}
+
+.negative {
+    background-color: #ed7b7b;
+}
+
+.results-text {
+    display: inline-block;
+    font-size: larger;
+    font-weight: medium;
+}

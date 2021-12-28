@@ -16,6 +16,7 @@ import { AlgComponent } from './alg/alg.component';
 import { PluralityComponent } from './plurality/plurality.component';
 import { KemenyComponent } from './kemeny/kemeny.component';
 import { PopularComponent } from './popular/popular.component';
+import { RankingComponent } from './ranking/ranking.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { PopularComponent } from './popular/popular.component';
     AlgComponent,
     PluralityComponent,
     KemenyComponent,
-    PopularComponent
+    PopularComponent,
+    RankingComponent
   ],
   imports: [
     BrowserModule,

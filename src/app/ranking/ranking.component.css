@@ -1,0 +1,10 @@
+.ranking {
+    font-size: large;
+    font-weight: bold;
+    background-color: #E7E7E7;
+    padding: 5px;
+    border-radius: 5px;
+    width: max-content;
+    display: inline-block;
+    margin: 3px;
+}

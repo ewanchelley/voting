@@ -153,4 +153,91 @@ export class RankingsService {
     return i + "th";
   }
 
+  convertToArray(s: string): string[] {
+    let arr = s.split(",");
+    arr = arr.map(x => x.trim())
+    return arr;
+  }
+
+  convertToString(r: string[]): string {
+    return r.join(", ");
+  }
+
+  getPermutations(ranking: string[]) {
+    let permArr: string[][] = [];
+    let usedChars: string[] = [];
+
+    function permute(input: string[]) {
+      var i, ch;
+      for (i = 0; i < input.length; i++) {
+        ch = input.splice(i, 1)[0];
+        usedChars.push(ch);
+        if (input.length == 0) {
+          permArr.push(usedChars.slice());
+        }
+        permute(input);
+        input.splice(i, 0, ch);
+        usedChars.pop();
+      }
+      return permArr
+    };
+    permute(ranking);
+    return permArr;
+  }
+
+  shuffle(ranking: string[]) {
+    let currentIndex = ranking.length;
+    let randomIndex;
+
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [ranking[currentIndex], ranking[randomIndex]] = [ranking[randomIndex], ranking[currentIndex]];
+    }
+    return ranking;
+  }
+
+  printSummaryOfTimes(times: number[], dp: number, name: string=""){
+    let average = times.reduce((a, b) => (a + b)) / times.length;
+    let min = Math.min.apply(Math, times);
+    let max = Math.max.apply(Math, times);
+
+    let roundedAverage = Math.round(average * (10 ** dp)) / 10 ** dp;
+    let roundedMin = Math.round(min * (10 ** dp)) / 10 ** dp;
+    let roundedMax = Math.round(max * (10 ** dp)) / 10 ** dp;
+
+    console.log(`Time taken ${name} - Average: ${roundedAverage}ms, Min: ${roundedMin}ms, Max: ${roundedMax}ms`);
+  }
+
+  // Deal with IP model output
+
+  getRankingFromIP(results: any, candidates: string[]): string[] {
+    // Construct rankings by counting number of times each candidate
+    // is preferred over some another and then sorting totals
+    let timesPref = new Array(candidates.length).fill(0);
+    for (let result of Object.keys(results)) {
+      if (result[0] === "x") {
+        let ids = result.slice(1).split("_");
+        timesPref[+ids[0]] += 1;
+      }
+    }
+    let result = candidates.slice();
+    result = result.sort((a, b) => timesPref[candidates.indexOf(b)] - timesPref[candidates.indexOf(a)])
+    return result;
+  }
+
+  // Log to console if results from IP and BF do not match
+  printBFmismatch(alg: string, rankings: string[][], IPScore: number, IPResult: string[], BFScore: number, BFResult: string[]){
+    console.log(`MISMATCH found between IP and BF results for ${alg}`);
+    console.log("Rankings:");
+    console.log(rankings);
+    console.log("IPScore: ");
+    console.log(IPScore);
+    console.log("IPResult");
+    console.log(IPResult);
+    console.log("BFScore: ");
+    console.log(BFScore);
+    console.log("BFResult");
+    console.log(BFResult);
+  }
 }
