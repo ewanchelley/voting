@@ -1,9 +1,11 @@
-<app-navbar></app-navbar>
-<div class="container">
-    <br>
-    <div class="row">
-        <div class="col-sm-12">
-            <router-outlet></router-outlet>
+<main>
+    <app-sidebar class="bg-light"></app-sidebar>
+    <div class="container" style="overflow-y: auto;">
+        <br>
+        <div class="row">
+            <div class="col-sm-12">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
-</div>
+</main>

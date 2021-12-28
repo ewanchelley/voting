@@ -16,6 +16,9 @@ export class TopologicalComponent implements OnInit {
   candidates: string[] = [];
   rankings: string[][] = [];
 
+  order: string[] = [];
+  orderText: string = "";
+
   nodes!: DataSet<any>;
   edges!: DataSet<any>;
 
@@ -51,7 +54,9 @@ export class TopologicalComponent implements OnInit {
   reCalculate() {
     this.rankings = this.svc.getRankings();
     this.candidates = this.svc.getCandidates();
-    this.constructMajority();
+    this.order = this.topological();
+    this.orderText = this.svc.convertToString(this.order);
+    console.log(this.order);
   }
 
   ngAfterViewInit() {
@@ -61,8 +66,57 @@ export class TopologicalComponent implements OnInit {
     });
   }
 
+  orderExists(){
+    return this.order.length != 0;
+  }
+
+  topological() {
+    let edges = this.constructMajority();
+    let L = [];
+    let Q = [];
+    let nodes = [];
+
+    for (let i = 0; i < this.candidates.length; i++) {
+      let incoming: Set<number> = new Set();
+      let outgoing: Set<number> = new Set();
+      let node = {incoming:incoming, outgoing:outgoing}
+      nodes.push(node);
+    }
+
+    for (let edge of edges) {
+      let start = edge[0];
+      let end = edge[1];
+      nodes[start].outgoing.add(end);
+      nodes[end].incoming.add(start);
+    }
+
+    // Set Q to be list of nodes with no incoming edges
+    
+    for (let i = 0; i < this.candidates.length; i++) {
+      if (nodes[i].incoming.size == 0){
+        Q.push(i);
+      }
+    }
+
+    while(Q.length > 0){
+      let n: number = Q.pop()!;
+      L.push(n);
+      for (let out of nodes[n].outgoing){
+        nodes[out].incoming.delete(n);
+        if (nodes[out].incoming.size == 0){
+          Q.push(out);
+        }
+      }
+    }
+    if (L.length < nodes.length){
+      // Graph contained a cycle, no topological ordering
+      return [];
+    }
+    return L.map(node => this.candidates[node])
+  }
+
   
-  constructMajority(){
+  constructMajority(): [number, number][]{
     let i,j = 0;
     const length = this.candidates.length;
     let numRankings: number[][] = []
@@ -75,7 +129,7 @@ export class TopologicalComponent implements OnInit {
 
     // convert rankings to numeric rankings
     for (let ranking of this.rankings){
-      let numRanking = ranking.map(candidate => this.candidates.indexOf(candidate))
+      let numRanking = ranking.map(candidate => this.candidates.indexOf(candidate));
       numRankings.push(numRanking);
     }
 
@@ -105,6 +159,7 @@ export class TopologicalComponent implements OnInit {
     }
 
     this.constructMajorityGraph(edges);
+    return edges;
   }
 
   constructMajorityGraph(eList: [number, number][]){

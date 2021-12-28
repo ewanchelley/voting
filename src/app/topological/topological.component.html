@@ -1,12 +1,24 @@
 <app-alg title="Topological Ordering">
-    <div class="graph-canvas">
-        <div class="majority-graph" #majority></div>
-        <div class="legend">
-            <div *ngFor="let line of legend">
-                <b>{{line}}</b>
+    <app-tile heading="Majority Graph">
+        <div class="graph-canvas">
+            <div class="majority-graph" #majority></div>
+            <div class="legend">
+                <div *ngFor="let line of legend">
+                    <b>{{line}}</b>
+                </div>
+        
             </div>
-            
         </div>
-    </div>
+    </app-tile>
+    <app-tile heading="Results">
+        <div *ngIf="orderExists(); else noOrder">
+            A topological ordering is
+            <app-ranking [rankingString]="orderText"></app-ranking>
+        </div>
+        <ng-template #noOrder>
+            There is a cycle in the majority graph, therefore no Topological Ordering exists.
+        </ng-template>
+    </app-tile>
+    
 </app-alg>
 

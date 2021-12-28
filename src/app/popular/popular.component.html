@@ -1,22 +1,26 @@
 <app-alg title="Popular Rankings">
-    <div>
-        Enter a ranking to check whether it is weakly or strongly popular among the voters.
-    </div>
-    <div class="ranking-input-list">
-        <div class="row">
-            <div class="col-9">
-                <input class="new-ranking-input" [(ngModel)]="proposedString" placeholder="Enter ranking" 
-                (keyup.enter)="checkProposed()" (blur)="checkProposed()">
-            </div>
-            <div class="col-1">
-                <button class="btn btn-secondary new-ranking-btn" (click)="checkProposed()">CALCULATE</button>
+    <app-tile heading="Input ranking to test">
+        <div>
+            Enter a ranking to check whether it is weakly or strongly popular among the voters.
+        </div>
+        <div class="ranking-input-list">
+            <div class="row">
+                <div class="col-9">
+                    <input class="new-ranking-input" [(ngModel)]="proposedString" placeholder="Enter ranking"
+                        (keyup.enter)="checkProposed()" (blur)="checkProposed()">
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-secondary new-ranking-btn" (click)="checkProposed()">CALCULATE</button>
+                </div>
             </div>
         </div>
-    </div>
+    </app-tile>
+    
+
+    
     <div class="popular-results" *ngIf="showResults()">
-        <div class="weakly-popular" [ngClass]="{'positive': isWeaklyPopular(),'negative': !isWeaklyPopular()}">
+        <app-tile [heading]="isWeaklyPopular() ? 'Weakly Popular' : 'NOT Weakly Popular'" [bg]="isWeaklyPopular() ? 'bg-green' : 'bg-red'">
             <div *ngIf="isWeaklyPopular(); else notWeaklyPopular">
-                <h2>Weakly Popular</h2>
                 <div class="results-text">
                     No ranking exists that is preferred by more than half of the voters.
                 </div>
@@ -30,7 +34,6 @@
                 </div>
             </div>
             <ng-template #notWeaklyPopular>
-                <h2>NOT Weakly Popular</h2>
                 <div class="results-text">
                     The alternative ranking
                 </div>
@@ -47,10 +50,9 @@
                     is NOT weakly popular.
                 </div>
             </ng-template>
-        </div>
-        <div class="strongly-popular" [ngClass]="{'positive': isStronglyPopular(),'negative': !isStronglyPopular()}">
+        </app-tile>
+        <app-tile [heading]="isStronglyPopular() ? 'Strongly Popular' : 'NOT Strongly Popular'" [bg]="isStronglyPopular() ? 'bg-green' : 'bg-red'">
             <div *ngIf="isStronglyPopular(); else notStronglyPopular">
-                <h2>Strongly Popular</h2>
                 <div class="results-text">
                     No ranking exists that is preferred by more than half of the <b>non-abstaining</b> voters.
                 </div>
@@ -64,7 +66,6 @@
                 </div>
             </div>
             <ng-template #notStronglyPopular>
-                <h2>NOT Strongly Popular</h2>
                 <div class="results-text">
                     The alternative ranking
                 </div>
@@ -102,6 +103,6 @@
                     is NOT strongly popular.
                 </div>
             </ng-template>
-        </div>
+        </app-tile>
     </div>
 </app-alg>

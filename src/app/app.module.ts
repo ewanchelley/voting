@@ -17,6 +17,8 @@ import { PluralityComponent } from './plurality/plurality.component';
 import { KemenyComponent } from './kemeny/kemeny.component';
 import { PopularComponent } from './popular/popular.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { TileComponent } from './tile/tile.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { RankingComponent } from './ranking/ranking.component';
     PluralityComponent,
     KemenyComponent,
     PopularComponent,
-    RankingComponent
+    RankingComponent,
+    SidebarComponent,
+    TileComponent
   ],
   imports: [
     BrowserModule,
