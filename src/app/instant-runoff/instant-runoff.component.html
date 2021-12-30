@@ -1,0 +1,57 @@
+<app-alg title="Instant Runoff">
+    <div class="round" *ngFor="let round of roundTotals;let index = index;trackBy:trackByIndex;">
+        <app-tile [heading]="getRoundText(index)">
+            <div class="row">
+                <div [ngClass]="{'col-3': index == 0,'col-4': index != 0}">
+                    <table class="results-table table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Rank</th>
+                                <th scope="col">Candidate</th>
+                                <th *ngIf="index == 0" scope="col">Votes</th>
+                                <th *ngIf="index != 0" scope="col">First choice votes</th>
+                                <th *ngIf="index != 0" scope="col">Runoff votes</th>
+                                <th *ngIf="index != 0" scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let result of roundTotals[index];let i = index;trackBy:trackByIndex;">
+                                <th scope="row">
+                                    {{i + 1}}
+                                </th>
+                                <td>{{result[0]}}</td>
+                                <td *ngIf="index != 0">{{firstChoiceVotes(result[0])}}</td>
+                                <td *ngIf="index != 0">{{result[1] - firstChoiceVotes(result[0])}}</td>
+                                <th>{{result[1]}}</th>
+                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>   
+                <div class="col-2" *ngIf="index == 0"></div>
+                <div class="col-1" *ngIf="index != 0"></div>
+                <div class="col-4" *ngIf="index != roundTotals.length - 1">
+                    Candidate 
+                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
+                     has the highest total, however they do not have a majority, so 
+                    <app-ranking [rankingString]="roundTotals[index][roundTotals[index].length - 1][0]"></app-ranking>
+                      is eliminated since they have the lowest total.
+                </div>
+                <div class="col-4" *ngIf="index == roundTotals.length - 1 && round.length != 2">
+                    Candidate
+                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
+                    has the highest total, and has a majority, therefore wins the election.
+                </div>
+                <div class="col-4" *ngIf="index == roundTotals.length - 1 && round.length == 2">
+                    Candidates
+                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
+                    and 
+                    <app-ranking [rankingString]="roundTotals[index][1][0]"></app-ranking>
+                    are the last two remaining, therefore 
+                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
+                    wins since they have the highest total.
+                </div>
+            </div>
+        </app-tile>
+    </div>
+</app-alg>

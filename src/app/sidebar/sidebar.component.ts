@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RankingsService } from '../rankings.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  svc: RankingsService;
+
+  links: string[][] = 
+    [
+      ["Kendall Distance", "kendall"],
+      ["Borda Count", "borda"],
+      ["Instant Runoff", "instant-runoff"],
+      ["Topological Ordering", "topological"],
+      ["Plurality (First Past The Post)", "plurality"],
+      ["Kemeny Consensus", "kemeny"],
+      ["Popular Ranking", "popular"],
+    ]
+
+  constructor(svc: RankingsService) {
+    this.svc = svc;
+  }
 
   ngOnInit(): void {
   }
-
 }

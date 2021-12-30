@@ -25,6 +25,10 @@ export class AddRankingsComponent implements OnInit {
   validFile = false;
   rankingsFromFile: string[][] = [];
 
+  numRandomVoters: number = 10;
+  numRandomCandidates: number = 5;
+  generateCandidates: boolean = false;
+
   constructor(svc: RankingsService) {
     this.svc = svc;
   }
@@ -155,8 +159,8 @@ export class AddRankingsComponent implements OnInit {
     }
   }
 
-  constructRankings(){
-    this.svc.constructRankings(this.rankingsFromFile);
+  constructRankings(rankings: string[][]){
+    this.svc.constructRankings(rankings);
     this.candidateStrings = this.candidates.slice();
     this.updateRankingStrings();
   }
@@ -166,6 +170,37 @@ export class AddRankingsComponent implements OnInit {
     if (element){
       element.scrollTop = element.scrollHeight;
     }
+  }
+
+  generateRandom() {
+    // Generate candidates or use current ones
+    let maxCandidates = 676 // 26^2
+    let candidates: string[] = []
+    let rankings: string[][] = [];
+    if (this.generateCandidates){
+      if (this.numRandomCandidates > maxCandidates || this.numRandomCandidates < 1){
+        return;
+      }
+      else {
+        for (let i = 0; i < this.numRandomCandidates; i++){
+          let digit2 = i % 26;
+          let digit1 = ((i - digit2) / 26) - 1;
+          let l2 = String.fromCharCode(65 + digit2);
+          let l1 = digit1 == -1 ? "" : String.fromCharCode(65 + digit1);
+          candidates.push(l1 + l2);
+        }
+          
+      }
+    } else {
+      candidates = this.candidates.slice();
+    }
+
+    // Generate rankings
+    for (let i = 0; i < this.numRandomVoters; i++){
+      let randomRanking = this.svc.shuffle(candidates.slice());
+      rankings.push(randomRanking);
+    }
+    this.constructRankings(rankings);
   }
 
   // Helper methods

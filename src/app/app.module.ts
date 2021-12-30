@@ -19,6 +19,7 @@ import { PopularComponent } from './popular/popular.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TileComponent } from './tile/tile.component';
+import { InstantRunoffComponent } from './instant-runoff/instant-runoff.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { TileComponent } from './tile/tile.component';
     PopularComponent,
     RankingComponent,
     SidebarComponent,
-    TileComponent
+    TileComponent,
+    InstantRunoffComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { TileComponent } from './tile/tile.component';
       { path: 'plurality', component: PluralityComponent },
       { path: 'kemeny', component: KemenyComponent },
       { path: 'popular', component: PopularComponent },
+      { path: 'instant-runoff', component: InstantRunoffComponent },
     ]),
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule

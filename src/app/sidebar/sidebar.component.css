@@ -68,3 +68,11 @@
 
 .fw-semibold { font-weight: 600; }
 .lh-tight { line-height: 1.25; }
+
+.warn {
+  color: red;
+}
+
+.icon {
+  margin-left: 4px;
+}

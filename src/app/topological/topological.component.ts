@@ -16,8 +16,9 @@ export class TopologicalComponent implements OnInit {
   candidates: string[] = [];
   rankings: string[][] = [];
 
-  order: string[] = [];
-  orderText: string = "";
+  results: string[][] = [];
+  resultText: string = "";
+  numResults: number = 0;
 
   nodes!: DataSet<any>;
   edges!: DataSet<any>;
@@ -54,9 +55,11 @@ export class TopologicalComponent implements OnInit {
   reCalculate() {
     this.rankings = this.svc.getRankings();
     this.candidates = this.svc.getCandidates();
-    this.order = this.topological();
-    this.orderText = this.svc.convertToString(this.order);
-    console.log(this.order);
+    this.results = this.topological();
+    this.numResults = this.results.length;
+    if (this.results.length > 0){
+      this.resultText = this.svc.convertToString(this.results[0]);
+    }
   }
 
   ngAfterViewInit() {
@@ -66,20 +69,17 @@ export class TopologicalComponent implements OnInit {
     });
   }
 
-  orderExists(){
-    return this.order.length != 0;
-  }
-
-  topological() {
+  topological(): string[][] {
     let edges = this.constructMajority();
-    let L = [];
-    let Q = [];
+    let L: number[] = [];
+    let Q: number[] = [];
     let nodes = [];
 
+    // Initialise nodes and edges
     for (let i = 0; i < this.candidates.length; i++) {
       let incoming: Set<number> = new Set();
       let outgoing: Set<number> = new Set();
-      let node = {incoming:incoming, outgoing:outgoing}
+      let node = { incoming: incoming, outgoing: outgoing }
       nodes.push(node);
     }
 
@@ -91,28 +91,56 @@ export class TopologicalComponent implements OnInit {
     }
 
     // Set Q to be list of nodes with no incoming edges
-    
+
     for (let i = 0; i < this.candidates.length; i++) {
-      if (nodes[i].incoming.size == 0){
+      if (nodes[i].incoming.size == 0) {
         Q.push(i);
       }
     }
 
-    while(Q.length > 0){
-      let n: number = Q.pop()!;
-      L.push(n);
-      for (let out of nodes[n].outgoing){
-        nodes[out].incoming.delete(n);
-        if (nodes[out].incoming.size == 0){
-          Q.push(out);
-        }
-      }
-    }
-    if (L.length < nodes.length){
-      // Graph contained a cycle, no topological ordering
+    if (Q.length > 0){
+      let nodesCopy: any[] = [];
+      nodes.forEach(n => (nodesCopy.push({ incoming: new Set(n.incoming), outgoing: new Set(n.outgoing)})));
+      let results = this.recursiveTopological(L.slice(), Q.slice(), nodesCopy);
+      return results.map(r => (r.map(node => this.candidates[node])));
+    } else {
       return [];
     }
-    return L.map(node => this.candidates[node])
+  }
+
+  recursiveTopological(L: number[], Q: number[], nodes: any[]): number[][] {
+    let results: number[][] = [];
+    for (let i = 0; i < Q.length; i++){
+      let newQ = Q.slice();
+      let next = newQ.splice(i, 1)[0];
+      let newL = L.slice();
+      newL.push(next);
+      let newNodes: any[] = [];
+      nodes.forEach(n => (newNodes.push({ incoming: new Set(n.incoming), outgoing: new Set(n.outgoing) })));
+      
+      for (let out of newNodes[next].outgoing){
+        newNodes[out].incoming.delete(next);
+        if (newNodes[out].incoming.size == 0) {
+          newQ.push(out);
+        }
+      }
+
+      if (newQ.length > 0){
+        let recursiveResults = this.recursiveTopological(newL, newQ, newNodes);
+        if (recursiveResults.length == 0){
+          // If recursive call return empty array, no topological order exists
+          return [];
+        }
+        results = results.concat(recursiveResults);
+      } else if (newL.length < newNodes.length){
+        // Graph contained a cycle, no topological ordering
+        return [];
+      } else {
+        return [newL];
+      }
+    }
+    
+    return results;
   }
 
   

@@ -11,12 +11,19 @@
         </div>
     </app-tile>
     <app-tile heading="Results">
-        <div *ngIf="orderExists(); else noOrder">
-            A topological ordering is
-            <app-ranking [rankingString]="orderText"></app-ranking>
-        </div>
-        <ng-template #noOrder>
+        <ng-template [ngIf]="numResults == 0">
             There is a cycle in the majority graph, therefore no Topological Ordering exists.
+        </ng-template>
+        <ng-template [ngIf]="numResults == 1">
+            <div class="results-text">
+                The unique topological ordering is
+                <app-ranking [rankingString]="resultText"></app-ranking>
+            </div>
+        </ng-template>
+        <ng-template [ngIf]="numResults > 1">
+            A topological ordering is 
+            <app-ranking [rankingString]="resultText"></app-ranking>
+            There are {{results.length}} possible topological orderings.
         </ng-template>
     </app-tile>
     

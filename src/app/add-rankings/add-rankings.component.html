@@ -1,15 +1,32 @@
 <div class="container add-rankings-container">
     <div class="row">
+        <!--Left Column-->
         <div class="col-3">
-            <div class="row rankings-upload-file">
+            <!--File Upload-->
+            <app-tile heading="File Upload">
                 <label for="formFile" class="form-label">Upload Rankings Data</label>
                 <input class="form-control" type="file" id="formFile" accept=".txt" (change)="handleFileInput()">
-                <button *ngIf="validFile" class="btn btn-secondary apply-file-btn" (click)="constructRankings()">Use rankings from file</button>
-            </div>
-            <br>
-            <div class="edit-candidates">
-                <h2>Candidates</h2>
-                <div class="candidate-input-list row" *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
+                <button *ngIf="validFile" class="btn btn-secondary apply-file-btn" (click)="constructRankings(this.rankingsFromFile)">Use rankings from file</button>
+            </app-tile>
+            <!--Random Input-->
+            <app-tile heading="Randomise">
+                <div class="d-flex randomise-row">
+                    <div>Number of voters</div>
+                    <input class="random-input ms-auto" [(ngModel)]="numRandomVoters" placeholder="i.e. 15">
+                </div>
+                <div class="d-flex randomise-row">
+                    <div>Generate candidates</div>
+                    <input class="form-check-input random-checkbox" type="checkbox" [(ngModel)]="generateCandidates">
+                </div>
+                <div class="d-flex randomise-row" *ngIf="generateCandidates">
+                    <div>Number of candidates</div>
+                    <input class="random-input ms-auto" [(ngModel)]="numRandomCandidates" placeholder="i.e. 4">
+                </div>
+                <button class="btn btn-secondary" (click)="generateRandom()">Generate random voters</button>
+            </app-tile>
+            <!--Candidate Input-->
+            <app-tile heading="Candidates">
+                <div class="row" *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
                     <div class="col-8">
                         <input class="candidate-input" [(ngModel)]="candidateStrings[index]" placeholder="Enter candidate"
                             (blur)="checkEditedCandidate(index)">
@@ -19,7 +36,7 @@
                             (click)="removeCandidate(index)"></button>
                     </div>
                 </div>
-                <div class="candidate-input-list row">
+                <div class="row">
                     <div class="col-9">
                         <input class="new-candidate-input" [(ngModel)]="newCandidate" placeholder="Enter candidate"
                             (keyup.enter)="addCandidate()">
@@ -28,52 +45,57 @@
                         <button class="btn btn-secondary new-candidate-btn" (click)="addCandidate()">ADD</button>
                     </div>
                 </div>
-            </div> 
+            </app-tile>
         </div>
+        <!--Right (Rankings) Column-->
         <div class="col-9">
-            <h2>Voters Rankings</h2>
-            <div class="input-scroll" id="inputScroll">
-                <div class="ranking-input-list row" *ngFor="let ranking of rankings;let index = index;trackBy:trackByIndex;">
-                    <div class="col-1">
-                        <label class="ranking-input-label">{{ index + 1 }}</label>
-                    </div>
-                    <div class="col-10">
-                        <input class="ranking-input" [(ngModel)]="rankingStrings[index]" placeholder="Enter ranking"
-                            (blur)="checkEditedRanking(index)">
-                    </div>
-                    <div class="col-1">
-                        <button type="button" class="btn-close remove-ranking-btn" aria-label="Close"
-                            (click)="removeRanking(index)"></button>
-                    </div>
-                </div>
-            </div>
-                
-            <div class="ranking-input-list">
-                <div class="row">
-                    <div class="col-1">
-                        <label class="ranking-input-label">{{ rankings.length + 1 }}</label>
-                    </div>
-                    <div class="col-10">
-                        <input class="new-ranking-input" [(ngModel)]="newRanking" placeholder="Enter ranking" (keyup.enter)="addRanking()">
-                    </div>
-                    <div class="col-1">
-                        <button class="btn btn-secondary new-ranking-btn" (click)="addRanking()">ADD</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-9">
-                        <div class="horizontal">
-                            <ng-container *ngFor="let candidate of candidates">
-                                <button class="btn btn-secondary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
-                            </ng-container>
+            <app-tile heading="Voters Rankings">
+                <div class="flex-column rankings-section">
+                    <!--Rankings List-->
+                    <div class="input-scroll mb-auto p-2" id="inputScroll">
+                        <div class="ranking-input-list row" *ngFor="let ranking of rankings;let index = index;trackBy:trackByIndex;">
+                            <div class="col-1">
+                                <label class="ranking-input-label">{{ index + 1 }}</label>
+                            </div>
+                            <div class="col-10">
+                                <input class="ranking-input" [(ngModel)]="rankingStrings[index]" placeholder="Enter ranking"
+                                    (blur)="checkEditedRanking(index)">
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn-close remove-ranking-btn" aria-label="Close"
+                                    (click)="removeRanking(index)"></button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-2">
-                        <button class="btn btn-secondary new-random-btn" (click)="addRandomRanking()">ADD random</button>
+                    <!--New Ranking-->
+                    <div class="ranking-input-list p-2">
+                        <div class="row">
+                            <div class="col-1">
+                                <label class="ranking-input-label">{{ rankings.length + 1 }}</label>
+                            </div>
+                            <div class="col-10">
+                                <input class="new-ranking-input" [(ngModel)]="newRanking" placeholder="Enter ranking" (keyup.enter)="addRanking()">
+                            </div>
+                            <div class="col-1">
+                                <button class="btn btn-secondary new-ranking-btn" (click)="addRanking()">ADD</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1"></div>
+                            <div class="col-9">
+                                <div class="horizontal">
+                                    <ng-container *ngFor="let candidate of candidates">
+                                        <button class="btn btn-secondary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-secondary new-random-btn" (click)="addRandomRanking()">ADD random</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </app-tile>
         </div>
     </div>
 </div>

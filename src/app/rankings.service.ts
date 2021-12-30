@@ -240,4 +240,21 @@ export class RankingsService {
     console.log("BFResult");
     console.log(BFResult);
   }
+
+  // Warn that algorithm may run slowly if certain candidates/rankings thresholds are met
+  isDangerous(alg: string): boolean{
+    // The max allowable thresholds for each algorithm
+    const thresholds: {[alg: string]: {candidates: number, rankings: number}} = {
+       "popular": { candidates: 6, rankings: 10 }, 
+       "kemeny": { candidates: 6, rankings: 10 }}
+    let threshold = thresholds[alg];
+    if (!threshold){
+      return false;
+    }
+    if (this.candidates.length > threshold.candidates || this.rankings.length > threshold.rankings){
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
