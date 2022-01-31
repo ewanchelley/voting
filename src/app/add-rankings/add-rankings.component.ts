@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { RankingsService } from '../rankings.service';
 
@@ -17,6 +18,7 @@ export class AddRankingsComponent implements OnInit {
   rankingStrings: string[] = []
   
   svc: RankingsService;
+  toastr: ToastrService;
 
   candidates: string[] = []
   rankings: string[][] = []
@@ -29,8 +31,9 @@ export class AddRankingsComponent implements OnInit {
   numRandomCandidates: number = 5;
   generateCandidates: boolean = false;
 
-  constructor(svc: RankingsService) {
+  constructor(svc: RankingsService, toastr: ToastrService) {
     this.svc = svc;
+    this.toastr = toastr;
   }
 
   ngOnInit(): void {
@@ -52,7 +55,7 @@ export class AddRankingsComponent implements OnInit {
   addRanking() {
     let ranking = this.svc.convertToArray(this.newRanking);
     console.log(ranking)
-    if (this.svc.isValidRanking(ranking)) {
+    if (this.svc.isValidRanking(ranking, true)) {
       this.addValidRanking(ranking);
     }
   }
@@ -79,7 +82,7 @@ export class AddRankingsComponent implements OnInit {
   }
 
   addCandidate(){
-    if (this.svc.isValidCandidate(this.newCandidate)){
+    if (this.svc.isValidCandidate(this.newCandidate, true)){
       this.svc.pushCandidate(this.newCandidate);
       this.candidateStrings.push(this.newCandidate);
       this.svc.addCandidateToAllRankings(this.newCandidate);
@@ -155,7 +158,7 @@ export class AddRankingsComponent implements OnInit {
       this.validFile = true;
       this.rankingsFromFile = rankings;
     } else {
-      console.log("Invalid ranking set");
+      this.svc.displayToast("The file uploaded was invalid or incorrectly formatted.","Invalid File");
     }
   }
 
@@ -207,5 +210,11 @@ export class AddRankingsComponent implements OnInit {
 
   getFileType(fileName: string){
     return fileName.split('.').pop();
-  } 
+  }
+
+  // Toast messages
+  
+  displayToast() {
+    this.toastr.success("message", "title");
+  }
 }

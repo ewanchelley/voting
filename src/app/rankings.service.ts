@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from "rxjs";
 
 @Injectable({
@@ -6,7 +7,11 @@ import { Subject } from "rxjs";
 })
 export class RankingsService {
 
-  constructor() { }
+  toastr: ToastrService;
+
+  constructor(toastr: ToastrService) {
+    this.toastr = toastr;
+  }
 
   private candidates = ["A", "B", "C", "D"];
   private rankings = [
@@ -45,11 +50,29 @@ export class RankingsService {
     return this.candidates[index];
   }
 
-  isValidCandidate(candidate: string) {
-    let empty = candidate === "";
-    let alreadyExists = this.candidates.includes(candidate);
-    let containsComma = candidate.includes(",")
-    return !(empty || alreadyExists || containsComma)
+  isValidCandidate(candidate: string, toastIfInvalid: boolean = false) {
+    // Prevent empty candidate name
+    if (candidate === ""){
+      if (toastIfInvalid){
+        this.displayToast("Name of candidate cannot be blank.", "Blank Name");
+      }
+      return false;
+    }
+    // Prevent repeated candidate
+    if (this.candidates.includes(candidate)) {
+      if (toastIfInvalid) {
+        this.displayToast("Cannot add candidate as it already exists", "Already Exists");
+      }
+      return false;
+    }
+    // Prevent commas in name
+    if (candidate.includes(",")) {
+      if (toastIfInvalid) {
+        this.displayToast("Cannot add candidate with comma in name", "Includes Comma");
+      }
+      return false;
+    }
+    return true;
   }
 
   updateCandidateName(index: number, newName: string){
@@ -85,10 +108,13 @@ export class RankingsService {
     return this.rankings[index];
   }
 
-  isValidRanking(ranking: string[]): boolean {
+  isValidRanking(ranking: string[], toastIfInvalid: boolean = false): boolean {
     const sortedCandidates = this.sortStringArray(this.candidates.slice());
     const sortedRanking = this.sortStringArray(ranking.slice());
     let matchesCandidates = this.arrayEquals(sortedCandidates, sortedRanking);
+    if (!matchesCandidates && toastIfInvalid){
+      this.displayToast("The ranking was invalid so could not be added ","Invalid Ranking");
+    }
     return matchesCandidates;
   }
 
@@ -256,5 +282,10 @@ export class RankingsService {
     } else {
       return false;
     }
+  }
+
+  // Display toast error message
+  displayToast(msg: string, title: string){
+    this.toastr.error(msg, title);
   }
 }

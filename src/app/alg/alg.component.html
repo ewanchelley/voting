@@ -2,5 +2,12 @@
     <div class="me-auto p-2"><h1 class="display-3">{{ title }}</h1></div>
     <div class="p-2"><app-ranking-offcanvas></app-ranking-offcanvas></div>
 </div>
-
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/{{link}}">Run Algorithm</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/{{link}}/learn">Learn</a>
+    </li>
+</ul>
 <ng-content></ng-content>

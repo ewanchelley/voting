@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { SortablejsModule } from 'ngx-sortablejs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { BordaComponent } from './borda/borda.component';
@@ -20,6 +21,8 @@ import { RankingComponent } from './ranking/ranking.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TileComponent } from './tile/tile.component';
 import { InstantRunoffComponent } from './instant-runoff/instant-runoff.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BordaLearnComponent } from './borda-learn/borda-learn.component';
 
 
 @NgModule({
@@ -38,12 +41,14 @@ import { InstantRunoffComponent } from './instant-runoff/instant-runoff.componen
     RankingComponent,
     SidebarComponent,
     TileComponent,
-    InstantRunoffComponent
+    InstantRunoffComponent,
+    BordaLearnComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
       { path: 'kendall', component: KendallComponent},
+      { path: 'borda/learn', component: BordaLearnComponent },
       { path: 'borda', component: BordaComponent },
       { path: 'topological', component: TopologicalComponent },
       { path: 'plurality', component: PluralityComponent },
@@ -52,7 +57,12 @@ import { InstantRunoffComponent } from './instant-runoff/instant-runoff.componen
       { path: 'instant-runoff', component: InstantRunoffComponent },
     ]),
     SortablejsModule.forRoot({ animation: 150}),
-    FormsModule
+    FormsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      progressBar: true
+    }),
+    BrowserAnimationsModule
   ],
   providers: [ RankingsService],
   bootstrap: [AppComponent]

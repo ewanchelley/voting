@@ -1,0 +1,89 @@
+<app-alg title="Borda Count" link="borda">
+    <app-tile heading="Background">
+        The Borda Count is a voting system in which candidates gain points based on their position in each voters' ranking. 
+        The candidate that accumulates the most points when totalled across all rankings is the winner. 
+        The system intends to choose candidates that are acceptable to a broad number of people rather than to find one that is preferred by a majority.
+    </app-tile>
+    <app-tile heading="How It Works">
+        For each ranking, assign to each candidate a number of points equal to the number of candidates that are ranked lower.
+        For example, for the ranking <app-ranking rankingString="B, A, C"></app-ranking>, B would gain 2 points, A gains 1 and C gains 0 points.
+        These points are totalled across all rankings from voters to give a final score for each candidate.
+        The final ranking of candidates is determined by these totals, with the highest placing first and the lowest coming last.
+    </app-tile>
+    <app-tile heading="Example">
+        Given the candidates: <app-ranking rankingString="Joe"></app-ranking>, <app-ranking rankingString="Mary"></app-ranking> and <app-ranking rankingString="Tim"></app-ranking>,
+        <br>
+        and the 5 rankings:
+        <br>
+        <app-ranking rankingString="Joe, Tim, Mary"></app-ranking>
+        <br>
+        <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
+        <br>
+        <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
+        <br>
+        <app-ranking rankingString="Mary, Joe, Tim"></app-ranking>
+        <br>
+        <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
+        <br>
+        The following table can be constructed to tally the points earned by each candidate:
+        <br>
+        <table class="table table-striped" style="width: 50%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th scope="col">1st choice</th>
+                    <th scope="col">2nd choice</th>
+                    <th scope="col">3rd choice</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Joe</th>
+                    <td>1 (2 points)</td>
+                    <td>1 (1 points)</td>
+                    <td>3 (0 points)</td>
+                    <th>3</th>
+                </tr>
+                <tr>
+                    <th scope="row">Mary</th>
+                    <td>1 (2 points)</td>
+                    <td>3 (3 points)</td>
+                    <td>1 (0 points)</td>
+                    <th>5</th>
+                </tr>
+                <tr>
+                    <th scope="row">Tim</th>
+                    <td>3 (6 points)</td>
+                    <td>1 (1 points)</td>
+                    <td>1 (0 points)</td>
+                    <th>7</th>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <app-ranking rankingString="Tim"></app-ranking> 
+        was ranked first choice 3 times (worth 6 points), second choice 1 time (worth 1 point) and last choice 1 time (worth 0 points).
+        Therefore his total score is 7 points and he wins the election since this is higher than all other candidates.
+    </app-tile>
+
+    <app-tile heading="Evaluation">
+        <div style="background-color: #ed7b7b;">
+            <h4>Condorcet</h4>
+        </div>
+        <div style="background-color: #ed7b7b;">
+            <h4>Majority</h4>
+        </div>
+        <div style="background-color: #7bed9a;">
+            <h4>Monotonic</h4>
+        </div>
+        
+        The borda count is effective because ... however it is not a condorcet or majority system which means ...
+
+        <br>
+
+        The borda count is useful for .. type of elections however is susceptible to strategic voting because ...
+        
+
+    </app-tile>
+</app-alg>

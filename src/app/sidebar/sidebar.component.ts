@@ -10,7 +10,7 @@ export class SidebarComponent implements OnInit {
 
   svc: RankingsService;
 
-  links: string[][] = 
+  algLinks: string[][] = 
     [
       ["Kendall Distance", "kendall"],
       ["Borda Count", "borda"],
@@ -19,6 +19,11 @@ export class SidebarComponent implements OnInit {
       ["Plurality (First Past The Post)", "plurality"],
       ["Kemeny Consensus", "kemeny"],
       ["Popular Ranking", "popular"],
+    ]
+
+  criteriaLinks: string[][] =
+    [
+      ["Condorcet", "condorcet"],
     ]
 
   constructor(svc: RankingsService) {

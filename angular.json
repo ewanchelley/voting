@@ -28,7 +28,8 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/sass/main.scss"
+              "src/sass/main.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

@@ -25,7 +25,6 @@ export class KemenyComponent implements OnInit {
   ngOnInit(): void {
     this.reCalculate();
     //this.testAgainstBruteForce(7, 100, 20, true);
-    //this.testAgainstBruteForce(4, 10000, 50, true);
     this.svc.changesMade.subscribe(() => {
       this.reCalculate();
     });

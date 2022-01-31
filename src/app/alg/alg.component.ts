@@ -8,7 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class AlgComponent implements OnInit {
 
   @Input() title: string = "";
+  @Input() link: string = "";
 
+  showRun = false
   constructor() { }
 
   ngOnInit(): void {
