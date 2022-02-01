@@ -1,0 +1,36 @@
+<app-alg title="Plurality (First Past The Post)" link="plurality">
+
+    <app-tile heading="How It Works">
+        Only consider the first choice of each voter.
+        Simply count the number of votes received by each candidate and rank them from highest to lowest number of votes.
+    </app-tile>
+
+    <app-tile heading="Example">
+        Given the candidates: <hl>Smith</hl>, <hl>Jones</hl> and <hl>Wood</hl>,
+        and the 4 rankings:
+        <br><br>
+        <app-ranking rankingString="Smith, Jones, Wood"></app-ranking>
+        <br>
+        <app-ranking rankingString="Smith, Wood, Jones"></app-ranking>
+        <br>
+        <app-ranking rankingString="Jones, Smith, Wood"></app-ranking>
+        <br>
+        <app-ranking rankingString="Wood, Jones, Smith"></app-ranking>
+        <br><br>
+        The second and third choice of each voter can be ignored.
+        <hl>Smith</hl> wins since they have the most first-choice votes (2).
+    </app-tile>
+
+    <app-tile heading="Evaluation">
+        Plurality voting is a very simple and widely used system.
+        <br><br>
+        The system is very susceptible to tactical voting.
+        Voters are incentivised to vote for one of the two candidates most likely to win, even if this is not their preferred choice,
+        since votes for any other candidate are unlikely to have an impact on the outcome. 
+        <br><br>
+        Another disadvantage of the system is that multiple similar candidates are likely to split their distribution of the vote,
+        reducing the chance that any of them can win.
+
+    </app-tile>
+
+</app-alg>

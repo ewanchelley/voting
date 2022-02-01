@@ -1,0 +1,53 @@
+<div class="d-flex">
+    <div class="me-auto p-2">
+        <h1 class="display-3">How To Use</h1>
+    </div>
+</div>
+<div>
+    <app-tile heading="Candidates, Rankings and Voters">
+        In an election, there are multiple candidates. For example an election may have 3 candidates: 
+        <app-ranking rankingString="Adam"></app-ranking>, <app-ranking rankingString="Beth"></app-ranking> and <app-ranking
+            rankingString="Chris"></app-ranking>.
+        <br><br>
+        Each voter produces a ranking, which is their order of preference for the list of candidates.
+        For example, if a voter believed <app-ranking rankingString="Adam"></app-ranking> was the best candidate and
+        <app-ranking rankingString="Beth"></app-ranking> was the worst, their ranking would be <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>.
+    </app-tile>
+
+    <app-tile heading="Voting Aggregation">
+        Once all votes have been cast, there is a list of rankings.
+        For example, suppose 10 voters ranked the candidates introduced above.
+        The list of rankings produced may look like:
+        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>, 
+        <app-ranking rankingString="Chris, Beth, Adam"></app-ranking>,
+        <app-ranking rankingString="Beth, Adam, Chris"></app-ranking>,
+        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>,
+        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>,
+        <app-ranking rankingString="Beth, Adam, Chris"></app-ranking>,
+        <app-ranking rankingString="Chris, Adam, Beth"></app-ranking>,
+        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>,
+        <app-ranking rankingString="Chris, Adam, Beth"></app-ranking>,
+        <app-ranking rankingString="Beth, Chris, Adam"></app-ranking>
+        <br><br>
+        So who won the election?
+        <br><br>
+        The challenge now is to determine the order of the candidates in the final standings, which should reflect the preferences of the voters as a whole.
+        This may seem trivial at first, but there are many different algorithms used to accomplish this, each having advantages and disadvantages.
+
+    </app-tile>
+
+    <app-tile heading="Using this Application">
+        This application allows the user to input their own set of rankings and candidates 
+        to compare how different preference aggregation algorithms would determine the winner of the election and the final standings.
+        <br><br>
+        Begin by editing the candidates and list of rankings by XXXX.
+        Rankings are input as a comma separated list containing each of the candidates names.
+        The candidates and rankings can also be imported from a txt file or generated randomly.
+        <br><br>
+        Once the candidates and rankings have been input, select an algorithm from the sidebar to run.
+
+
+    </app-tile>
+</div>
+    
+

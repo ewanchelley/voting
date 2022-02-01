@@ -20,7 +20,7 @@
   border-radius: 0;
 }
 
-.btn-toggle {
+.btn-toggle, .btn-sidebar {
   display: inline-flex;
   align-items: center;
   padding: .25rem .5rem;
@@ -30,7 +30,10 @@
   border: 0;
 }
 .btn-toggle:hover,
-.btn-toggle:focus {
+.btn-toggle:focus,
+.btn-sidebar:hover,
+.btn-sidebar:focus
+ {
   color: rgba(0, 0, 0, .85);
   background-color: #d2f4ea;
 }

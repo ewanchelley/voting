@@ -1,20 +1,17 @@
 <app-alg title="Borda Count" link="borda">
-    <app-tile heading="Background">
-        The Borda Count is a voting system in which candidates gain points based on their position in each voters' ranking. 
-        The candidate that accumulates the most points when totalled across all rankings is the winner. 
-        The system intends to choose candidates that are acceptable to a broad number of people rather than to find one that is preferred by a majority.
-    </app-tile>
+
     <app-tile heading="How It Works">
         For each ranking, assign to each candidate a number of points equal to the number of candidates that are ranked lower.
-        For example, for the ranking <app-ranking rankingString="B, A, C"></app-ranking>, B would gain 2 points, A gains 1 and C gains 0 points.
+        For example, for the ranking <app-ranking rankingString="B, A, C"></app-ranking>, 
+        <app-ranking rankingString="B"></app-ranking> would gain 2 points, <app-ranking rankingString="A"></app-ranking> gains 1 and <app-ranking rankingString="C"></app-ranking> gains 0 points.
         These points are totalled across all rankings from voters to give a final score for each candidate.
         The final ranking of candidates is determined by these totals, with the highest placing first and the lowest coming last.
     </app-tile>
+
     <app-tile heading="Example">
         Given the candidates: <app-ranking rankingString="Joe"></app-ranking>, <app-ranking rankingString="Mary"></app-ranking> and <app-ranking rankingString="Tim"></app-ranking>,
-        <br>
         and the 5 rankings:
-        <br>
+        <br><br>
         <app-ranking rankingString="Joe, Tim, Mary"></app-ranking>
         <br>
         <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
@@ -24,7 +21,7 @@
         <app-ranking rankingString="Mary, Joe, Tim"></app-ranking>
         <br>
         <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
-        <br>
+        <br><br>
         The following table can be constructed to tally the points earned by each candidate:
         <br>
         <table class="table table-striped" style="width: 50%">
@@ -68,21 +65,19 @@
     </app-tile>
 
     <app-tile heading="Evaluation">
-        <div style="background-color: #ed7b7b;">
-            <h4>Condorcet</h4>
-        </div>
-        <div style="background-color: #ed7b7b;">
-            <h4>Majority</h4>
-        </div>
-        <div style="background-color: #7bed9a;">
-            <h4>Monotonic</h4>
-        </div>
-        
-        The borda count is effective because ... however it is not a condorcet or majority system which means ...
+        The borda count method is simple to implement and intends to choose candidates that are
+        acceptable to a broad number of people rather than to find one that is preferred by a majority.
 
-        <br>
+        <br><br>
+        The system violates the majority constraint
+        as it is possible for a candidate to receive a majority of the first place votes and still not win the election.
 
-        The borda count is useful for .. type of elections however is susceptible to strategic voting because ...
+        <br><br>
+
+        The Borda method is also highly susceptible to strategic voting.
+        If voters intentionally rank their biggest competitors low on their preference list they can have a greater impact on the result than if they rank their preferences truthfully.
+        In fact, if all voters vote strategically, the final result is very unlikely to reflect the true preferences of the voters.
+        The Borda count also favours a candidate that runs alongside many similar candidates.
         
 
     </app-tile>

@@ -4,6 +4,17 @@
     </a>
     <ul class="list-unstyled ps-0">
         <li class="mb-1">
+            <div class="p-2">
+                <app-ranking-offcanvas></app-ranking-offcanvas>
+            </div>
+        </li>
+        <hr>
+        <li class="mb-1">
+            <button class="btn btn-sidebar align-items-center rounded collapsed" routerLinkActive="active" routerLink="/how-to-use">
+                How To Use
+            </button>
+        </li>
+        <li class="mb-1">
             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
                 data-bs-target="#algs-collapse" aria-expanded="true">
                 Algorithms
@@ -14,19 +25,6 @@
                         <a routerLinkActive="active" routerLink="/{{link[1]}}" class="link-dark rounded" [ngClass]="{'warn': this.svc.isDangerous(link[1])}">
                             {{link[0]}}
                             <i class="bi bi-exclamation-circle-fill warn icon" *ngIf="this.svc.isDangerous(link[1])"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
-                data-bs-target="#criteria-collapse" aria-expanded="true">
-                Voting Criteria
-            </button>
-            <div class="collapse show" id="criteria-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li *ngFor="let link of criteriaLinks">
-                        <a routerLinkActive="active" routerLink="/{{link[1]}}" class="link-dark rounded">
-                            {{link[0]}}
                         </a>
                     </li>
                 </ul>

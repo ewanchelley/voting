@@ -23,6 +23,14 @@ import { TileComponent } from './tile/tile.component';
 import { InstantRunoffComponent } from './instant-runoff/instant-runoff.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BordaLearnComponent } from './borda-learn/borda-learn.component';
+import { InstantRunoffLearnComponent } from './instant-runoff-learn/instant-runoff-learn.component';
+import { TopologicalLearnComponent } from './topological-learn/topological-learn.component';
+import { KemenyLearnComponent } from './kemeny-learn/kemeny-learn.component';
+import { KendallLearnComponent } from './kendall-learn/kendall-learn.component';
+import { PluralityLearnComponent } from './plurality-learn/plurality-learn.component';
+import { PopularLearnComponent } from './popular-learn/popular-learn.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
+import { HighlightComponent } from './highlight/highlight.component';
 
 
 @NgModule({
@@ -42,18 +50,32 @@ import { BordaLearnComponent } from './borda-learn/borda-learn.component';
     SidebarComponent,
     TileComponent,
     InstantRunoffComponent,
-    BordaLearnComponent
+    BordaLearnComponent,
+    InstantRunoffLearnComponent,
+    TopologicalLearnComponent,
+    KemenyLearnComponent,
+    KendallLearnComponent,
+    PluralityLearnComponent,
+    PopularLearnComponent,
+    TutorialComponent,
+    HighlightComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
+      { path: 'how-to-use', component: TutorialComponent },
       { path: 'kendall', component: KendallComponent},
       { path: 'borda/learn', component: BordaLearnComponent },
       { path: 'borda', component: BordaComponent },
+      { path: 'topological/learn', component: TopologicalLearnComponent },
       { path: 'topological', component: TopologicalComponent },
+      { path: 'plurality/learn', component: PluralityLearnComponent },
       { path: 'plurality', component: PluralityComponent },
+      { path: 'kemeny/learn', component: KemenyLearnComponent },
       { path: 'kemeny', component: KemenyComponent },
+      { path: 'popular/learn', component: PopularLearnComponent },
       { path: 'popular', component: PopularComponent },
+      { path: 'instant-runoff/learn', component: InstantRunoffLearnComponent },
       { path: 'instant-runoff', component: InstantRunoffComponent },
     ]),
     SortablejsModule.forRoot({ animation: 150}),

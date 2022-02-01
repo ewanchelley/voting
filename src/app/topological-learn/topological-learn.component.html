@@ -1,0 +1,45 @@
+<app-alg title="Topological Ordering" link="topological">
+
+    <app-tile heading="How It Works">
+        Construct the majority graph for the rankings.
+        In the graph, each candidate is represented by a vertex, 
+        and a directed edge is drawn between vertices if one candidate is preferred over the other by the majority of voters.
+        A topological ordering of the graph is an ordering of the vertices (candidates),
+        such that for every edge in the graph from candidate <hl>A</hl> to candidate <hl>B</hl>, <hl>A</hl> comes before <hl>B</hl> in the order.
+        There may be multiple possible topological orderings or none.
+    </app-tile>
+
+    <app-tile heading="Example">
+        Given the candidates: <hl>Square</hl>, <hl>Circle</hl> and <hl>Triangle</hl>,
+        and the 4 rankings:
+        <br><br>
+        <app-ranking rankingString="Square, Circle, Triangle"></app-ranking>
+        <br>
+        <app-ranking rankingString="Square, Triangle, Circle"></app-ranking>
+        <br>
+        <app-ranking rankingString="Square, Triangle, Circle"></app-ranking>
+        <br>
+        <app-ranking rankingString="Circle, Triangle, Square"></app-ranking>
+        <br><br>
+        The majority graph can be constructed:
+        <br><br>
+        <img src="assets/images/topological-example.png" alt="Topological Example" style="width: 40%;">
+        <br><br>
+        There is an edge from <hl>Square</hl> to <hl>Circle</hl> since <hl>Square</hl> comes before <hl>Circle</hl> in the majority of the rankings
+        and similarly there is an edge from <hl>Square</hl> to <hl>Triangle</hl>.
+        There is no edge between <hl>Circle</hl> and <hl>Triangle</hl> since half of the voters prefer <hl>Circle</hl> and half prefer <hl>Triangle</hl>. 
+        <br><br>
+        The edges determine that <hl>Square</hl> comes before <hl>Circle</hl> and that <hl>Square</hl> comes before <hl>Triangle</hl> in a topological ordering.
+        Therefore there are two possible topological orderings:
+        <br>
+        <app-ranking rankingString="Square, Circle, Triangle"></app-ranking> or <app-ranking rankingString="Square, Triangle, Circle"></app-ranking>
+
+    </app-tile>
+
+    <app-tile heading="Evaluation">
+        Topological ordering is a useful concept in computing science and graph theory,
+        however is not practical as an algorithm to determine the result of real-world elections. 
+        For certain sets of candidates and rankings, multiple colutions will exist and sometimes no solution exists.
+    </app-tile>
+
+</app-alg>
