@@ -1,15 +1,119 @@
 <app-alg title="Kemeny Consensus" link="kemeny">
 
-    <app-tile heading="Background">
-    </app-tile>
-
     <app-tile heading="How It Works">
+        For a proposed ranking of candidates, the Kemeny score can be calculated by 
+        taking the sum of the Kendall distances to each voters ranking list.
+        The ranking with minimum Kemeny score is the Kemeny Consensus.
     </app-tile>
 
     <app-tile heading="Example">
+        Given the candidates: <hl>A</hl>, <hl>B</hl> and <hl>C</hl>
+        and the 4 rankings:
+        <br><br>
+        V1: <app-ranking rankingString="B, A, C"></app-ranking>
+        <br>
+        V2: <app-ranking rankingString="B, C, A"></app-ranking>
+        <br>
+        V3: <app-ranking rankingString="B, A, C"></app-ranking>
+        <br>
+        V4: <app-ranking rankingString="A, C, B"></app-ranking>
+        <br><br>
+        Consider the ranking <app-ranking rankingString="B, A, C"></app-ranking>,
+        <br><br>
+        Calculate the Kendall distance from this ranking to each of the voters rankings:
+        <br><br>
+        D1 = 0, D2 = 1, D3 = 0, D4 = 2
+        <br><br>
+        Therefore the Kemeny score for <app-ranking rankingString="B, A, C"></app-ranking> is D1 + D2 + D3 + D4 = 3.
+        <br><br>
+        Calculating the Kemeny score for every possible permutation of the candidates would give the following results:
+        <br><br>
+        <table class="table table-striped" style="width: 50%">
+            <thead>
+                <tr>
+                    <th>Permutation</th>
+                    <th>D1</th>
+                    <th>D2</th>
+                    <th>D3</th>
+                    <th>D4</th>
+                    <th scope="col">Kemeny Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><app-ranking rankingString="A, B, C"></app-ranking></th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>1</th>
+                    <th>1</th>
+                    <th>5</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <app-ranking rankingString="A, C, B"></app-ranking>
+                    </th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>2</th>
+                    <th>0</th>
+                    <th>7</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <app-ranking rankingString="B, A, C"></app-ranking>
+                    </th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>0</th>
+                    <th>2</th>
+                    <th>3</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <app-ranking rankingString="B, C, A"></app-ranking>
+                    </th>
+                    <th>1</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>3</th>
+                    <th>5</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <app-ranking rankingString="C, A, B"></app-ranking>
+                    </th>
+                    <th>3</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>1</th>
+                    <th>9</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <app-ranking rankingString="C, B, A"></app-ranking>
+                    </th>
+                    <th>2</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>2</th>
+                    <th>7</th>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        Therefore <app-ranking rankingString="B, A, C"></app-ranking> is the Kemeny Consensus since it minimises the Kemeny score.
     </app-tile>
 
     <app-tile heading="Evaluation">
+        The Kemeny Consensus method meets many of the desirable criteria for a voting method that other methods do not.
+        The method guarantees that if a candidate is preferred by the majority in a head to head against each of the other candidates, then that candidate must win (Condorcet criterion).
+        It also guarantees that if a candidate is ranked first by the majority of candidates, it will win (Majority criterion).
+        <br><br>
+        The main disadvantage of the method is that there is no algorithm that can find a solution in polynomial time.
+        On a small numbers of candidates, a solution can usually be found in reasonable time, 
+        however the number of permutations that need to be considered is C! where C is the number of candidates,
+        meaning that for a large number of candidates a solution cannot be found easily.
+
     </app-tile>
 
 </app-alg>

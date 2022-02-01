@@ -118,7 +118,7 @@ export class RankingsService {
     return matchesCandidates;
   }
 
-  // For file upload
+  // For file upload/download
 
   validRankingSet(rankings: string[][]): boolean {
     if (rankings.length < 1) {
@@ -131,6 +131,13 @@ export class RankingsService {
       }
     }
     return true;
+  }
+
+  constructFile(): Blob {
+    let rankingStrings: string[]= [];
+    this.rankings.forEach(r => (rankingStrings.push(this.convertToString(r))));
+    let multilineString = rankingStrings.join("\n");
+    return new Blob([multilineString], { type: '.txt' });
   }
 
   constructRankings(rankings: string[][]) {

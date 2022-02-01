@@ -61,6 +61,8 @@ export class AddRankingsComponent implements OnInit {
   }
 
   addValidRanking(ranking: string[]){
+    console.log("new ranking")
+    console.log(ranking)
     this.svc.pushRanking(ranking);
     this.rankingStrings.push(this.svc.convertToString(ranking));
     this.newRanking = "";
@@ -101,9 +103,8 @@ export class AddRankingsComponent implements OnInit {
   }
 
   updateRankingStrings() {
-    for (let i in this.rankings) {
-      this.rankingStrings[i] = this.svc.convertToString(this.rankings[i]);
-    }
+    this.rankingStrings = []
+    this.rankings.forEach(r => (this.rankingStrings.push(this.svc.convertToString(r))));
   }
 
   removeCandidate(index: number){
@@ -160,6 +161,20 @@ export class AddRankingsComponent implements OnInit {
     } else {
       this.svc.displayToast("The file uploaded was invalid or incorrectly formatted.","Invalid File");
     }
+  }
+
+  downloadRankings() {
+    let file = this.svc.constructFile();
+    let a = document.createElement("a");
+    let url = URL.createObjectURL(file);
+    a.href = url;
+    a.download = "voters-rankings";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 0);
   }
 
   constructRankings(rankings: string[][]){

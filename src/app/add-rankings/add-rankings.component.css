@@ -45,7 +45,10 @@
 
 .apply-file-btn {
     padding: 5px;
-    margin: 10px 0px;
+}
+
+.file-input {
+    margin-bottom: 5px;
 }
 
 .remove-ranking-btn {

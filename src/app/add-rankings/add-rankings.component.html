@@ -3,10 +3,16 @@
         <!--Left Column-->
         <div class="col-3">
             <!--File Upload-->
-            <app-tile heading="File Upload">
-                <label for="formFile" class="form-label">Upload Rankings Data</label>
-                <input class="form-control" type="file" id="formFile" accept=".txt" (change)="handleFileInput()">
+            <app-tile heading="Import/Export">
+                <label for="formFile" class="form-label">Import rankings from file</label>
+                <input class="form-control file-input" type="file" id="formFile" accept=".txt" (change)="handleFileInput()">
                 <button *ngIf="validFile" class="btn btn-secondary apply-file-btn" (click)="constructRankings(this.rankingsFromFile)">Use rankings from file</button>
+                <hr>
+                <label class="form-label">Export rankings to file</label>
+                <button class="btn btn-secondary apply-file-btn" (click)="downloadRankings()">Download</button>
+                <a href="assets/images/topological-example.png" download>
+                    
+                </a>
             </app-tile>
             <!--Random Input-->
             <app-tile heading="Randomise">
