@@ -106,14 +106,16 @@
 
     <app-tile heading="Evaluation">
         The Kemeny Consensus method meets many of the desirable criteria for a voting method that other methods do not.
-        The method guarantees that if a candidate is preferred by the majority in a head to head against each of the other candidates, then that candidate must win (Condorcet criterion).
-        It also guarantees that if a candidate is ranked first by the majority of candidates, it will win (Majority criterion).
+        The method guarantees that if a candidate is preferred by the majority in a head to head against each of the other candidates, then that candidate must win (<lnk link="https://en.wikipedia.org/wiki/Condorcet_winner_criterion">Condorcet criterion</lnk>).
+        It also guarantees that if a candidate is ranked first by the majority of candidates, it will win (<lnk link="https://en.wikipedia.org/wiki/Majority_criterion">Majority criterion</lnk>).
         <br><br>
-        The main disadvantage of the method is that there is no algorithm that can find a solution in polynomial time.
+        The main disadvantage of the method is that there is no algorithm that can find a solution in <lnk link="https://en.wikipedia.org/wiki/Time_complexity#Polynomial_time">polynomial time</lnk>.
         On a small numbers of candidates, a solution can usually be found in reasonable time, 
         however the number of permutations that need to be considered is C! where C is the number of candidates,
         meaning that for a large number of candidates a solution cannot be found easily.
-
+        <br><br>
+        
+        Click <lnk link="https://en.wikipedia.org/wiki/Kemeny%E2%80%93Young_method">here</lnk> for more information about Kemeny Consensus.
     </app-tile>
 
 </app-alg>

@@ -31,6 +31,7 @@ import { PluralityLearnComponent } from './plurality-learn/plurality-learn.compo
 import { PopularLearnComponent } from './popular-learn/popular-learn.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { HighlightComponent } from './highlight/highlight.component';
+import { ExternalLinkComponent } from './external-link/external-link.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { HighlightComponent } from './highlight/highlight.component';
     PluralityLearnComponent,
     PopularLearnComponent,
     TutorialComponent,
-    HighlightComponent
+    HighlightComponent,
+    ExternalLinkComponent
   ],
   imports: [
     BrowserModule,
