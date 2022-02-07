@@ -66,6 +66,7 @@ import { ExternalLinkComponent } from './external-link/external-link.component';
     BrowserModule,
     RouterModule.forRoot([
       { path: 'how-to-use', component: TutorialComponent },
+      { path: 'kendall/learn', component: KendallLearnComponent },
       { path: 'kendall', component: KendallComponent},
       { path: 'borda/learn', component: BordaLearnComponent },
       { path: 'borda', component: BordaComponent },

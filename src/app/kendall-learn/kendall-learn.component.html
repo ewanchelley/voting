@@ -1,1 +1,97 @@
-<p>kendall-learn works!</p>
+<app-alg title="Kendall Distance" link="kendall">
+
+    <app-tile heading="What is Kendall Distance?">
+        The Kendall distance is a measure of similarity between two rankings.
+        The distance is 0 if the rankings are identical, and the higher the value, the more dissimilar the rankings are.
+        <br><br>
+        Kendall distance is used in some voting aggregation algorithms (i.e. Kemeny Consensus), 
+        which aim to find a final ranking with minimal Kendall distance to each voters ranking.
+        <br><br>
+        Click <lnk link="https://en.wikipedia.org/wiki/Kendall_tau_distance">here</lnk> for more information about Kendall distance.
+    </app-tile>
+
+    <app-tile heading="How It Works">
+        The Kendall distance is the number of pairwise disagreements between two rankings. 
+        <br><br>
+        That is, for each pair of candidates, count 1 if the candidates are not in the same order in the 2 rankings.
+        The total after counting each of these disagreements is the Kendall distance.
+        <br><br>
+        The Kendall distance is sometimes called the bubble sort distance,
+        since it the number of swaps that the <lnk link="https://en.wikipedia.org/wiki/Bubble_sort">bubble sort</lnk> algorithm would make to convert one of the ranking lists to the other.
+    </app-tile>
+
+    <app-tile heading="Example">
+        Given the candidates: <hl>A</hl>, <hl>B</hl>, <hl>C</hl> and <hl>D</hl>
+        and the 2 rankings:
+        <br><br>
+        R1: <app-ranking rankingString="A,D,C,B"></app-ranking>
+        <br>
+        R2: <app-ranking rankingString="B,A,C,D"></app-ranking>
+        <br><br>
+        For each pair of candidates, count 1 if there is disagreement about the order of the candidates between the two rankings.
+        <br><br>
+        For example, consider the candidates <hl>A</hl> and <hl>B</hl>. 
+        <hl>A</hl> comes before <hl>B</hl> in the first ranking,
+        but <hl>B</hl> comes before <hl>A</hl> in the second ranking, so count 1 since there is disagreement.
+        <br><br>
+
+        <table class="table table-striped" style="width: 50%">
+            <thead>
+                <tr>
+                    <th scope="col">Pair</th>
+                    <th scope="col">Order in R1</th>
+                    <th scope="col">Order in R2</th>
+                    <th scope="col">Agreement</th>
+                    <th scope="col">Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><hl>A,B</hl></th>
+                    <td><hl>A</hl> before <hl>B</hl></td>
+                    <td><hl>B</hl> before <hl>A</hl></td>
+                    <td>No</td>
+                    <th>1</th>
+                </tr>
+                <tr>
+                    <th scope="row"><hl>A,C</hl></th>
+                    <td><hl>A</hl> before <hl>C</hl></td>
+                    <td><hl>A</hl> before <hl>C</hl></td>
+                    <td>Yes</td>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th scope="row"><hl>A,D</hl></th>
+                    <td><hl>A</hl> before <hl>D</hl></td>
+                    <td><hl>A</hl> before <hl>D</hl></td>
+                    <td>Yes</td>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th scope="row"><hl>B,C</hl></th>
+                    <td><hl>C</hl> before <hl>B</hl></td>
+                    <td><hl>B</hl> before <hl>C</hl></td>
+                    <td>No</td>
+                    <th>1</th>
+                </tr>
+                <tr>
+                    <th scope="row"><hl>B,D</hl></th>
+                    <td><hl>D</hl> before <hl>B</hl></td>
+                    <td><hl>B</hl> before <hl>D</hl></td>
+                    <td>No</td>
+                    <th>1</th>
+                </tr>
+                <tr>
+                    <th scope="row"><hl>C,D</hl></th>
+                    <td><hl>D</hl> before <hl>C</hl></td>
+                    <td><hl>C</hl> before <hl>D</hl></td>
+                    <td>No</td>
+                    <th>1</th>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        The Kendall distance between the rankings is 4, since there are 4 pairwise disagreements.
+    </app-tile>
+
+</app-alg>

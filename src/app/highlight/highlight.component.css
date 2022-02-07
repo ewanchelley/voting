@@ -1,10 +1,38 @@
 .highlight {
     font-size: large;
     font-weight: bold;
-    background-color: #E7E7E7;
     padding: 2px 5px;
     border-radius: 5px;
     width: max-content;
     display: inline-block;
     margin: 1px;
+}
+
+.grey {
+    background-color: #E7E7E7;
+}
+
+.red {
+    background-color: #ff9999;
+}
+
+.green {
+    background-color: #beff99;
+}
+
+.blue {
+    background-color: #99c2ff;
+}
+
+.yellow {
+    background-color: #ffe499;
+}
+
+.purple {
+    background-color: #fc99ff;
+}
+
+.kendallWidth {
+    min-width: 120px;
+    max-width: 170px;
 }

@@ -8,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class KendallComponent implements OnInit {
 
-  ranking1 = ["Candidate A", "Candidate B", "Candidate C", "Candidate D","Candidate E"];
-  ranking2 = ["Candidate C", "Candidate E", "Candidate A", "Candidate D","Candidate B"];
+  candidates = ["Candidate A", "B", "Candidate C", "Candidate D", "Candidate E"];
+  ranking1 = ["Candidate A", "B", "Candidate C", "Candidate D","Candidate E"];
+  ranking2 = ["Candidate C", "Candidate E", "Candidate A", "Candidate D","B"];
   newCandidate = "";
+  indexes = [1,2,3,4,5]
+
+  colors = []
 
   constructor() { }
 
@@ -68,6 +72,15 @@ export class KendallComponent implements OnInit {
 
       return 0;
     });
+  }
+
+  getColorByName(s: string): string {
+    let colors = ["red", "green", "blue", "yellow", "purple"]
+    let pos = this.candidates.indexOf(s);
+    if (pos == undefined){
+      return "grey";
+    }
+    return colors[pos % colors.length];
   }
 
 }

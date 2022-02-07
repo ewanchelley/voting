@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'hl',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./highlight.component.css']
 })
 export class HighlightComponent implements OnInit {
+
+  @Input() bg: string = "grey";
+  @Input() kendallWidth: boolean = false;
 
   constructor() { }
 

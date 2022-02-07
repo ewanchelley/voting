@@ -1,3 +1,12 @@
-<div class="highlight">
+<div class="highlight" 
+[ngClass]="{
+    'grey': bg === 'grey',
+    'red': bg === 'red',
+    'green': bg === 'green',
+    'blue': bg === 'blue',
+    'yellow': bg === 'yellow',
+    'purple': bg === 'purple',
+    'kendallWidth': kendallWidth
+}">
     <ng-content></ng-content>
 </div>
