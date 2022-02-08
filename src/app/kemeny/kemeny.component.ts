@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Console } from 'console';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { RankingsService } from '../rankings.service';
@@ -11,6 +12,7 @@ import { RankingsService } from '../rankings.service';
 export class KemenyComponent implements OnInit {
 
   svc: RankingsService;
+  router: Router;
 
   candidates: string[] = [];
   rankings: string[][] = [];
@@ -18,8 +20,9 @@ export class KemenyComponent implements OnInit {
   kemenyConsensus: string[] = [];
   kemenyScore: number = 0;
 
-  constructor(svc: RankingsService) {
+  constructor(svc: RankingsService, router: Router) {
     this.svc = svc;
+    this.router = router
   }
 
   ngOnInit(): void {
@@ -143,7 +146,7 @@ export class KemenyComponent implements OnInit {
     for (let p of permutations){
       let distance = 0;
       for (let ranking of rankings){
-        distance += this.kendall(p, ranking);
+        distance += this.svc.kendall(p, ranking);
       }
       if (distance < min){
         min = distance;
@@ -151,28 +154,6 @@ export class KemenyComponent implements OnInit {
       }
     }
     return [best, min];
-  }
-
-  
-
-  kendall(r1: string[], r2: string[]): number {
-    length = r1.length;
-    let i, j, v = 0;
-    let a: boolean, b: boolean;
-
-    for (i = 0; i < length; i++) {
-      for (j = i + 1; j < length; j++) {
-        let n1 = r1[i];
-        let n2 = r1[j];
-        a = r1.indexOf(n1) < r1.indexOf(n2) && r2.indexOf(n1) > r2.indexOf(n2);
-        b = r1.indexOf(n1) > r1.indexOf(n2) && r2.indexOf(n1) < r2.indexOf(n2);
-
-        if (a || b) {
-          v++;
-        }
-      }
-    }
-    return v;
   }
 
   // randomly generates candidates and rankings then compares brute force solution to integer programming 
@@ -225,6 +206,12 @@ export class KemenyComponent implements OnInit {
   }
 
   
+  viewKendall(i: number){
+    let kendallRankings: string[][] = [this.kemenyConsensus, this.rankings[i]];
+    this.svc.setKendallRankings(kendallRankings);
+    this.router.navigate(['/kendall'])
+
+  }
 
   round(i: number) {
     return Math.round(i);

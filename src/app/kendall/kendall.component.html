@@ -8,8 +8,8 @@
                     <div class="col-6 ranking-area">
                         <div class="row justify-content-center">
                             <h4>Ranking 1</h4>
-                            <div [sortablejs]="ranking1" class="list-group col-xs-6">
-                                <div *ngFor="let item of ranking1" class="kendall-option btn btn-light">
+                            <div [sortablejs]="rankings[0]" class="list-group col-xs-6">
+                                <div *ngFor="let item of rankings[0]" class="kendall-option btn btn-light">
                                     <hl [bg]="getColorByName(item)" [kendallWidth]="true" >{{ item }}</hl>
                                 </div>
                             </div>
@@ -19,8 +19,8 @@
                     <div class="col-6 ranking-area">
                         <div class="row justify-content-center">
                             <h4>Ranking 2</h4>
-                            <div [sortablejs]="ranking2" class="list-group col-xs-6">
-                                <div *ngFor="let item of ranking2" class="kendall-option btn btn-light">
+                            <div [sortablejs]="rankings[1]" class="list-group col-xs-6">
+                                <div *ngFor="let item of rankings[1]" class="kendall-option btn btn-light">
                                     <hl [bg]="getColorByName(item)" [kendallWidth]="true">{{ item }}</hl>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
         
         <div class="col-6">
             <app-tile heading="Kendall Distance">
-                Kendall distance: {{ kendall(ranking1, ranking2) }}
+                Kendall distance: {{ kendall() }}
             </app-tile>
         </div>
     </div>

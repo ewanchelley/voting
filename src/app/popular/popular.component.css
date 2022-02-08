@@ -37,3 +37,8 @@
     font-size: larger;
     font-weight: medium;
 }
+
+.quick-add-btn {
+    padding: 0px 10px;
+    margin: 15px 10px 5px;
+}

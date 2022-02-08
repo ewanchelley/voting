@@ -21,8 +21,16 @@ export class RankingsService {
   ["D", "B", "C", "A"],
   ["A", "B", "C", "D"]];
 
+  private kendallRankings = [
+    ["A", "B", "C", "D"],
+    ["B", "A", "C", "D"]];
+
   changesMade = new Subject<void>();
 
+  onChangesMade() {
+    this.kendallRankings = this.rankings.slice(0, 2);
+    this.changesMade.next();
+  }
 
   // Candidate methods
 
@@ -36,14 +44,14 @@ export class RankingsService {
 
   addCandidateToAllRankings(candidate: string) {
     this.rankings.forEach(r => (r.push(candidate)));
-    this.changesMade.next();
+    this.onChangesMade()
   }
 
   deleteCandidate(index: number) {
     let candidate = this.candidates[index];
     this.candidates.splice(index, 1);
     this.rankings.forEach(r => (r.splice(r.indexOf(candidate), 1)));
-    this.changesMade.next();
+    this.onChangesMade()
   }
 
   getCandidate(index: number){
@@ -79,7 +87,7 @@ export class RankingsService {
     let oldName = this.candidates[index];
     this.rankings.forEach(r => (r[r.indexOf(oldName)] = newName));
     this.candidates[index] = newName;
-    this.changesMade.next();
+    this.onChangesMade()
   }
 
 
@@ -88,20 +96,28 @@ export class RankingsService {
     return this.rankings;
   }
 
+  getKendallRankings(): string[][] {
+    return this.kendallRankings;
+  }
+
+  setKendallRankings(rankings: string[][]) {
+    this.kendallRankings = rankings;
+  }
+
   pushRanking(ranking: string[]){
     this.rankings.push(ranking);
     console.log(this.rankings);
-    this.changesMade.next();
+    this.onChangesMade()
   }
 
   editRanking(index: number, ranking: string[]){
     this.rankings[index] = ranking;
-    this.changesMade.next();
+    this.onChangesMade()
   }
 
   deleteRanking(index: number) {
     this.rankings.splice(index, 1);
-    this.changesMade.next();
+    this.onChangesMade()
   }
 
   getRanking(index: number): string[]{
@@ -118,6 +134,29 @@ export class RankingsService {
     return matchesCandidates;
   }
 
+  // Algorithms
+
+  kendall(r1: string[], r2: string[]): number {
+    length = r1.length;
+    let i, j, v = 0;
+    let a: boolean, b: boolean;
+
+    for (i = 0; i < length; i++) {
+      for (j = i + 1; j < length; j++) {
+        let n1 = r1[i];
+        let n2 = r1[j];
+        a = r1.indexOf(n1) < r1.indexOf(n2) && r2.indexOf(n1) > r2.indexOf(n2);
+        b = r1.indexOf(n1) > r1.indexOf(n2) && r2.indexOf(n1) < r2.indexOf(n2);
+
+        if (a || b) {
+          v++;
+        }
+      }
+    }
+    return v;
+  }
+
+
   // For file upload/download
 
   validRankingSet(rankings: string[][]): boolean {
@@ -127,6 +166,9 @@ export class RankingsService {
     let candidates = this.sortStringArray(rankings[0]);
     for (let ranking of rankings){
       if (!this.arrayEquals(this.sortStringArray(ranking), candidates)){
+        console.log(candidates);
+        console.log(ranking)
+        console.log("failed here")
         return false;
       }
     }
@@ -143,7 +185,7 @@ export class RankingsService {
   constructRankings(rankings: string[][]) {
     this.candidates = this.sortStringArray(rankings[0]);
     this.rankings = this.deepCopy(rankings);
-    this.changesMade.next();
+    this.onChangesMade()
   }
 
 

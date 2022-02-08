@@ -23,11 +23,13 @@ export class PopularComponent implements OnInit {
 
   bestAltStrongly: string[] = [];
   bestAltTextStrongly: string = "";
+
   // these cannot be below 0 since IP model can find the same ranking as R0
   bestScoreStrongly: number = 0;
   bestPPStrongly: number = 0;
   bestPNStrongly: number = 0;
 
+  useBruteForce = true;
 
   constructor(svc: RankingsService) {
     this.svc = svc;
@@ -36,6 +38,12 @@ export class PopularComponent implements OnInit {
   ngOnInit(): void {
     this.proposed = [];
     this.proposedString = "";
+    this.rankings = this.svc.getRankings();
+    this.candidates = this.svc.getCandidates();
+    this.svc.changesMade.subscribe(() => {
+      this.rankings = this.svc.getRankings();
+      this.candidates = this.svc.getCandidates();
+    });
     //this.testAgainstBruteForce(5, 6, 5, true);
   }
 
@@ -46,9 +54,15 @@ export class PopularComponent implements OnInit {
   reCalculate() {
     this.rankings = this.svc.getRankings();
     this.candidates = this.svc.getCandidates();
-    [this.bestAltWeakly, this.bestScoreWeakly] = this.weakly(this.candidates, this.rankings, this.proposed);
+    if (this.useBruteForce) {
+      [this.bestAltWeakly, this.bestScoreWeakly, this.bestAltStrongly, this.bestScoreStrongly, this.bestPPStrongly, this.bestPNStrongly] 
+      = this.popularBruteForce(this.candidates, this.rankings, this.proposed);
+    } else {
+      [this.bestAltWeakly, this.bestScoreWeakly] = this.weakly(this.candidates, this.rankings, this.proposed);
+      [this.bestAltStrongly, this.bestScoreStrongly, this.bestPPStrongly, this.bestPNStrongly] 
+      = this.strongly(this.candidates, this.rankings, this.proposed, true);
+    }
     this.bestAltTextWeakly = this.svc.convertToString(this.bestAltWeakly);
-    [this.bestAltStrongly, this.bestScoreStrongly, this.bestPPStrongly, this.bestPNStrongly] = this.strongly(this.candidates, this.rankings, this.proposed, true);
     this.bestAltTextStrongly = this.svc.convertToString(this.bestAltStrongly);
   }
 
@@ -60,6 +74,15 @@ export class PopularComponent implements OnInit {
       this.reCalculate();
     }
     this.proposedString = this.svc.convertToString(this.proposed);
+  }
+
+  quickAdd(candidate: string) {
+    let clean = this.proposedString.trim();
+    if (clean === "" || clean.substr(clean.length - 1) === ",") {
+      this.proposedString += candidate;
+    } else {
+      this.proposedString += ", " + candidate;
+    }
   }
 
   showResults() {
@@ -329,7 +352,7 @@ export class PopularComponent implements OnInit {
   }
 
   // Brute force to find if a ranking is weakly or strongly popular
-  popularBruteForce(candidates: string[], rankings: string[][], R0: string[]): [string[], number, string[], number]{
+  popularBruteForce(candidates: string[], rankings: string[][], R0: string[]): [string[], number, string[], number, number, number]{
     let K = this.getKendalls(R0, rankings);
     let alternatives = this.svc.getPermutations(candidates);
 
@@ -338,6 +361,9 @@ export class PopularComponent implements OnInit {
     let bestWeakRanking: string[] = [];
     let bestStrongScore = -Infinity;
     let bestStrongRanking: string[] = [];
+
+    let bestPPstrong = 0;
+    let bestPNstrong = 0;
 
     for (let p of alternatives) {
       let PP = 0;
@@ -359,9 +385,11 @@ export class PopularComponent implements OnInit {
       if ((PP - PN) > bestStrongScore){
         bestStrongScore = PP - PN;
         bestStrongRanking = p;
+        bestPPstrong = PP;
+        bestPNstrong = PN;
       }
     }
-    return [bestWeakRanking, bestWeakScore, bestStrongRanking, bestStrongScore];
+    return [bestWeakRanking, bestWeakScore, bestStrongRanking, bestStrongScore, bestPPstrong, bestPNstrong];
   }
 
   getKendalls(R0: string[], rankings: string[][]): number[] {
