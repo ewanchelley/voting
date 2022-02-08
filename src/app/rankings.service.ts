@@ -320,8 +320,8 @@ export class RankingsService {
   isDangerous(alg: string): boolean{
     // The max allowable thresholds for each algorithm
     const thresholds: {[alg: string]: {candidates: number, rankings: number}} = {
-       "popular": { candidates: 6, rankings: 10 }, 
-       "kemeny": { candidates: 6, rankings: 10 }}
+       "popular": { candidates: 7, rankings: 200 }, 
+       "kemeny": { candidates: 25, rankings: 10000 }}
     let threshold = thresholds[alg];
     if (!threshold){
       return false;

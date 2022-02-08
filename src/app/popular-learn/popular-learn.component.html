@@ -1,15 +1,120 @@
 <app-alg title="Popular Rankings" link="popular">
 
-    <app-tile heading="Background">
-    </app-tile>
-
     <app-tile heading="How It Works">
+        Given the choice of two rankings, a voter is said to 'prefer' the ranking that has the smallest Kendall distance from their own ranking.
+        If the Kendall distance is the same to the two rankings, the voter does not have a preference and is said to abstain.
+        <br><br>
+        A ranking is more popular than another in the weak sense if it is preferred by a majority of the voters.
+        A ranking can be said to be 'weakly popular' if no other ranking is more popular in the weak sense.
+        <br><br>
+        A ranking is more popular in the strong sense if it is preferred by a majority of the <b>non-abstaining</b> voters.
+        A ranking can be said to be 'strongly popular' if no other ranking is more popular in the strongly sense.
+        <br><br>
+        If a ranking is strongly popular then it must also be weakly popular, 
+        however it is possible for a ranking to be weakly strongly but not strongly popular.
+        If a ranking is weakly popular then it must also be a Kemeny consensus.
     </app-tile>
 
     <app-tile heading="Example">
+        Given the candidates: <hl>A</hl>, <hl>B</hl>, <hl>C</hl>, <hl>D</hl>, <hl>E</hl> and <hl>F</hl>
+        and the 6 rankings:
+        <br><br>
+        R1: <app-ranking rankingString="C, A, B, E, F, D"></app-ranking>
+        <br>
+        R2: <app-ranking rankingString="A, B, C, F, D, E"></app-ranking>
+        <br>
+        R3: <app-ranking rankingString="B, C, A, D, E, F"></app-ranking>
+        <br>
+        R4: <app-ranking rankingString="A, B, C, D, E, F"></app-ranking>
+        <br>
+        R5: <app-ranking rankingString="B, A, C, F, D, E"></app-ranking>
+        <br>
+        R6: <app-ranking rankingString="B, C, A, D, F, E"></app-ranking>
+        <br><br>
+        Suppose we want to find out if the ranking σ1: <app-ranking rankingString="A, B, C, D, E, F"></app-ranking>
+        is weakly popular and if it is strongly popular?
+        <br><br>
+        The ranking needs to be compared against every other possible ranking of the candidates
+        to see if there exists a ranking that is more popular (in either the weak sense or strong sense).
+        <br><br>
+        An alternative ranking is σ2: <app-ranking rankingString="B, C, A, F, D, E"></app-ranking>. 
+        Using the Kendall distance, we can check which of these rankings (σ1 or σ2) is preferred by each voter:
+        <br><br>
+        <table class="table table-striped" style="width: 70%">
+            <thead>
+                <tr>
+                    <th>Voters Rankings</th>
+                    <th>Distance to σ1</th>
+                    <th>Distance to σ2</th>
+                    <th>Preferred ranking</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        R1: <app-ranking rankingString="C, A, B, E, F, D"></app-ranking>
+                    </th>
+                    <th>4</th>
+                    <th>4</th>
+                    <th>Abstain</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        R2: <app-ranking rankingString="A, B, C, F, D, E"></app-ranking>
+                    </th>
+                    <th>2</th>
+                    <th>2</th>
+                    <th>Abstain</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        R3: <app-ranking rankingString="B, C, A, D, E, F"></app-ranking>
+                    </th>
+                    <th>2</th>
+                    <th>2</th>
+                    <th>Abstain</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        R4: <app-ranking rankingString="A, B, C, D, E, F"></app-ranking>
+                    </th>
+                    <th>0</th>
+                    <th>4</th>
+                    <th>σ1</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        R5: <app-ranking rankingString="B, A, C, F, D, E"></app-ranking>
+                    </th>
+                    <th>3</th>
+                    <th>1</th>
+                    <th>σ2</th>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        R6: <app-ranking rankingString="B, C, A, D, F, E"></app-ranking>
+                    </th>
+                    <th>3</th>
+                    <th>1</th>
+                    <th>σ2</th>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        Since only 2 out of 6 voters prefer σ2 (less than half of the voters),
+        σ2 is not more popular in the weak sense and therefore σ1 may still be weakly popular.
+        After comparing σ1 to every other possible ranking it turns out that σ1 is in fact weakly popular, 
+        since no other ranking is stronger in the weak sense.
+        <br><br>
+        Because 2 out of the 3 <b>non-abstaining</b> voters prefer σ2 (more than half),
+        σ2 is stronger in the strong sense and therefore σ1 is not strongly popular.
     </app-tile>
 
     <app-tile heading="Evaluation">
+        - mention time complexity 
+        - say where concept of popularity was first used and link to Van Zuylen et al paper?
+        - write about addition of strongly popular definition
+        - potential uses in real life?
     </app-tile>
 
 </app-alg>

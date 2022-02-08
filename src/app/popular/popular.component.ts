@@ -369,7 +369,7 @@ export class PopularComponent implements OnInit {
       let PP = 0;
       let PN = 0;
       for (let i = 0; i < rankings.length; i++) {
-        let distance = this.kendall(p, rankings[i]);
+        let distance = this.svc.kendall(p, rankings[i]);
         if (distance < K[i]){
           PP += 1;
         } else if (distance > K[i]){
@@ -395,29 +395,9 @@ export class PopularComponent implements OnInit {
   getKendalls(R0: string[], rankings: string[][]): number[] {
     let Ki = [];
     for(let Ri of rankings){
-      Ki.push(this.kendall(R0, Ri));
+      Ki.push(this.svc.kendall(R0, Ri));
     }
     return Ki;
-  }
-
-  kendall(r1: string[], r2: string[]): number {
-    length = r1.length;
-    let i, j, v = 0;
-    let a: boolean, b: boolean;
-
-    for (i = 0; i < length; i++) {
-      for (j = i + 1; j < length; j++) {
-        let n1 = r1[i];
-        let n2 = r1[j];
-        a = r1.indexOf(n1) < r1.indexOf(n2) && r2.indexOf(n1) > r2.indexOf(n2);
-        b = r1.indexOf(n1) > r1.indexOf(n2) && r2.indexOf(n1) < r2.indexOf(n2);
-
-        if (a || b) {
-          v++;
-        }
-      }
-    }
-    return v;
   }
 
   // randomly generates candidates and rankings then compares brute force solution to integer programming 
@@ -514,6 +494,13 @@ export class PopularComponent implements OnInit {
 
   round(i: number) {
     return Math.round(i);
+  }
+
+  tryRandom() {
+    let candidatesToShuffle = this.candidates.slice();
+    let randomRanking = this.svc.shuffle(candidatesToShuffle);
+    this.proposedString = this.svc.convertToString(randomRanking);
+    this.checkProposed();
   }
 
 }

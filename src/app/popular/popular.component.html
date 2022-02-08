@@ -10,7 +10,7 @@
                         (keyup.enter)="checkProposed()" (blur)="checkProposed()">
                 </div>
                 <div class="col-1">
-                    <button class="btn btn-secondary new-ranking-btn" (click)="checkProposed()">CALCULATE</button>
+                    <button class="btn btn-secondary new-ranking-btn" (click)="checkProposed()">Calculate</button>
                 </div>
             </div>
             <div class="row">
@@ -20,6 +20,9 @@
                             <button class="btn btn-secondary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
                         </ng-container>
                     </div>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-secondary new-random-btn" (click)="tryRandom()">Test Random</button>
                 </div>
             </div>
         </div>
