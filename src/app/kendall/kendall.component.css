@@ -11,3 +11,26 @@
     display: inline-block;
     margin: 4px;
 }
+
+.ranking-input-list {
+    background-color: #E7E7E7;
+    padding: 3px 10px;
+    margin: 4px;
+    border-radius: 6px;
+}
+
+.new-ranking-input{
+    padding: 10px;
+    font-size: 20px;
+    width: 100%;
+}
+
+.new-ranking-btn {
+    padding: 8px;
+    margin: 5px;
+}
+
+.quick-add-btn {
+    padding: 0px 10px;
+    margin: 15px 10px 5px;
+}

@@ -8,8 +8,8 @@
                     <div class="col-6 ranking-area">
                         <div class="row justify-content-center">
                             <h4>Ranking 1</h4>
-                            <div [sortablejs]="rankings[0]" class="list-group col-xs-6">
-                                <div *ngFor="let item of rankings[0]" class="kendall-option btn btn-light">
+                            <div [sortablejs]="kendallRankings[0]" class="list-group col-xs-6">
+                                <div *ngFor="let item of kendallRankings[0]" class="kendall-option btn btn-light">
                                     <hl [bg]="getColorByName(item)" [kendallWidth]="true" >{{ item }}</hl>
                                 </div>
                             </div>
@@ -19,8 +19,8 @@
                     <div class="col-6 ranking-area">
                         <div class="row justify-content-center">
                             <h4>Ranking 2</h4>
-                            <div [sortablejs]="rankings[1]" class="list-group col-xs-6">
-                                <div *ngFor="let item of rankings[1]" class="kendall-option btn btn-light">
+                            <div [sortablejs]="kendallRankings[1]" class="list-group col-xs-6">
+                                <div *ngFor="let item of kendallRankings[1]" class="kendall-option btn btn-light">
                                     <hl [bg]="getColorByName(item)" [kendallWidth]="true">{{ item }}</hl>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
         </div>
         
         <div class="col-6">
-            <app-tile [heading]="'Kendall Distance: ' + kendall()">
+            <app-tile [heading]="'Kendall Distance = ' + kendall()">
                 <div *ngIf="disagreements.length > 0; else noDisagreements">
                     Pairwise disagreements:<br>
                     <div *ngFor="let item of disagreements" class="disagreement">
@@ -48,6 +48,7 @@
     </div>
     <div class="row">
         <app-tile heading="Kendall Distances to Candidates">
+            Enter a ranking to calulate the Kendall distance to each voters ranking.
             <div class="ranking-input-list">
                 <div class="row">
                     <div class="col-9">
@@ -67,9 +68,34 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-primary new-random-btn" (click)="tryRandom()">Test Random</button>
+                        <button class="btn btn-primary new-random-btn" (click)="tryRandom()">Use Random</button>
                     </div>
                 </div>
+            </div>
+        </app-tile>
+    </div>
+    <div class="row" *ngIf="showResults()">
+        <app-tile heading="Kendall Distances">
+            Below are the Kendall distances from the ranking <hl>{{formattedProposedString}}</hl> to each
+            voters ranking:
+            <br><br>
+            <div class="col-4">
+                <table class="results-table table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Voters Rankings</th>
+                            <th scope="col">Kendall Distance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ranking of votersRankings">
+                            <th scope="row">
+                                {{this.svc.convertToString(ranking)}}
+                            </th>
+                            <td>{{this.svc.kendall(ranking, proposed)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </app-tile>
     </div>
