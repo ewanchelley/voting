@@ -1,5 +1,6 @@
 .add-rankings-container {
     padding: 0px;
+    overflow-x: hidden;
 }
 
 .rankings-upload-file {
@@ -33,6 +34,7 @@
 }
 
 .new-ranking-btn, .new-candidate-btn {
+    float: right;
     padding: 8px;
     margin: 5px;
 }
@@ -80,11 +82,8 @@
 
 .input-scroll {
     overflow: auto;
-    height: 55vh;
-}
-
-.rankings-section {
-    height: 70vh;
+    height: 35vh;
+    overflow-x: hidden;
 }
 
 .random-input {
@@ -100,4 +99,16 @@
     height: 30px;
     line-height: 30px;
     margin: 2px;
+}
+
+.fixed-height-tiles {
+    height: 13vh;
+}
+
+.warning-msg {
+    margin-left: 30px;
+}
+
+.warn {
+    color: red;
 }

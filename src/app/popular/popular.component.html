@@ -10,19 +10,19 @@
                         (keyup.enter)="checkProposed()" (blur)="checkProposed()">
                 </div>
                 <div class="col-1">
-                    <button class="btn btn-secondary new-ranking-btn" (click)="checkProposed()">Calculate</button>
+                    <button class="btn btn-primary new-ranking-btn" (click)="checkProposed()">Calculate</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-9">
                     <div class="horizontal">
                         <ng-container *ngFor="let candidate of candidates">
-                            <button class="btn btn-secondary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
+                            <button class="btn btn-primary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
                         </ng-container>
                     </div>
                 </div>
                 <div class="col-2">
-                    <button class="btn btn-secondary new-random-btn" (click)="tryRandom()">Test Random</button>
+                    <button class="btn btn-primary new-random-btn" (click)="tryRandom()">Test Random</button>
                 </div>
             </div>
         </div>

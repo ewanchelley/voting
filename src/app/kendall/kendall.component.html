@@ -33,10 +33,45 @@
         </div>
         
         <div class="col-6">
-            <app-tile heading="Kendall Distance">
-                Kendall distance: {{ kendall() }}
+            <app-tile [heading]="'Kendall Distance: ' + kendall()">
+                <div *ngIf="disagreements.length > 0; else noDisagreements">
+                    Pairwise disagreements:<br>
+                    <div *ngFor="let item of disagreements" class="disagreement">
+                        <hl>{{ item[0] }}, {{ item[1] }}</hl>
+                    </div>
+                </div>
+                <ng-template #noDisagreements>
+                    No pairwise disagreements
+                </ng-template>
             </app-tile>
         </div>
+    </div>
+    <div class="row">
+        <app-tile heading="Kendall Distances to Candidates">
+            <div class="ranking-input-list">
+                <div class="row">
+                    <div class="col-9">
+                        <input class="new-ranking-input" [(ngModel)]="proposedString" placeholder="Enter ranking"
+                            (keyup.enter)="checkProposed()" (blur)="checkProposed()">
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-primary new-ranking-btn" (click)="checkProposed()">Calculate</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-9">
+                        <div class="horizontal">
+                            <ng-container *ngFor="let candidate of candidates">
+                                <button class="btn btn-primary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary new-random-btn" (click)="tryRandom()">Test Random</button>
+                    </div>
+                </div>
+            </div>
+        </app-tile>
     </div>
 
 </app-alg>

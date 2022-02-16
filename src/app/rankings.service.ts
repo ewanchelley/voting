@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Console } from 'console';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from "rxjs";
 
@@ -24,6 +25,25 @@ export class RankingsService {
   private kendallRankings = [
     ["A", "B", "C", "D"],
     ["B", "A", "C", "D"]];
+
+
+  private premadeRankingSets: { [name: string] : string[][]} = {
+    "weaklyNotStrongly": [
+      ["C", "A", "B", "E", "F", "D"],
+      ["A", "B", "C", "F", "D", "E"],
+      ["B", "C", "A", "D", "E", "F"],
+      ["A", "B", "C", "D", "E", "F"],
+      ["B", "A", "C", "F", "D", "E"],
+      ["B", "C", "A", "D", "F", "E"],
+    ],
+    "noCondorcet": [
+      ["B", "A", "C"],
+      ["C", "B", "A"],
+      ["B", "A", "C"],
+      ["A", "C", "B"],
+      ["C", "A", "B"],
+    ]
+  }
 
   changesMade = new Subject<void>();
 
@@ -156,6 +176,27 @@ export class RankingsService {
     return v;
   }
 
+  kendallDisagreements(r1: string[], r2: string[]): string[][] {
+    length = r1.length;
+    let i, j = 0;
+    let a: boolean, b: boolean;
+    let disagreements: string[][] = []
+
+    for (i = 0; i < length; i++) {
+      for (j = i + 1; j < length; j++) {
+        let n1 = r1[i];
+        let n2 = r1[j];
+        a = r1.indexOf(n1) < r1.indexOf(n2) && r2.indexOf(n1) > r2.indexOf(n2);
+        b = r1.indexOf(n1) > r1.indexOf(n2) && r2.indexOf(n1) < r2.indexOf(n2);
+
+        if (a || b) {
+          disagreements.push(this.sortStringArray([n1, n2]));
+        }
+      }
+    }
+    return disagreements;
+  }
+
 
   // For file upload/download
 
@@ -188,6 +229,14 @@ export class RankingsService {
     this.onChangesMade()
   }
 
+  constructRankingsPremade(name: string) {
+    console.log("a")
+    let rankings = this.premadeRankingSets[name];
+    console.log(rankings);
+    if (rankings){
+      this.constructRankings(rankings);
+    }
+  }
 
   // Helper methods
 

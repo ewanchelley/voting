@@ -1,65 +1,47 @@
 <div class="container add-rankings-container">
+    <!--Top Row-->
     <div class="row">
         <!--Left Column-->
         <div class="col-3">
-            <!--File Upload-->
-            <app-tile heading="Import/Export">
-                <label for="formFile" class="form-label">Import rankings from file</label>
-                <input class="form-control file-input" type="file" id="formFile" accept=".txt" (change)="handleFileInput()">
-                <button *ngIf="validFile" class="btn btn-secondary apply-file-btn" (click)="constructRankings(this.rankingsFromFile)">Use rankings from file</button>
-                <hr>
-                <label class="form-label">Export rankings to file</label>
-                <button class="btn btn-secondary apply-file-btn" (click)="downloadRankings()">Download</button>
-                <a href="assets/images/topological-example.png" download>
-                    
-                </a>
-            </app-tile>
-            <!--Random Input-->
-            <app-tile heading="Randomise">
-                <div class="d-flex randomise-row">
-                    <div>Number of voters</div>
-                    <input class="random-input ms-auto" [(ngModel)]="numRandomVoters" placeholder="i.e. 15">
-                </div>
-                <div class="d-flex randomise-row">
-                    <div>Generate new candidates</div>
-                    <input class="form-check-input random-checkbox" type="checkbox" [(ngModel)]="generateCandidates">
-                </div>
-                <div class="d-flex randomise-row" *ngIf="generateCandidates">
-                    <div>Number of candidates</div>
-                    <input class="random-input ms-auto" [(ngModel)]="numRandomCandidates" placeholder="i.e. 4">
-                </div>
-                <button class="btn btn-secondary" (click)="generateRandom()">Generate random voters</button>
-            </app-tile>
+        
             <!--Candidate Input-->
             <app-tile heading="Candidates">
-                <div class="row" *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
-                    <div class="col-8">
-                        <input class="candidate-input" [(ngModel)]="candidateStrings[index]" placeholder="Enter candidate"
-                            (blur)="checkEditedCandidate(index)">
+                <div class="flex-column">
+                    <!--Candidates List-->
+                    <div class="input-scroll mb-auto p-2" id="candidateScroll">
+                        <div class="row" *ngFor="let candidate of candidates;let index = index;trackBy:trackByIndex;">
+                            <div class="col-8">
+                                <input class="candidate-input" [(ngModel)]="candidateStrings[index]" placeholder="Enter candidate"
+                                    (blur)="checkEditedCandidate(index)">
+                            </div>
+                            <div class="col-4">
+                                <button type="button" class="btn-close remove-ranking-btn" aria-label="Close"
+                                    (click)="removeCandidate(index)"></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <button type="button" class="btn-close remove-ranking-btn" aria-label="Close"
-                            (click)="removeCandidate(index)"></button>
+                    <!--New Candidate-->
+                    <div class="row">
+                        <div class="col-9">
+                            <input class="new-candidate-input" [(ngModel)]="newCandidate" placeholder="Enter candidate"
+                                (keyup.enter)="addCandidate()">
+                        </div>
+                        <div class="col-3">
+                            <button class="btn btn-primary new-candidate-btn" (click)="addCandidate()">Add</button>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-9">
-                        <input class="new-candidate-input" [(ngModel)]="newCandidate" placeholder="Enter candidate"
-                            (keyup.enter)="addCandidate()">
-                    </div>
-                    <div class="col-3">
-                        <button class="btn btn-secondary new-candidate-btn" (click)="addCandidate()">ADD</button>
-                    </div>
-                </div>
+                
             </app-tile>
         </div>
         <!--Right (Rankings) Column-->
         <div class="col-9">
             <app-tile heading="Voters Rankings">
-                <div class="flex-column rankings-section">
+                <div class="flex-column">
                     <!--Rankings List-->
-                    <div class="input-scroll mb-auto p-2" id="inputScroll">
-                        <div class="ranking-input-list row" *ngFor="let ranking of rankings;let index = index;trackBy:trackByIndex;">
+                    <div class="input-scroll mb-auto" id="rankingScroll">
+                        <div class="ranking-input-list row"
+                            *ngFor="let ranking of rankings;let index = index;trackBy:trackByIndex;">
                             <div class="col-1">
                                 <label class="ranking-input-label">{{ index + 1 }}</label>
                             </div>
@@ -79,29 +61,110 @@
                             <div class="col-1">
                                 <label class="ranking-input-label">{{ rankings.length + 1 }}</label>
                             </div>
-                            <div class="col-10">
-                                <input class="new-ranking-input" [(ngModel)]="newRanking" placeholder="Enter ranking" (keyup.enter)="addRanking()">
+                            <div class="col-9">
+                                <input class="new-ranking-input" [(ngModel)]="newRanking" placeholder="Enter ranking"
+                                    (keyup.enter)="addRanking()">
                             </div>
-                            <div class="col-1">
-                                <button class="btn btn-secondary new-ranking-btn" (click)="addRanking()">ADD</button>
+                            <div class="col-2">
+                                <button class="btn btn-primary new-ranking-btn" (click)="addRanking()">Add</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-1"></div>
-                            <div class="col-9">
+                            <div class="col-8">
                                 <div class="horizontal">
                                     <ng-container *ngFor="let candidate of candidates">
-                                        <button class="btn btn-secondary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate }}</button>
+                                        <button class="btn btn-primary quick-add-btn" (click)="quickAdd(candidate)">{{ candidate
+                                            }}</button>
                                     </ng-container>
                                 </div>
                             </div>
-                            <div class="col-2">
-                                <button class="btn btn-secondary new-random-btn" (click)="addRandomRanking()">ADD random</button>
+                            <div class="col-3">
+                                <button class="btn btn-primary new-random-btn" (click)="addRandomRanking()">Add random</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </app-tile>
         </div>
+        
+        
+        <hr>
+    </div>
+    <div class="row">
+        <div class="warning-msg">
+            <i class="bi bi-exclamation-circle-fill warn icon"></i>
+            The actions below will overwrite the current rankings.
+        </div>
+    </div>
+    <!--Bottom Row-->
+    <div class="row">
+        <div class="col-4">
+            <!--Random Input-->
+            <app-tile heading="Generate Random">
+                <div class="fixed-height-tiles">
+                    <div class="d-flex randomise-row">
+                        <div>Number of voters</div>
+                        <input class="random-input ms-auto" [(ngModel)]="numRandomVoters" placeholder="i.e. 15">
+                    </div>
+                    <div class="d-flex randomise-row">
+                        <div>Use existing candidates</div>
+                        <input class="form-check-input random-checkbox" type="checkbox" [(ngModel)]="keepCandidates">
+                    </div>
+                    <div class="d-flex randomise-row" *ngIf="!keepCandidates">
+                        <div>Number of candidates</div>
+                        <input class="random-input ms-auto" [(ngModel)]="numRandomCandidates" placeholder="i.e. 4">
+                    </div>
+                    <button class="btn btn-danger" (click)="generateRandom()">Generate random voters</button>
+                </div>
+            </app-tile>
+        </div>
+        
+        
+        
+        <div class="col-4">
+            <!--File Upload-->
+            <app-tile heading="Import File">
+                <div class="fixed-height-tiles">
+                    <label for="formFile" class="form-label">Upload rankings from text file</label>
+                    <input class="form-control file-input" type="file" id="formFile" accept=".txt" (change)="handleFileInput()">
+                    <button *ngIf="validFile" class="btn btn-danger apply-file-btn" (click)="constructRankings(this.rankingsFromFile)">Use
+                        rankings from file</button>
+                </div>
+            </app-tile>
+        </div>
+        
+        
+        
+        <div class="col-4">
+            <!--File Download-->
+            <app-tile heading="Export File">
+                <div class="fixed-height-tiles">
+                    <label class="form-label">Download rankings as text file</label><br>
+                    <button class="btn btn-primary apply-file-btn" (click)="downloadRankings()">Download</button>
+                </div>
+            </app-tile>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <app-tile heading="Interesting Ranking Sets">
+            <b>Weakly Not Strongly:</b> An example of where a weakly popular ranking is not strongly popular.
+            <br>Try testing the ranking <hl>A, B, C, D, E, F</hl> on the Popular Ranking page.
+            <button class="btn btn-danger apply-file-btn" (click)="this.constructRankingsPremade('weaklyNotStrongly')">Use
+                this ranking set</button>
+            <br><br>
+
+            <b>No Condorcet Winner:</b> An example set of rankings where no candidate is preferred to all others by the majority.
+            <br>The majority of voters prefer <hl>A</hl> to <hl>C</hl>, prefer <hl>C</hl> to <hl>B</hl>
+            and prefer <hl>B</hl> to <hl>A</hl>.
+            <br>There is a cycle in the majority graph so no topological ordering.
+            <button class="btn btn-danger apply-file-btn" (click)="this.constructRankingsPremade('noCondorcet')">Use
+                this ranking set</button>
+            <br><br>
+
+            
+        </app-tile>
     </div>
 </div>

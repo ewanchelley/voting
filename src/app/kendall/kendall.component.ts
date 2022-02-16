@@ -14,8 +14,8 @@ export class KendallComponent implements OnInit {
   candidates: string[] = [];
   rankings: string[][] = [];
 
-  distance: number = 0;
-  
+  disagreements: string[][] = [];
+
   newCandidate = "";
   indexes = [1,2,3,4,5]
 
@@ -35,12 +35,12 @@ export class KendallComponent implements OnInit {
   reCalculate() {
     this.rankings = this.svc.getKendallRankings();
     this.candidates = this.svc.getCandidates();
-    this.distance = this.kendall();
   }
 
   kendall() {
-    let distance = this.svc.kendall(this.rankings[0], this.rankings[1]);
-    return distance;
+    let disagreements = this.svc.kendallDisagreements(this.rankings[0], this.rankings[1]);
+    this.disagreements = disagreements;
+    return disagreements.length;
   }
 
   getColorByName(s: string): string {

@@ -29,7 +29,7 @@ export class AddRankingsComponent implements OnInit {
 
   numRandomVoters: number = 10;
   numRandomCandidates: number = 5;
-  generateCandidates: boolean = false;
+  keepCandidates: boolean = true;
 
   constructor(svc: RankingsService, toastr: ToastrService) {
     this.svc = svc;
@@ -183,8 +183,14 @@ export class AddRankingsComponent implements OnInit {
     this.updateRankingStrings();
   }
 
+  constructRankingsPremade(name: string){
+    this.svc.constructRankingsPremade(name);
+    this.candidateStrings = this.candidates.slice();
+    this.updateRankingStrings();
+  }
+
   scrollToBottom(){
-    var element = document.getElementById("inputScroll");
+    var element = document.getElementById("rankingScroll");
     if (element){
       element.scrollTop = element.scrollHeight;
     }
@@ -195,7 +201,7 @@ export class AddRankingsComponent implements OnInit {
     let maxCandidates = 676 // 26^2
     let candidates: string[] = []
     let rankings: string[][] = [];
-    if (this.generateCandidates){
+    if (!this.keepCandidates){
       if (this.numRandomCandidates > maxCandidates || this.numRandomCandidates < 1){
         return;
       }
