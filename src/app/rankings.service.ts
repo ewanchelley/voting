@@ -48,7 +48,17 @@ export class RankingsService {
   changesMade = new Subject<void>();
 
   onChangesMade() {
-    this.kendallRankings = this.rankings.slice(0, 2);
+    if (this.rankings.length >= 2){
+      this.kendallRankings = this.rankings.slice(0, 2);
+    }
+    else if (this.rankings.length >= 1){
+      let firstRanking = this.rankings.slice()[0]
+      this.kendallRankings = [firstRanking, firstRanking.slice()];
+    } else {
+      this.kendallRankings = 
+      [["A", "B"],
+       ["B", "A"]];
+    }
     this.changesMade.next();
   }
 
@@ -112,6 +122,7 @@ export class RankingsService {
 
 
   // Ranking methods
+
   getRankings(): string[][] {
     return this.rankings;
   }
@@ -149,9 +160,14 @@ export class RankingsService {
     const sortedRanking = this.sortStringArray(ranking.slice());
     let matchesCandidates = this.arrayEquals(sortedCandidates, sortedRanking);
     if (!matchesCandidates && toastIfInvalid){
-      this.displayToast("The ranking was invalid so could not be added ","Invalid Ranking");
+      this.displayToast("Ranking must contain each of the candidates names separated by commas","Invalid Ranking");
     }
     return matchesCandidates;
+  }
+
+  clearRankings() {
+    this.rankings = [];
+    this.onChangesMade();
   }
 
   // Algorithms

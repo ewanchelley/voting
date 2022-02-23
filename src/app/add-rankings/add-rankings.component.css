@@ -112,3 +112,8 @@
 .warn {
     color: red;
 }
+
+.clear-button {
+    float: right;
+    margin-top: -50px;
+}

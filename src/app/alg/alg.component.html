@@ -13,4 +13,20 @@
         </a>
     </li>
 </ul>
-<ng-content></ng-content>
+
+<div *ngIf="showNoRankings(); else checkCandidates">
+    <app-tile heading="No Voters!">
+        Click the <hl bg="blue">Edit Rankings</hl> button to add some voters.
+    </app-tile>
+</div>
+<ng-template #checkCandidates>
+    <div *ngIf="showNoCandidates(); else showContent">
+        <app-tile heading="No Candidates!">
+            Click the <hl bg="blue">Edit Rankings</hl> button to add some candidates.
+        </app-tile>
+    </div>
+    <ng-template #showContent>
+        <ng-content></ng-content>
+    </ng-template>
+</ng-template>
+

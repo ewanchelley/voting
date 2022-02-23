@@ -128,6 +128,12 @@ export class AddRankingsComponent implements OnInit {
     this.addValidRanking(randomRanking);
   }
 
+  clearRankings(){
+    this.svc.clearRankings();
+    this.candidateStrings = this.candidates.slice();
+    this.updateRankingStrings();
+  }
+
   handleFileInput() {
     this.validFile = false;
     let files = (<HTMLInputElement>document.getElementById("formFile")).files;

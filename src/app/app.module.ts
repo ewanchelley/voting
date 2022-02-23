@@ -90,7 +90,7 @@ import { AboutComponent } from './about/about.component';
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule,
     ToastrModule.forRoot({
-      timeOut: 3000,
+      timeOut: 5000,
       progressBar: true
     }),
     BrowserAnimationsModule

@@ -68,7 +68,7 @@ export class PopularComponent implements OnInit {
 
   checkProposed() {
     let proposedRanking = this.svc.convertToArray(this.proposedString);
-    if (this.svc.isValidRanking(proposedRanking)) {
+    if (this.svc.isValidRanking(proposedRanking, true)) {
       this.proposed = proposedRanking;
       this.formattedProposedString = this.svc.convertToString(this.proposed);
       this.reCalculate();
