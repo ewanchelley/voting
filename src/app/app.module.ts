@@ -32,6 +32,8 @@ import { PopularLearnComponent } from './popular-learn/popular-learn.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { HighlightComponent } from './highlight/highlight.component';
 import { ExternalLinkComponent } from './external-link/external-link.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { AboutComponent } from './about/about.component';
 
 
 @NgModule({
@@ -60,11 +62,14 @@ import { ExternalLinkComponent } from './external-link/external-link.component';
     PopularLearnComponent,
     TutorialComponent,
     HighlightComponent,
-    ExternalLinkComponent
+    ExternalLinkComponent,
+    HomePageComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot([
+      { path: 'about', component: AboutComponent },
       { path: 'how-to-use', component: TutorialComponent },
       { path: 'kendall/learn', component: KendallLearnComponent },
       { path: 'kendall', component: KendallComponent},
@@ -80,6 +85,7 @@ import { ExternalLinkComponent } from './external-link/external-link.component';
       { path: 'popular', component: PopularComponent },
       { path: 'instant-runoff/learn', component: InstantRunoffLearnComponent },
       { path: 'instant-runoff', component: InstantRunoffComponent },
+      { path: '**', component: HomePageComponent}
     ]),
     SortablejsModule.forRoot({ animation: 150}),
     FormsModule,

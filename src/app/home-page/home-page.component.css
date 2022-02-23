@@ -1,0 +1,22 @@
+.big-text {
+    padding: 0px 25px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.home-row {
+    justify-content: center;
+    padding: 10px 30px;
+}
+
+.circular_image {
+  width: 230px;
+  height: 230px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+  border-radius: 3px;
+  border-radius: 50%;
+  overflow: hidden;
+  display:inline-block;
+  vertical-align:middle;
+}
