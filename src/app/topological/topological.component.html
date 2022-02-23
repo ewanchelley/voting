@@ -16,13 +16,12 @@
         </ng-template>
         <ng-template [ngIf]="numResults == 1">
             <div class="results-text">
-                The unique topological ordering is
-                <app-ranking [rankingString]="resultText"></app-ranking>
+                The unique topological ordering is <hl>{{resultText}}</hl>
             </div>
         </ng-template>
         <ng-template [ngIf]="numResults > 1">
-            A topological ordering is 
-            <app-ranking [rankingString]="resultText"></app-ranking>
+            A topological ordering is <hl>{{resultText}}</hl>.
+            <br>
             There are {{results.length}} possible topological orderings.
         </ng-template>
     </app-tile>

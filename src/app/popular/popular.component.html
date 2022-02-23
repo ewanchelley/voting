@@ -26,98 +26,58 @@
                 </div>
             </div>
         </div>
-
-
-
     </app-tile>
     
-
-
-
-    
     <div class="popular-results" *ngIf="showResults()">
+        
+        <!--Weakly Popular Tile-->
         <app-tile [heading]="isWeaklyPopular() ? 'Weakly Popular' : 'NOT Weakly Popular'" [bg]="isWeaklyPopular() ? 'bg-green' : 'bg-red'">
             <div *ngIf="isWeaklyPopular(); else notWeaklyPopular">
                 <div class="results-text">
                     No ranking exists that is preferred by more than half of the voters.
-                </div>
-                <br>
-                <div class="results-text">
-                    Therefore ranking
-                </div>
-                <app-ranking [rankingString]="formattedProposedString"></app-ranking>
-                <div class="results-text">
-                    is weakly popular.
+                    <br>
+                    Therefore ranking <hl>{{formattedProposedString}}</hl> is weakly popular.
                 </div>
             </div>
             <ng-template #notWeaklyPopular>
                 <div class="results-text">
-                    The alternative ranking
-                </div>
-                <app-ranking [rankingString]="bestAltTextWeakly"></app-ranking>
-                <div class="results-text">
-                    is preferred by {{ bestScoreWeakly }} out of {{ rankings.length }} voters ({{round(1000 * (bestScoreWeakly / rankings.length))/10}}%).
-                </div>
-                <br>
-                <div class="results-text">
-                    Therefore ranking
-                </div>
-                <app-ranking [rankingString]="formattedProposedString"></app-ranking>
-                <div class="results-text">
-                    is NOT weakly popular.
+                    The alternative ranking <hl>{{bestAltTextWeakly}}</hl>
+                    is preferred by {{ bestScoreWeakly }} out of {{ rankings.length }} voters 
+                    ({{round(1000 * (bestScoreWeakly / rankings.length))/10}}%).
+                    <br>
+                    Therefore ranking <hl>{{formattedProposedString}}</hl> is NOT weakly popular.
                 </div>
             </ng-template>
         </app-tile>
+
+        <!--Strongly Popular Tile-->
         <app-tile [heading]="isStronglyPopular() ? 'Strongly Popular' : 'NOT Strongly Popular'" [bg]="isStronglyPopular() ? 'bg-green' : 'bg-red'">
             <div *ngIf="isStronglyPopular(); else notStronglyPopular">
                 <div class="results-text">
                     No ranking exists that is preferred by more than half of the <b>non-abstaining</b> voters.
-                </div>
-                <br>
-                <div class="results-text">
-                    Therefore ranking
-                </div>
-                <app-ranking [rankingString]="formattedProposedString"></app-ranking>
-                <div class="results-text">
-                    is strongly popular.
+                    <br>
+                    Therefore ranking <hl>{{formattedProposedString}}</hl> is strongly popular.
                 </div>
             </div>
             <ng-template #notStronglyPopular>
                 <div class="results-text">
-                    The alternative ranking
-                </div>
-                <app-ranking [rankingString]="bestAltTextStrongly"></app-ranking>
-                <div class="results-text">
-                    is preferred by {{ bestPPStrongly }} out of the {{ bestPPStrongly + bestPNStrongly }} <b>non-abstaining</b> voters ({{round(1000 * (bestPPStrongly /
-                    (bestPPStrongly + bestPNStrongly)))/10}}%).
-                </div>
-                <br>
-                <ng-template [ngIf]="numAbstainingVoters() == 0">
-                    <div class="results-text">
+                    The alternative ranking <hl>{{bestAltTextStrongly}}</hl>
+                    is preferred by {{ bestPPStrongly }} out of the {{ bestPPStrongly + bestPNStrongly }}
+                    <b>non-abstaining</b> voters ({{round(1000 * (bestPPStrongly / (bestPPStrongly + bestPNStrongly)))/10}}%).
+                    <br>
+
+                    <ng-template [ngIf]="numAbstainingVoters() == 0">
                         (All of the voters have a preference between
-                    </div>
-                </ng-template>
-                <ng-template [ngIf]="numAbstainingVoters() == 1">
-                    <div class="results-text">
+                    </ng-template>
+                    <ng-template [ngIf]="numAbstainingVoters() == 1">
                         (1 voter has no preference between
-                    </div>
-                </ng-template>
-                <ng-template [ngIf]="numAbstainingVoters() > 1">
-                    <div class="results-text">
+                    </ng-template>
+                    <ng-template [ngIf]="numAbstainingVoters() > 1">
                         ({{rankings.length - bestPPStrongly - bestPNStrongly}} voters have no preference between
-                    </div>
-                </ng-template>
-                <app-ranking [rankingString]="formattedProposedString"></app-ranking>
-                <div class="results-text"> and </div>
-                <app-ranking [rankingString]="bestAltTextStrongly"></app-ranking>
-                <div class="results-text">)</div>
-                <br>
-                <div class="results-text">
-                    Therefore ranking
-                </div>
-                <app-ranking [rankingString]="formattedProposedString"></app-ranking>
-                <div class="results-text">
-                    is NOT strongly popular.
+                    </ng-template>
+                    <hl>{{formattedProposedString}}</hl> and <hl>{{bestAltTextStrongly}}</hl>)
+                    <br>
+                    Therefore ranking <hl>{{formattedProposedString}}</hl> is NOT strongly popular.
                 </div>
             </ng-template>
         </app-tile>

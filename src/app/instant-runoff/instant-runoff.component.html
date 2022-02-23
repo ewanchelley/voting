@@ -31,24 +31,22 @@
                 <div class="col-2" *ngIf="index == 0"></div>
                 <div class="col-1" *ngIf="index != 0"></div>
                 <div class="col-4" *ngIf="index != roundTotals.length - 1">
-                    Candidate 
-                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
-                     has the highest total, however they do not have a majority, so 
-                    <app-ranking [rankingString]="roundTotals[index][roundTotals[index].length - 1][0]"></app-ranking>
-                      is eliminated since they have the lowest total.
+                    Candidate <hl>{{roundTotals[index][0][0]}}</hl>
+                    has the highest total, however they do not have a majority, so 
+                    <hl>{{roundTotals[index][roundTotals[index].length - 1][0]}}</hl>
+                    is eliminated since they have the lowest total.
                 </div>
                 <div class="col-4" *ngIf="index == roundTotals.length - 1 && round.length != 2">
-                    Candidate
-                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
+                    Candidate <hl>{{roundTotals[index][0][0]}}</hl>
                     has the highest total, and has a majority, therefore wins the election.
                 </div>
                 <div class="col-4" *ngIf="index == roundTotals.length - 1 && round.length == 2">
                     Candidates
-                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
+                    <hl>{{roundTotals[index][0][0]}}</hl>
                     and 
-                    <app-ranking [rankingString]="roundTotals[index][1][0]"></app-ranking>
+                    <hl>{{roundTotals[index][1][0]}}</hl>
                     are the last two remaining, therefore 
-                    <app-ranking [rankingString]="roundTotals[index][0][0]"></app-ranking>
+                    <hl>{{roundTotals[index][0][0]}}</hl>
                     wins since they have the highest total.
                 </div>
             </div>

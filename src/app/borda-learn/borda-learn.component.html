@@ -2,25 +2,26 @@
 
     <app-tile heading="How It Works">
         For each ranking, assign to each candidate a number of points equal to the number of candidates that are ranked lower.
-        For example, for the ranking <app-ranking rankingString="B, A, C"></app-ranking>, 
-        <app-ranking rankingString="B"></app-ranking> would gain 2 points, <app-ranking rankingString="A"></app-ranking> gains 1 and <app-ranking rankingString="C"></app-ranking> gains 0 points.
+        For example, for the ranking <hl>B, A, C</hl>, 
+        <hl>B</hl> would gain 2 points, <hl>A</hl> gains 1 and <hl>C</hl> gains 0 points.
         These points are totalled across all rankings from voters to give a final score for each candidate.
         The final ranking of candidates is determined by these totals, with the highest placing first and the lowest coming last.
     </app-tile>
 
     <app-tile heading="Example">
-        Given the candidates: <app-ranking rankingString="Joe"></app-ranking>, <app-ranking rankingString="Mary"></app-ranking> and <app-ranking rankingString="Tim"></app-ranking>,
+        Given the candidates: <hl>Joe</hl>, <hl>Mary</hl> and <hl>Tim</hl>,
         and the 5 rankings:
         <br><br>
-        <app-ranking rankingString="Joe, Tim, Mary"></app-ranking>
+
+        <hl>Joe, Tim, Mary</hl>
         <br>
-        <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
+        <hl>Tim, Mary, Joe</hl>
         <br>
-        <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
+        <hl>Tim, Mary, Joe</hl>
         <br>
-        <app-ranking rankingString="Mary, Joe, Tim"></app-ranking>
+        <hl>Mary, Joe, Tim</hl>
         <br>
-        <app-ranking rankingString="Tim, Mary, Joe"></app-ranking>
+        <hl>Tim, Mary, Joe</hl>
         <br><br>
         The following table can be constructed to tally the points earned by each candidate:
         <br>
@@ -59,7 +60,7 @@
             </tbody>
         </table>
         <br>
-        <app-ranking rankingString="Tim"></app-ranking> 
+        <hl>Tim</hl>
         was ranked first choice 3 times (worth 6 points), second choice 1 time (worth 1 point) and last choice 1 time (worth 0 points).
         Therefore his total score is 7 points and he wins the election since this is higher than all other candidates.
     </app-tile>

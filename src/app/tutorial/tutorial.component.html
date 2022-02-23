@@ -6,28 +6,37 @@
 <div>
     <app-tile heading="Candidates, Rankings and Voters">
         In an election, there are multiple candidates. For example an election may have 3 candidates: 
-        <app-ranking rankingString="Adam"></app-ranking>, <app-ranking rankingString="Beth"></app-ranking> and <app-ranking
-            rankingString="Chris"></app-ranking>.
+        <hl>Adam</hl>, <hl>Beth</hl> and <hl>Chris</hl>.
         <br><br>
         Each voter produces a ranking, which is their order of preference for the list of candidates.
-        For example, if a voter believed <app-ranking rankingString="Adam"></app-ranking> was the best candidate and
-        <app-ranking rankingString="Beth"></app-ranking> was the worst, their ranking would be <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>.
+        For example, if a voter believed <hl>Adam</hl> was the best candidate and
+        <hl>Beth</hl> was the worst, their ranking would be <hl>Adam, Chris, Beth</hl>.
     </app-tile>
 
     <app-tile heading="Voting Aggregation">
         Once all votes have been cast, there is a list of rankings.
         For example, suppose 10 voters ranked the candidates introduced above.
         The list of rankings produced may look like:
-        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>, 
-        <app-ranking rankingString="Chris, Beth, Adam"></app-ranking>,
-        <app-ranking rankingString="Beth, Adam, Chris"></app-ranking>,
-        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>,
-        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>,
-        <app-ranking rankingString="Beth, Adam, Chris"></app-ranking>,
-        <app-ranking rankingString="Chris, Adam, Beth"></app-ranking>,
-        <app-ranking rankingString="Adam, Chris, Beth"></app-ranking>,
-        <app-ranking rankingString="Chris, Adam, Beth"></app-ranking>,
-        <app-ranking rankingString="Beth, Chris, Adam"></app-ranking>
+        <br><br>
+        V1: <hl>Adam, Chris, Beth</hl>
+        <br>
+        V2: <hl>Chris, Beth, Adam</hl>
+        <br>
+        V3: <hl>Beth, Adam, Chris</hl>
+        <br>
+        V4: <hl>Adam, Chris, Beth</hl>
+        <br>
+        V5: <hl>Adam, Chris, Beth</hl>
+        <br>
+        V6: <hl>Beth, Adam, Chris</hl>
+        <br>
+        V7: <hl>Chris, Adam, Beth</hl>
+        <br>
+        V8: <hl>Adam, Chris, Beth</hl>
+        <br>
+        V9: <hl>Chris, Adam, Beth</hl>
+        <br>
+        V10: <hl>Beth, Chris, Adam</hl>
         <br><br>
         So who won the election?
         <br><br>

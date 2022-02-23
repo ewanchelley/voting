@@ -19,25 +19,25 @@
         Given the candidates: <hl>A</hl>, <hl>B</hl>, <hl>C</hl>, <hl>D</hl>, <hl>E</hl> and <hl>F</hl>
         and the 6 rankings:
         <br><br>
-        R1: <app-ranking rankingString="C, A, B, E, F, D"></app-ranking>
+        R1: <hl>C, A, B, E, F, D</hl>
         <br>
-        R2: <app-ranking rankingString="A, B, C, F, D, E"></app-ranking>
+        R2: <hl>A, B, C, F, D, E</hl>
         <br>
-        R3: <app-ranking rankingString="B, C, A, D, E, F"></app-ranking>
+        R3: <hl>B, C, A, D, E, F</hl>
         <br>
-        R4: <app-ranking rankingString="A, B, C, D, E, F"></app-ranking>
+        R4: <hl>A, B, C, D, E, F</hl>
         <br>
-        R5: <app-ranking rankingString="B, A, C, F, D, E"></app-ranking>
+        R5: <hl>B, A, C, F, D, E</hl>
         <br>
-        R6: <app-ranking rankingString="B, C, A, D, F, E"></app-ranking>
+        R6: <hl>B, C, A, D, F, E</hl>
         <br><br>
-        Suppose we want to find out if the ranking σ1: <app-ranking rankingString="A, B, C, D, E, F"></app-ranking>
+        Suppose we want to find out if the ranking σ1: <hl>A, B, C, D, E, F</hl>
         is weakly popular and if it is strongly popular?
         <br><br>
         The ranking needs to be compared against every other possible ranking of the candidates
         to see if there exists a ranking that is more popular (in either the weak sense or strong sense).
         <br><br>
-        An alternative ranking is σ2: <app-ranking rankingString="B, C, A, F, D, E"></app-ranking>. 
+        An alternative ranking is σ2: <hl>B, C, A, F, D, E</hl>. 
         Using the Kendall distance, we can check which of these rankings (σ1 or σ2) is preferred by each voter:
         <br><br>
         <table class="table table-striped" style="width: 70%">
@@ -52,7 +52,7 @@
             <tbody>
                 <tr>
                     <th scope="row">
-                        R1: <app-ranking rankingString="C, A, B, E, F, D"></app-ranking>
+                        R1:  C, A, B, E, F, D
                     </th>
                     <th>4</th>
                     <th>4</th>
@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        R2: <app-ranking rankingString="A, B, C, F, D, E"></app-ranking>
+                        R2:  A, B, C, F, D, E
                     </th>
                     <th>2</th>
                     <th>2</th>
@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        R3: <app-ranking rankingString="B, C, A, D, E, F"></app-ranking>
+                        R3:  B, C, A, D, E, F
                     </th>
                     <th>2</th>
                     <th>2</th>
@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        R4: <app-ranking rankingString="A, B, C, D, E, F"></app-ranking>
+                        R4:  A, B, C, D, E, F
                     </th>
                     <th>0</th>
                     <th>4</th>
@@ -84,7 +84,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        R5: <app-ranking rankingString="B, A, C, F, D, E"></app-ranking>
+                        R5:  B, A, C, F, D, E
                     </th>
                     <th>3</th>
                     <th>1</th>
@@ -92,7 +92,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        R6: <app-ranking rankingString="B, C, A, D, F, E"></app-ranking>
+                        R6:  B, C, A, D, F, E
                     </th>
                     <th>3</th>
                     <th>1</th>

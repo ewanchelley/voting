@@ -10,15 +10,15 @@
         Given the candidates: <hl>A</hl>, <hl>B</hl> and <hl>C</hl>
         and the 4 rankings:
         <br><br>
-        V1: <app-ranking rankingString="B, A, C"></app-ranking>
+        V1: <hl>B, A, C</hl>
         <br>
-        V2: <app-ranking rankingString="B, C, A"></app-ranking>
+        V2: <hl>B, C, A</hl>
         <br>
-        V3: <app-ranking rankingString="B, A, C"></app-ranking>
+        V3: <hl>B, A, C</hl>
         <br>
-        V4: <app-ranking rankingString="A, C, B"></app-ranking>
+        V4: <hl>A, C, B</hl>
         <br><br>
-        Consider the ranking <app-ranking rankingString="B, A, C"></app-ranking>,
+        Consider the ranking <hl>B, A, C</hl>
         <br><br>
         Calculate the Kendall distance from this ranking to each of the voters rankings:
         <br><br>
@@ -27,7 +27,7 @@
         D3 = 0,<br>
         D4 = 2
         <br><br>
-        Therefore the Kemeny score for <app-ranking rankingString="B, A, C"></app-ranking> is D1 + D2 + D3 + D4 = 3.
+        Therefore the Kemeny score for <hl>B, A, C</hl> is D1 + D2 + D3 + D4 = 3.
         <br><br>
         Calculating the Kemeny score for every possible permutation of the candidates would give the following results:
         <br><br>
@@ -44,7 +44,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row"><app-ranking rankingString="A, B, C"></app-ranking></th>
+                    <th scope="row">A, B, C</th>
                     <th>1</th>
                     <th>2</th>
                     <th>1</th>
@@ -53,7 +53,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        <app-ranking rankingString="A, C, B"></app-ranking>
+                        A, C, B
                     </th>
                     <th>2</th>
                     <th>3</th>
@@ -63,7 +63,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        <app-ranking rankingString="B, A, C"></app-ranking>
+                        B, A, C
                     </th>
                     <th>0</th>
                     <th>1</th>
@@ -73,7 +73,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        <app-ranking rankingString="B, C, A"></app-ranking>
+                        B, C, A
                     </th>
                     <th>1</th>
                     <th>0</th>
@@ -83,7 +83,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        <app-ranking rankingString="C, A, B"></app-ranking>
+                        C, A, B
                     </th>
                     <th>3</th>
                     <th>2</th>
@@ -93,7 +93,7 @@
                 </tr>
                 <tr>
                     <th scope="row">
-                        <app-ranking rankingString="C, B, A"></app-ranking>
+                        C, B, A
                     </th>
                     <th>2</th>
                     <th>1</th>
@@ -104,7 +104,7 @@
             </tbody>
         </table>
         <br><br>
-        Therefore <app-ranking rankingString="B, A, C"></app-ranking> is the Kemeny Consensus since it minimises the Kemeny score.
+        Therefore <hl>B, A, C</hl> is the Kemeny Consensus since it minimises the Kemeny score.
     </app-tile>
 
     <app-tile heading="Evaluation">
