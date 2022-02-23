@@ -92,4 +92,8 @@ export class KendallComponent implements OnInit {
   showResults() {
     return this.proposed.length > 0;
   }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
 }

@@ -6,6 +6,8 @@
     width: max-content;
     display: inline-block;
     margin: 1px;
+    min-width:3ch;
+    text-align: center;
 }
 
 .grey {

@@ -83,12 +83,14 @@
                 <table class="results-table table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Voters Rankings</th>
+                            <th scope="col">Voter #</th>
+                            <th scope="col">Ranking</th>
                             <th scope="col">Kendall Distance</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let ranking of votersRankings">
+                        <tr *ngFor="let ranking of votersRankings;let index = index;trackBy:trackByIndex;">
+                            <th>{{index + 1}}</th>
                             <th scope="row">
                                 {{this.svc.convertToString(ranking)}}
                             </th>
