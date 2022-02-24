@@ -4,10 +4,10 @@
     </div>
 </div>
 <div>
-    <app-tile heading="Candidates, Rankings and Voters">
+    <app-tile heading="Candidates, Voters and Rankings">
         In an election, there are multiple candidates. For example an election may have 3 candidates: 
         <hl>Adam</hl>, <hl>Beth</hl> and <hl>Chris</hl>.
-        <br><br>
+        <br>
         Each voter produces a ranking, which is their order of preference for the list of candidates.
         For example, if a voter believed <hl>Adam</hl> was the best candidate and
         <hl>Beth</hl> was the worst, their ranking would be <hl>Adam, Chris, Beth</hl>.
@@ -15,7 +15,7 @@
 
     <app-tile heading="Voting Aggregation">
         Once all votes have been cast, there is a list of rankings.
-        For example, suppose 10 voters ranked the candidates introduced above.
+        For example, suppose 6 voters ranked the candidates introduced above.
         The list of rankings produced may look like:
         <br><br>
         V1: <hl>Adam, Chris, Beth</hl>
@@ -24,19 +24,11 @@
         <br>
         V3: <hl>Beth, Adam, Chris</hl>
         <br>
-        V4: <hl>Adam, Chris, Beth</hl>
+        V4: <hl>Chris, Adam, Beth</hl>
         <br>
         V5: <hl>Adam, Chris, Beth</hl>
         <br>
         V6: <hl>Beth, Adam, Chris</hl>
-        <br>
-        V7: <hl>Chris, Adam, Beth</hl>
-        <br>
-        V8: <hl>Adam, Chris, Beth</hl>
-        <br>
-        V9: <hl>Chris, Adam, Beth</hl>
-        <br>
-        V10: <hl>Beth, Chris, Adam</hl>
         <br><br>
         So who won the election?
         <br><br>
@@ -45,16 +37,17 @@
 
     </app-tile>
 
-    <app-tile heading="Using this Application">
-        This application allows the user to input their own set of rankings and candidates 
+    <app-tile heading="Using the Application">
+        This application allows you to input your own set of rankings and candidates 
         to compare how different preference aggregation algorithms work.
         <br><br>
-        Begin by editing the candidates and list of rankings by clicking the <hl bg="blue">Edit Rankings</hl> button on the sidebar.
+        Begin by clicking the <button type="button" class="btn btn-primary" disabled>Edit Rankings</button>
+        button on the sidebar, to edit the candidates and list of rankings.
         Rankings are input as a comma separated list containing each of the candidates names.
-        The candidates and rankings can also be imported from a txt file or generated randomly.
+        The candidates and rankings can also be imported from a text file or generated randomly.
         <br><br>
-        Once the candidates and rankings have been input, select an algorithm from the sidebar to run.
-        Algorithms are run as soon as the page is loaded, using the rankings that the user has input.
+        Once you are happy with the candidates and rankings, select an algorithm from the sidebar to run.
+        Algorithms are run as soon as the page is loaded, using the rankings that you have input.
 
 
     </app-tile>

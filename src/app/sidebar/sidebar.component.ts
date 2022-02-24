@@ -12,12 +12,12 @@ export class SidebarComponent implements OnInit {
 
   algLinks: string[][] = 
     [
-      ["Kendall Distance", "kendall"],
+      ["Plurality (First Past The Post)", "plurality"],
       ["Borda Count", "borda"],
       ["Instant Runoff", "instant-runoff"],
-      ["Topological Ordering", "topological"],
-      ["Plurality (First Past The Post)", "plurality"],
+      ["Kendall Distance", "kendall"],
       ["Kemeny Consensus", "kemeny"],
+      ["Topological Ordering", "topological"],
       ["Popular Ranking", "popular"],
     ]
 

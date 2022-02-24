@@ -1,25 +1,9 @@
 <app-alg title="Kemeny Consensus" link="kemeny">
     <app-tile heading="Results">
-        <div class="col-4">
-            <table class="results-table table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Rank</th>
-                        <th scope="col">Candidate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let result of kemenyConsensus;let index = index;trackBy:trackByIndex;">
-                        <th scope="row">
-                            {{this.svc.suffixIncluded(index + 1)}}
-                        </th>
-                        <td>{{result}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <h2>Ranking Score: {{ kemenyScore}} </h2>
-        <h4>(avg. distance = {{round(10 * (kemenyScore / rankings.length))/10}})</h4>
+        The ranking <hl>{{this.svc.convertToString(kemenyConsensus)}}</hl> is a Kemeny Consensus, 
+        with a Kemeny score of {{ kemenyScore}}
+        <br>
+        The average Kendall distance to a voter from this ranking is {{round(10 * (kemenyScore / rankings.length))/10}}
     </app-tile>
 
     <app-tile heading="Kendall Distances">

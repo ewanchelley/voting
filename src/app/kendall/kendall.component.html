@@ -7,8 +7,8 @@
 
                     <div class="col-6 ranking-area">
                         <div class="row justify-content-center">
-                            <h4>Ranking 1</h4>
-                            <div [sortablejs]="kendallRankings[0]" class="list-group col-xs-6">
+                            <h3>Ranking 1</h3>
+                            <div [sortablejs]="kendallRankings[0]">
                                 <div *ngFor="let item of kendallRankings[0]" class="kendall-option btn btn-light">
                                     <hl [bg]="getColorByName(item)" [kendallWidth]="true" >{{ item }}</hl>
                                 </div>
@@ -18,8 +18,8 @@
 
                     <div class="col-6 ranking-area">
                         <div class="row justify-content-center">
-                            <h4>Ranking 2</h4>
-                            <div [sortablejs]="kendallRankings[1]" class="list-group col-xs-6">
+                            <h3>Ranking 2</h3>
+                            <div [sortablejs]="kendallRankings[1]">
                                 <div *ngFor="let item of kendallRankings[1]" class="kendall-option btn btn-light">
                                     <hl [bg]="getColorByName(item)" [kendallWidth]="true">{{ item }}</hl>
                                 </div>

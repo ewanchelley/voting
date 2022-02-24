@@ -16,13 +16,13 @@
 
 <div *ngIf="showNoRankings(); else checkCandidates">
     <app-tile heading="No Voters!">
-        Click the <hl bg="blue">Edit Rankings</hl> button to add some voters.
+        Click the <button type="button" class="btn btn-primary" disabled>Edit Rankings</button> button to add some voters.
     </app-tile>
 </div>
 <ng-template #checkCandidates>
     <div *ngIf="showNoCandidates(); else showContent">
         <app-tile heading="No Candidates!">
-            Click the <hl bg="blue">Edit Rankings</hl> button to add some candidates.
+            Click the <button type="button" class="btn btn-primary" disabled>Edit Rankings</button> button to add some candidates.
         </app-tile>
     </div>
     <ng-template #showContent>
