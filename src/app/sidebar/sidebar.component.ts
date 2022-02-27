@@ -30,6 +30,15 @@ export class SidebarComponent implements OnInit {
     this.svc = svc;
   }
 
+  dangerousLinkExists(): boolean {
+    for (let alg of this.algLinks) {
+      if (this.svc.isDangerous(alg[1])){
+        return true;
+      }
+    }
+    return false;
+  }
+
   ngOnInit(): void {
   }
 }

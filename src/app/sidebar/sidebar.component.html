@@ -1,10 +1,12 @@
 <div class="flex-shrink-0 p-3 sidebar" style="width: 300px;">
     <a routerLinkActive="active" routerLink="/" class="d-flex mb-3 link-dark text-decoration-none">
-        <span class="heading first-half">
-            Quick
-        </span>
-        <span class="heading second-half">
-            Vote
+        <span class="heading">
+            <span class="heading-text first-half">
+                Quick
+            </span>
+            <span class="heading-text second-half">
+                Vote
+            </span>
         </span>
     </a>
     <hr>
@@ -28,21 +30,18 @@
             </div>
         </li>
         <hr>
-        <li class="mb-1">
-            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse"
-                data-bs-target="#algs-collapse" aria-expanded="true">
-                Algorithms
+        <div class="alg-text">
+            <h4>Algorithms</h4>
+        </div>
+        <li class="mb-1" *ngFor="let link of algLinks">
+            <button class="btn btn-sidebar" routerLinkActive="active" routerLink="/{{link[1]}}" [ngClass]="{'warn': this.svc.isDangerous(link[1])}">
+                {{link[0]}}
+                <i class="bi bi-exclamation-circle-fill warn icon" *ngIf="this.svc.isDangerous(link[1])"></i>
             </button>
-            <div class="collapse show" id="algs-collapse">
-                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li *ngFor="let link of algLinks">
-                        <a routerLinkActive="active" routerLink="/{{link[1]}}" class="link-dark rounded" [ngClass]="{'warn': this.svc.isDangerous(link[1])}">
-                            {{link[0]}}
-                            <i class="bi bi-exclamation-circle-fill warn icon" *ngIf="this.svc.isDangerous(link[1])"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
         </li>
     </ul>
+    <div class="danger-text" *ngIf="dangerousLinkExists()">
+        <i class="bi bi-exclamation-circle-fill warn icon"></i>
+        Reduce the number of candidates or voters before running some algorithms
+    </div>
 </div>
