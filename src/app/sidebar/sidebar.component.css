@@ -69,8 +69,16 @@
   overflow-y: auto;
 }
 
-.fw-semibold { font-weight: 600; }
-.lh-tight { line-height: 1.25; }
+.heading { 
+  font-weight: 500; 
+  font-family: 'Open Sans', sans-serif;
+  font-size: 55px
+}
+
+
+.lh-tight { 
+  line-height: 1.25; 
+}
 
 .warn {
   color: red;
@@ -78,4 +86,12 @@
 
 .icon {
   margin-left: 4px;
+}
+
+.first-half {
+  color: blueviolet;
+}
+
+.second-half {
+  color: blue;
 }

@@ -9,10 +9,16 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-body">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="offcanvas" aria-label="Close">
-            <i class="bi bi-arrow-left"></i>
-            Save and Return
-        </button>
+        <div>
+            <button type="button" class="btn btn-primary back-btn" data-bs-dismiss="offcanvas" aria-label="Close">
+                <i class="bi bi-arrow-left"></i>
+                Return
+            </button>
+            <div class="autosave-msg">
+                <b><i class="bi bi-arrow-repeat refresh-icon"></i></b>
+                All changes are automatically saved and results recalculated
+            </div>
+        </div>
         <app-add-rankings></app-add-rankings>
     </div>
 </div>

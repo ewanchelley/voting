@@ -1,0 +1,18 @@
+.autosave-msg {
+    float: right;
+    margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.back-btn {
+    float: left;
+}
+
+.refresh-icon {
+    color: green;
+    font-size:x-large;
+    margin-right: 5px;
+}

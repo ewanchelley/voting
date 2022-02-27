@@ -5,30 +5,26 @@
 </div>
 <div>
     <app-tile heading="Candidates, Voters and Rankings">
-        In an election, there are multiple candidates. For example an election may have 3 candidates: 
+        In a election, there are multiple candidates. For example, an election may have 3 candidates: 
         <hl>Adam</hl>, <hl>Beth</hl> and <hl>Chris</hl>.
         <br>
-        Each voter produces a ranking, which is their order of preference for the list of candidates.
-        For example, if a voter believed <hl>Adam</hl> was the best candidate and
-        <hl>Beth</hl> was the worst, their ranking would be <hl>Adam, Chris, Beth</hl>.
+        In a ranked voting system, each voter produces a ranking, which is their order of preference for the list of candidates.
+        For example, if a voter believed <hl>Adam</hl> was the best candidate, <hl>Chris</hl> was their second choice, and
+        <hl>Beth</hl> was their least preferred, they would give the ranking <hl>Adam, Chris, Beth</hl>.
     </app-tile>
 
     <app-tile heading="Voting Aggregation">
         Once all votes have been cast, there is a list of rankings.
-        For example, suppose 6 voters ranked the candidates introduced above.
+        Suppose 6 voters ranked the candidates introduced above.
         The list of rankings produced may look like:
         <br><br>
-        V1: <hl>Adam, Chris, Beth</hl>
+        Voter 1: <hl>Adam, Chris, Beth</hl>,
+        Voter 2: <hl>Chris, Beth, Adam</hl>,
+        Voter 3: <hl>Beth, Adam, Chris</hl>,
         <br>
-        V2: <hl>Chris, Beth, Adam</hl>
-        <br>
-        V3: <hl>Beth, Adam, Chris</hl>
-        <br>
-        V4: <hl>Chris, Adam, Beth</hl>
-        <br>
-        V5: <hl>Adam, Chris, Beth</hl>
-        <br>
-        V6: <hl>Beth, Adam, Chris</hl>
+        Voter 4: <hl>Chris, Adam, Beth</hl>,
+        Voter 5: <hl>Adam, Chris, Beth</hl>,
+        Voter 6: <hl>Beth, Adam, Chris</hl>
         <br><br>
         So who won the election?
         <br><br>
@@ -38,7 +34,7 @@
     </app-tile>
 
     <app-tile heading="Using the Application">
-        This application allows you to input your own set of rankings and candidates 
+        This application allows you to input your own set of candidates and rankings 
         to compare how different preference aggregation algorithms work.
         <br><br>
         Begin by clicking the <button type="button" class="btn btn-primary" disabled>Edit Rankings</button>
@@ -46,8 +42,8 @@
         Rankings are input as a comma separated list containing each of the candidates names.
         The candidates and rankings can also be imported from a text file or generated randomly.
         <br><br>
-        Once you are happy with the candidates and rankings, select an algorithm from the sidebar to run.
-        Algorithms are run as soon as the page is loaded, using the rankings that you have input.
+        Once you are satisfied with the candidates and rankings, select an algorithm from the sidebar to run.
+        Algorithms are run as soon as the page is loaded, using the rankings you have input.
 
 
     </app-tile>

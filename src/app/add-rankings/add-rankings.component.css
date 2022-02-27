@@ -106,11 +106,16 @@
 }
 
 .warning-msg {
-    margin-left: 30px;
+    margin-left: 20px;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .warn {
     color: red;
+    font-size: large;
+    margin-right: 5px;
 }
 
 .clear-button {
