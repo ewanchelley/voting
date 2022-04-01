@@ -54,15 +54,12 @@ export class AddRankingsComponent implements OnInit {
 
   addRanking() {
     let ranking = this.svc.convertToArray(this.newRanking);
-    console.log(ranking)
     if (this.svc.isValidRanking(ranking, true)) {
       this.addValidRanking(ranking);
     }
   }
 
   addValidRanking(ranking: string[]){
-    console.log("new ranking")
-    console.log(ranking)
     this.svc.pushRanking(ranking);
     this.rankingStrings.push(this.svc.convertToString(ranking));
     this.newRanking = "";
@@ -204,7 +201,9 @@ export class AddRankingsComponent implements OnInit {
 
   generateRandom() {
     // Generate candidates or use current ones
-    let maxCandidates = 676 // 26^2
+    let maxCandidates = 702 // 26^2
+    const lengthAlphabet = 26
+    const asciiA = 65
     let candidates: string[] = []
     let rankings: string[][] = [];
     if (!this.keepCandidates){
@@ -213,10 +212,10 @@ export class AddRankingsComponent implements OnInit {
       }
       else {
         for (let i = 0; i < this.numRandomCandidates; i++){
-          let digit2 = i % 26;
-          let digit1 = ((i - digit2) / 26) - 1;
-          let l2 = String.fromCharCode(65 + digit2);
-          let l1 = digit1 == -1 ? "" : String.fromCharCode(65 + digit1);
+          let digit2 = i % lengthAlphabet;
+          let digit1 = ((i - digit2) / lengthAlphabet) - 1;
+          let l2 = String.fromCharCode(asciiA + digit2);
+          let l1 = digit1 == -1 ? "" : String.fromCharCode(asciiA + digit1);
           candidates.push(l1 + l2);
         }
           

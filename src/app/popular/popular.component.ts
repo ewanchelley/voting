@@ -44,7 +44,7 @@ export class PopularComponent implements OnInit {
       this.rankings = this.svc.getRankings();
       this.candidates = this.svc.getCandidates();
     });
-    //this.testAgainstBruteForce(5, 6, 5, true);
+    this.testAgainstBruteForce(3, 3, 20, true);
   }
 
   trackByIndex(index: number, obj: any): any {
@@ -451,7 +451,7 @@ export class PopularComponent implements OnInit {
         break;
       }
       // Flag error if IP and BF disagree about strong popularity
-      if (IPWeakScore !== BFWeakScore) {
+      if (IPStrongScore !== BFStrongScore) {
         this.svc.printBFmismatch("strong popularity", rankings, IPStrongScore, IPStrongResult, BFStrongScore, BFStrongResult);
         break;
       }

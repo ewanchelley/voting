@@ -68,7 +68,6 @@ export class BordaComponent implements OnInit {
       this.bordaTotals.push([candidate, this.getTotal(candidate)]);
     }
     this.bordaTotals.sort((a,b) => b[1] - a[1]);
-    console.log(this.bordaTotals);
   }
 
   resetBordaArray(){

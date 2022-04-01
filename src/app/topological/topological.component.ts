@@ -209,11 +209,9 @@ export class TopologicalComponent implements OnInit {
 
   onClickCanvas(params: any) {
     if (params.nodes.length <= 0){
-      // node was node selected
+      // node was not selected
       return;
     }
     let selectedNode: number = params.nodes[0];
-    console.log(selectedNode)
-    console.log(params.edges)
   }
 }

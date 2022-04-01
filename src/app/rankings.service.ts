@@ -14,13 +14,13 @@ export class RankingsService {
     this.toastr = toastr;
   }
 
-  private candidates = ["A", "B", "C", "D"];
-  private rankings = [
-  ["A", "B", "C", "D"],
-  ["B", "A", "C", "D"],
-  ["A", "B", "C", "D"],
-  ["D", "B", "C", "A"],
-  ["A", "B", "C", "D"]];
+  private candidates: string[] = ["A", "B", "C", "D"];
+
+  private rankings: string[][] = [["A", "B", "C", "D"],
+                                  ["B", "A", "C", "D"],
+                                  ["A", "B", "C", "D"],
+                                  ["D", "B", "C", "A"],
+                                  ["A", "B", "C", "D"]];
 
   private kendallRankings = [
     ["A", "B", "C", "D"],
@@ -137,7 +137,6 @@ export class RankingsService {
 
   pushRanking(ranking: string[]){
     this.rankings.push(ranking);
-    console.log(this.rankings);
     this.onChangesMade()
   }
 
@@ -223,9 +222,6 @@ export class RankingsService {
     let candidates = this.sortStringArray(rankings[0]);
     for (let ranking of rankings){
       if (!this.arrayEquals(this.sortStringArray(ranking), candidates)){
-        console.log(candidates);
-        console.log(ranking)
-        console.log("failed here")
         return false;
       }
     }
@@ -246,9 +242,7 @@ export class RankingsService {
   }
 
   constructRankingsPremade(name: string) {
-    console.log("a")
     let rankings = this.premadeRankingSets[name];
-    console.log(rankings);
     if (rankings){
       this.constructRankings(rankings);
     }

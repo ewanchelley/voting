@@ -34,7 +34,6 @@ export class InstantRunoffComponent implements OnInit {
     this.rankings = this.svc.getRankings();
     this.candidates = this.svc.getCandidates();
     this.roundTotals = this.runoff(this.candidates, this.rankings);
-    console.log(this.roundTotals);
   }
 
   runoff(candidates: string[], rankings: string[][]) {
