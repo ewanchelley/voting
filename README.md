@@ -1,4 +1,6 @@
-# Voting
+# QuickVote
+
+![image](https://user-images.githubusercontent.com/60255171/161260223-b34d5893-41a2-4975-aa3d-4050a426950f.png)
 
 L4 Project to investigate different methods of preference aggregation in voting systems
 
