@@ -4,6 +4,8 @@ Level 4 Project to investigate different methods of preference aggregation in vo
 
 Find the deployment of the application at https://ewanchelley.github.io/voting/.
 
+The GitHub repository for the application can be found at https://github.com/ewanchelley/voting.
+
 ![image](https://user-images.githubusercontent.com/60255171/161260223-b34d5893-41a2-4975-aa3d-4050a426950f.png)
 
 Many voting rules exist, and each may produce a different ranking of candidates given the
