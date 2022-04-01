@@ -44,7 +44,6 @@ export class PopularComponent implements OnInit {
       this.rankings = this.svc.getRankings();
       this.candidates = this.svc.getCandidates();
     });
-    this.testAgainstBruteForce(3, 3, 20, true);
   }
 
   trackByIndex(index: number, obj: any): any {

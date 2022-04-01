@@ -27,9 +27,6 @@ export class KemenyComponent implements OnInit {
 
   ngOnInit(): void {
     this.reCalculate();
-    //this.testAgainstBruteForce(15, 10000, 100, true);
-    //this.testAgainstBruteForce(11, 5, 1, true);
-    //this.testAgainstBruteForce(7, 100, 20, true);
     this.svc.changesMade.subscribe(() => {
       this.reCalculate();
     });
@@ -187,23 +184,23 @@ export class KemenyComponent implements OnInit {
       
       [IPResult, IPScore] = this.kemeny(candidates, rankings);
       IPTimes.push(performance.now() - t);
-      /*
+      
       t = performance.now();
       [BFResult, BFScore] = this.kemenyBruteForce(candidates, rankings);
       BFTimes.push(performance.now() - t);
-      /*
+      
       if (!this.svc.arrayEquals(IPResult, BFResult)){
         diffConsensus += 1;
       }
       if (IPScore !== BFScore){
         this.svc.printBFmismatch("kemeny consensus", rankings, IPScore, IPResult, BFScore, BFResult);
         break;
-      }*/
+      }
     }
     console.log(`Agreement in all ${iterations} iterations.`)
     console.log(`The same ranking was returned ${iterations - diffConsensus}/${iterations} times.`)
     this.svc.printSummaryOfTimes(IPTimes, 3, "IP model");
-    //this.svc.printSummaryOfTimes(BFTimes, 3, "Brute Force");
+    this.svc.printSummaryOfTimes(BFTimes, 3, "Brute Force");
   }
 
   
